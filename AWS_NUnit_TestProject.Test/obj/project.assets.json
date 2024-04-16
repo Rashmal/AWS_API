@@ -2457,11 +2457,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_NUnit_TestProject.Test\\AWS_NUnit_TestProject.Test.csproj",
+      "projectUniqueName": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWS_NUnit_TestProject.Test\\AWS_NUnit_TestProject.Test.csproj",
       "projectName": "AWS_NUnit_TestProject.Test",
-      "projectPath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_NUnit_TestProject.Test\\AWS_NUnit_TestProject.Test.csproj",
+      "projectPath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWS_NUnit_TestProject.Test\\AWS_NUnit_TestProject.Test.csproj",
       "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-      "outputPath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_NUnit_TestProject.Test\\obj\\",
+      "outputPath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWS_NUnit_TestProject.Test\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -2478,8 +2478,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWSProjectAPI\\AWSProjectAPI.csproj": {
-              "projectPath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWSProjectAPI\\AWSProjectAPI.csproj"
+            "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWSProjectAPI\\AWSProjectAPI.csproj": {
+              "projectPath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWSProjectAPI\\AWSProjectAPI.csproj"
             }
           }
         }

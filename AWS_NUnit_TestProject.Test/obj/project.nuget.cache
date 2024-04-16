@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "91RgMYt2KsE/17cGnb+2jvnAjbCAMzR6PbnbmXU3qMp/KyMkVUoggWO3ffwL3+RrsphpYzcHvyCsvJmYyWqOMw==",
+  "dgSpecHash": "zq4Qnulrd16pf7HTXUv3ZCIvQu06k3Tu8wN75DL/z9b6F69ZstULOpBx7VUbBL4gRGMi5+QHZSmZb91buIXLVQ==",
   "success": true,
-  "projectFilePath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_NUnit_TestProject.Test\\AWS_NUnit_TestProject.Test.csproj",
+  "projectFilePath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWS_NUnit_TestProject.Test\\AWS_NUnit_TestProject.Test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\coverlet.collector\\6.0.0\\coverlet.collector.6.0.0.nupkg.sha512",

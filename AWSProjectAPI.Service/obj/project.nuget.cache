@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9dwTCPs6MbAKaRC47Eyydkk0skua2I+t4WJ8xTQl6LoiSlY+to9IjEGlaqqTNGazcGbnf13QK8LWVqeDAeZebg==",
+  "dgSpecHash": "UcMy3RSTTQvGtMm2l+PHNQu2uxDO+Ce9afOqeRuTECbKEvPom7niYvS+RKbOHZiLenb7sotGhvDIo0qt8PXqDg==",
   "success": true,
-  "projectFilePath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWSProjectAPI.Service\\AWSProjectAPI.Service.csproj",
+  "projectFilePath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWSProjectAPI.Service\\AWSProjectAPI.Service.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0\\microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512",

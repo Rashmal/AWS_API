@@ -466,7 +466,8 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
                             displayModules.Add(new DisplayModule()
                             {
                                 Id = Convert.ToInt32(resultToken["ModuleId"].ToString()),
-                                Name = resultToken["ModuleName"].ToString()
+                                Name = resultToken["ModuleName"].ToString(),
+                                Total = Convert.ToInt32(resultToken["TotalRecords"].ToString())
                             });
                         }
                     }

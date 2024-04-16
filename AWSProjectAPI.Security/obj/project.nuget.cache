@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Wim2bb3l8SGLJE/MrHvAYhM79BP95ecV1GQK4uJE1RBbzGl5yzzyjnmmpYuo5P6nSr19oPj1TftnhVmRDWKd4g==",
+  "dgSpecHash": "PQdESJuWzJuratxZFEDTIrvWqvUw74iUMJpkRwHgv/ZrRx5vkq+E/3XpOlUzqWacOR8P5v644UoTkCoqiuS+2g==",
   "success": true,
-  "projectFilePath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWSProjectAPI.Security\\AWSProjectAPI.Security.csproj",
+  "projectFilePath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWSProjectAPI.Security\\AWSProjectAPI.Security.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

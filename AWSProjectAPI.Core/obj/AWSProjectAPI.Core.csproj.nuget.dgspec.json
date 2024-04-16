@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWSProjectAPI.Core\\AWSProjectAPI.Core.csproj": {}
+    "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWSProjectAPI.Core\\AWSProjectAPI.Core.csproj": {}
   },
   "projects": {
-    "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWSProjectAPI.Core\\AWSProjectAPI.Core.csproj": {
+    "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWSProjectAPI.Core\\AWSProjectAPI.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWSProjectAPI.Core\\AWSProjectAPI.Core.csproj",
+        "projectUniqueName": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWSProjectAPI.Core\\AWSProjectAPI.Core.csproj",
         "projectName": "AWSProjectAPI.Core",
-        "projectPath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWSProjectAPI.Core\\AWSProjectAPI.Core.csproj",
+        "projectPath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWSProjectAPI.Core\\AWSProjectAPI.Core.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWSProjectAPI.Core\\obj\\",
+        "outputPath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWSProjectAPI.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
