@@ -19,6 +19,8 @@ namespace AWSProjectAPI.Core.Common
         public DateTime? EndDate { get; set; }
         public int ParentId { get; set; }
         public string Id { get; set; }
+        public string SortColumn { get; set; }
+        public string SortDirection { get; set; }
 
         public Filter()
         {

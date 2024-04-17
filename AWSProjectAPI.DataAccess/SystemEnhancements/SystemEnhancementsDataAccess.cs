@@ -530,6 +530,10 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
                         StartDateParameter.Value = filter.StartDate;
                         SqlParameter EndDateParameter = sqlCommandToken.Parameters.Add("@EndDate", SqlDbType.DateTime);
                         EndDateParameter.Value = filter.EndDate;
+                        SqlParameter SortColumnParameter = sqlCommandToken.Parameters.Add("@SortColumn", SqlDbType.VarChar);
+                        SortColumnParameter.Value = filter.SortColumn;
+                        SqlParameter SortDirectionParameter = sqlCommandToken.Parameters.Add("@SortDirection", SqlDbType.VarChar);
+                        SortDirectionParameter.Value = filter.SortDirection;
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
                         UserParameter.Value = "VIEW";

@@ -465,7 +465,8 @@ namespace AWSProjectAPI.DataAccess.BugFixes
                             displayModules.Add(new DisplayModule()
                             {
                                 Id = Convert.ToInt32(resultToken["ModuleId"].ToString()),
-                                Name = resultToken["ModuleName"].ToString()
+                                Name = resultToken["ModuleName"].ToString(),
+                                Total = Convert.ToInt32(resultToken["TotalRecords"].ToString())
                             });
                         }
                     }
@@ -528,6 +529,10 @@ namespace AWSProjectAPI.DataAccess.BugFixes
                         StartDateParameter.Value = filter.StartDate;
                         SqlParameter EndDateParameter = sqlCommandToken.Parameters.Add("@EndDate", SqlDbType.DateTime);
                         EndDateParameter.Value = filter.EndDate;
+                        SqlParameter SortColumnParameter = sqlCommandToken.Parameters.Add("@SortColumn", SqlDbType.VarChar);
+                        SortColumnParameter.Value = filter.SortColumn;
+                        SqlParameter SortDirectionParameter = sqlCommandToken.Parameters.Add("@SortDirection", SqlDbType.VarChar);
+                        SortDirectionParameter.Value = filter.SortDirection;
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
                         UserParameter.Value = "VIEW";
@@ -676,7 +681,8 @@ namespace AWSProjectAPI.DataAccess.BugFixes
                                 FirstName = resultToken["FirstName"].ToString(),
                                 LastName = resultToken["LastName"].ToString(),
                                 Avatar = resultToken["Avatar"].ToString(),
-                                Email = resultToken["Email"].ToString()
+                                Email = resultToken["Email"].ToString(),
+                                FullName = resultToken["FirstName"].ToString() +" " + resultToken["LastName"].ToString()
                             });
                         }
                     }
@@ -737,7 +743,8 @@ namespace AWSProjectAPI.DataAccess.BugFixes
                                 FirstName = resultToken["FirstName"].ToString(),
                                 LastName = resultToken["LastName"].ToString(),
                                 Avatar = resultToken["Avatar"].ToString(),
-                                Email = resultToken["Email"].ToString()
+                                Email = resultToken["Email"].ToString(),
+                                FullName = resultToken["FirstName"].ToString() + " " + resultToken["LastName"].ToString()
                             });
                         }
                     }
