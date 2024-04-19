@@ -316,5 +316,161 @@ namespace AWSProjectAPI.DataAccess.Common
             // Return the values
             return staffList;
         }
+
+        // TotalGlobalNotes
+        /// <summary>
+        /// Getting the total of global notes
+        /// </summary>
+        /// <returns>
+        /// Int value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public int TotalGlobalNotes()
+        {
+            // Declare the return value
+            int totalCount = 0;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("BugFixes_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "TOT$CNT";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            totalCount = Convert.ToInt32(resultToken["TotalCount"].ToString());
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_TotalGlobalNotes ! :" + ex);
+            }
+
+            // Return the values
+            return totalCount;
+        }
+
+        // TotalSE
+        /// <summary>
+        /// Getting the total of global notes
+        /// </summary>
+        /// <returns>
+        /// Int value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public int TotalSE()
+        {
+            // Declare the return value
+            int totalCount = 0;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("BugFixes_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "TOT$SE$CNT";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            totalCount = Convert.ToInt32(resultToken["TotalCount"].ToString());
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_TotalSE ! :" + ex);
+            }
+
+            // Return the values
+            return totalCount;
+        }
+
+        // TotalBG
+        /// <summary>
+        /// Getting the total of global notes
+        /// </summary>
+        /// <returns>
+        /// Int value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public int TotalBG()
+        {
+            // Declare the return value
+            int totalCount = 0;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("BugFixes_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "TOT$BG$CNT";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            totalCount = Convert.ToInt32(resultToken["TotalCount"].ToString());
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_TotalBG ! :" + ex);
+            }
+
+            // Return the values
+            return totalCount;
+        }
     }
 }

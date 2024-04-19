@@ -9,3 +9,15 @@ E:\RNS\AWS\AWS_API\AWSProjectAPI\AWSProjectAPI.Security\obj\Debug\net8.0\AWSProj
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWSProjectAPI.Security\obj\Debug\net8.0\refint\AWSProjectAPI.Security.dll
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWSProjectAPI.Security\obj\Debug\net8.0\AWSProjectAPI.Security.pdb
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWSProjectAPI.Security\obj\Debug\net8.0\ref\AWSProjectAPI.Security.dll
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Security\bin\Debug\net8.0\AWSProjectAPI.Security.deps.json
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Security\bin\Debug\net8.0\AWSProjectAPI.Security.dll
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Security\bin\Debug\net8.0\AWSProjectAPI.Security.pdb
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Security\obj\Debug\net8.0\AWSProjectAPI.Security.GeneratedMSBuildEditorConfig.editorconfig
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Security\obj\Debug\net8.0\AWSProjectAPI.Security.AssemblyInfoInputs.cache
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Security\obj\Debug\net8.0\AWSProjectAPI.Security.AssemblyInfo.cs
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Security\obj\Debug\net8.0\AWSProjectAPI.Security.csproj.CoreCompileInputs.cache
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Security\obj\Debug\net8.0\AWSProjectAPI.Security.sourcelink.json
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Security\obj\Debug\net8.0\AWSProjectAPI.Security.dll
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Security\obj\Debug\net8.0\refint\AWSProjectAPI.Security.dll
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Security\obj\Debug\net8.0\AWSProjectAPI.Security.pdb
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Security\obj\Debug\net8.0\ref\AWSProjectAPI.Security.dll
