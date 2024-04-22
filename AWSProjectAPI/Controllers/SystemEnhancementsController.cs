@@ -1,8 +1,10 @@
 ﻿using AWSProjectAPI.Core.Common;
 using AWSProjectAPI.Core.SystemEnhancements;
+using AWSProjectAPI.Notification;
 using AWSProjectAPI.Service.Common;
 using AWSProjectAPI.Service.SystemEnhancements;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace AWSProjectAPI.Controllers
 {
@@ -12,12 +14,16 @@ namespace AWSProjectAPI.Controllers
     {
         #region Private Properties
         private readonly ISystemEnhancementsService iSystemEnhancementsService;
+        private readonly ICommonService commonService;
+        private IHubContext<NotificationHub, INotificationClient> hubContext;
         #endregion
 
         // Constructor
-        public SystemEnhancementsController(ISystemEnhancementsService iSystemEnhancementsService)
+        public SystemEnhancementsController(ISystemEnhancementsService iSystemEnhancementsService, IHubContext<NotificationHub, INotificationClient> hubContext, ICommonService commonService)
         {
             this.iSystemEnhancementsService = iSystemEnhancementsService;
+            this.hubContext = hubContext;
+            this.commonService = commonService;
         }
 
         // Set System Enhancement Details
@@ -29,6 +35,9 @@ namespace AWSProjectAPI.Controllers
             {
                 // Declare response
                 var response = this.iSystemEnhancementsService.SetSystemEnhancementDetails(systemEnhancement, actionState);
+                // Set notification count
+                hubContext.Clients.All.NotificationCountGN(commonService.TotalGlobalNotes("TOTAL"));
+                hubContext.Clients.All.NotificationCountSE(commonService.TotalGlobalNotes("SE"));
                 // Returning the result
                 return Json(response);
             }
