@@ -21,3 +21,15 @@ E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Core\obj\Debug\net8.0\AWS
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Core\obj\Debug\net8.0\refint\AWSProjectAPI.Core.dll
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Core\obj\Debug\net8.0\AWSProjectAPI.Core.pdb
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Core\obj\Debug\net8.0\ref\AWSProjectAPI.Core.dll
+D:\IITC\Backup File 10 April 2024\Backup File 10 April 2024\AWS API\AWS_API\AWS_API\AWSProjectAPI.Core\bin\Debug\net8.0\AWSProjectAPI.Core.deps.json
+D:\IITC\Backup File 10 April 2024\Backup File 10 April 2024\AWS API\AWS_API\AWS_API\AWSProjectAPI.Core\bin\Debug\net8.0\AWSProjectAPI.Core.dll
+D:\IITC\Backup File 10 April 2024\Backup File 10 April 2024\AWS API\AWS_API\AWS_API\AWSProjectAPI.Core\bin\Debug\net8.0\AWSProjectAPI.Core.pdb
+D:\IITC\Backup File 10 April 2024\Backup File 10 April 2024\AWS API\AWS_API\AWS_API\AWSProjectAPI.Core\obj\Debug\net8.0\AWSProjectAPI.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\IITC\Backup File 10 April 2024\Backup File 10 April 2024\AWS API\AWS_API\AWS_API\AWSProjectAPI.Core\obj\Debug\net8.0\AWSProjectAPI.Core.AssemblyInfoInputs.cache
+D:\IITC\Backup File 10 April 2024\Backup File 10 April 2024\AWS API\AWS_API\AWS_API\AWSProjectAPI.Core\obj\Debug\net8.0\AWSProjectAPI.Core.AssemblyInfo.cs
+D:\IITC\Backup File 10 April 2024\Backup File 10 April 2024\AWS API\AWS_API\AWS_API\AWSProjectAPI.Core\obj\Debug\net8.0\AWSProjectAPI.Core.csproj.CoreCompileInputs.cache
+D:\IITC\Backup File 10 April 2024\Backup File 10 April 2024\AWS API\AWS_API\AWS_API\AWSProjectAPI.Core\obj\Debug\net8.0\AWSProjectAPI.Core.sourcelink.json
+D:\IITC\Backup File 10 April 2024\Backup File 10 April 2024\AWS API\AWS_API\AWS_API\AWSProjectAPI.Core\obj\Debug\net8.0\AWSProjectAPI.Core.dll
+D:\IITC\Backup File 10 April 2024\Backup File 10 April 2024\AWS API\AWS_API\AWS_API\AWSProjectAPI.Core\obj\Debug\net8.0\refint\AWSProjectAPI.Core.dll
+D:\IITC\Backup File 10 April 2024\Backup File 10 April 2024\AWS API\AWS_API\AWS_API\AWSProjectAPI.Core\obj\Debug\net8.0\AWSProjectAPI.Core.pdb
+D:\IITC\Backup File 10 April 2024\Backup File 10 April 2024\AWS API\AWS_API\AWS_API\AWSProjectAPI.Core\obj\Debug\net8.0\ref\AWSProjectAPI.Core.dll

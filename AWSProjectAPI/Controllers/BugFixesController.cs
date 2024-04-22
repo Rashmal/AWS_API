@@ -1,9 +1,12 @@
 ﻿using AWSProjectAPI.Core.BugFixes;
 using AWSProjectAPI.Core.Common;
 using AWSProjectAPI.Core.SystemEnhancements;
+using AWSProjectAPI.Notification;
 using AWSProjectAPI.Service.BugFixes;
+using AWSProjectAPI.Service.Common;
 using AWSProjectAPI.Service.SystemEnhancements;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace AWSProjectAPI.Controllers
 {
@@ -13,12 +16,16 @@ namespace AWSProjectAPI.Controllers
     {
         #region Private Properties
         private readonly IBugFixesService iBugFixesService;
+        private readonly ICommonService commonService;
+        private IHubContext<NotificationHub, INotificationClient> hubContext;
         #endregion
 
         // Constructor
-        public BugFixesController(IBugFixesService iBugFixesService)
+        public BugFixesController(IBugFixesService iBugFixesService, IHubContext<NotificationHub, INotificationClient> hubContext, ICommonService commonService)
         {
             this.iBugFixesService = iBugFixesService;
+            this.hubContext = hubContext;
+            this.commonService = commonService;
         }
 
         // Set System Enhancement Details
@@ -30,6 +37,9 @@ namespace AWSProjectAPI.Controllers
             {
                 // Declare response
                 var response = this.iBugFixesService.SetBugFixesDetails(bugFixes, actionState);
+                // Set notification count
+                hubContext.Clients.All.NotificationCountGN(commonService.TotalGlobalNotes("TOTAL"));
+                hubContext.Clients.All.NotificationCountBF(commonService.TotalGlobalNotes("BGF"));
                 // Returning the result
                 return Json(response);
             }
