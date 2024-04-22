@@ -172,7 +172,7 @@ namespace AWSProjectAPI.Service.BugFixes
             // Getting the assigned staff details
             BugFixes.AssignedStaffList = this.iBugFixesDataAccess.GetBugFixesAssignedStaff(bugFixesId);
             // Getting the requested staff details
-            BugFixes.AssignedStaffList = this.iBugFixesDataAccess.GetBugFixesRequestedStaff(bugFixesId);
+            BugFixes.RequestedStaffList = this.iBugFixesDataAccess.GetBugFixesRequestedStaff(bugFixesId);
             // return the value
             return BugFixes;
         }
