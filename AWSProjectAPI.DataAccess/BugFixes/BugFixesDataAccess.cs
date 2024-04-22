@@ -453,6 +453,18 @@ namespace AWSProjectAPI.DataAccess.BugFixes
                         RecordsPerPageParameter.Value = filter.RecordsPerPage;
                         SqlParameter ModuleIdParameter = sqlCommandToken.Parameters.Add("@ModuleId", SqlDbType.Int);
                         ModuleIdParameter.Value = filter.ModuleId;
+                        SqlParameter StaffIdParameter = sqlCommandToken.Parameters.Add("@StaffId", SqlDbType.VarChar);
+                        StaffIdParameter.Value = filter.StaffId;
+                        SqlParameter PriorityIdParameter = sqlCommandToken.Parameters.Add("@PriorityId", SqlDbType.Int);
+                        PriorityIdParameter.Value = filter.PriorityId;
+                        SqlParameter StatusIdParameter = sqlCommandToken.Parameters.Add("@StatusId", SqlDbType.Int);
+                        StatusIdParameter.Value = filter.StatusId;
+                        SqlParameter SearchQueryParameter = sqlCommandToken.Parameters.Add("@SearchQuery", SqlDbType.VarChar, 500);
+                        SearchQueryParameter.Value = filter.SearchQuery;
+                        SqlParameter StartDateParameter = sqlCommandToken.Parameters.Add("@StartDate", SqlDbType.DateTime);
+                        StartDateParameter.Value = filter.StartDate;
+                        SqlParameter EndDateParameter = sqlCommandToken.Parameters.Add("@EndDate", SqlDbType.DateTime);
+                        EndDateParameter.Value = filter.EndDate;
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
                         UserParameter.Value = "SE$MD";
@@ -466,7 +478,8 @@ namespace AWSProjectAPI.DataAccess.BugFixes
                             {
                                 Id = Convert.ToInt32(resultToken["ModuleId"].ToString()),
                                 Name = resultToken["ModuleName"].ToString(),
-                                Total = Convert.ToInt32(resultToken["TotalRecords"].ToString())
+                                Total = Convert.ToInt32(resultToken["TotalRecords"].ToString()),
+                                TotalList = Convert.ToInt32(resultToken["TotalList"].ToString())
                             });
                         }
                     }
@@ -1273,7 +1286,8 @@ namespace AWSProjectAPI.DataAccess.BugFixes
                                 Description = resultToken["Description"].ToString(),
                                 HasReply = Convert.ToBoolean(resultToken["HasReply"].ToString()),
                                 AddedDate = Convert.ToDateTime(resultToken["ChangedDate"].ToString()),
-                                Total = Convert.ToInt32(resultToken["TotalRecords"].ToString())
+                                Total = Convert.ToInt32(resultToken["TotalRecords"].ToString()),
+                                AddedUser = resultToken["FullName"].ToString()
                             });
                         }
                     }
@@ -1319,7 +1333,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
                     {
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
-                        UserParameter.Value = "ALL$SE";
+                        UserParameter.Value = "ALL$BF";
 
                         // Executing the sql SP command
                         var resultToken = sqlCommandToken.ExecuteReader();
