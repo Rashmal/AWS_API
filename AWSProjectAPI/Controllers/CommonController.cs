@@ -111,5 +111,24 @@ namespace AWSProjectAPI.Controllers
                 return Json("System Failed: " + ex.Message);
             }
         }
+
+        // Getting the total of global notes
+        [HttpGet]
+        [Route("TotalGlobalNotes")]
+        public IActionResult TotalGlobalNotes(string tabSection)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iCommonService.TotalGlobalNotes(tabSection);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
     }
 }

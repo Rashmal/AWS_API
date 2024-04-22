@@ -69,5 +69,41 @@ namespace AWSProjectAPI.DataAccess.Common
         /// -
         /// </remarks>
         List<BasicUserDetails> GetAllStaffList();
+
+        // TotalGlobalNotes
+        /// <summary>
+        /// Getting the total of global notes
+        /// </summary>
+        /// <returns>
+        /// Int value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        int TotalGlobalNotes();
+
+        // TotalSE
+        /// <summary>
+        /// Getting the total of global notes
+        /// </summary>
+        /// <returns>
+        /// Int value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        int TotalSE();
+
+        // TotalBG
+        /// <summary>
+        /// Getting the total of global notes
+        /// </summary>
+        /// <returns>
+        /// Int value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        int TotalBG();
     }
 }

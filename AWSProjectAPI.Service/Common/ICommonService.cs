@@ -69,5 +69,17 @@ namespace AWSProjectAPI.Service.Common
         /// -
         /// </remarks>
         List<BasicUserDetails> GetAllStaffList();
+
+        // TotalGlobalNotes
+        /// <summary>
+        /// Getting the total of global notes
+        /// </summary>
+        /// <returns>
+        /// Int value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        int TotalGlobalNotes(string tabSection);
     }
 }

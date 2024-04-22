@@ -12,6 +12,7 @@ namespace AWSProjectAPI.Core.SystemEnhancements
         public DateTime AddedDate { get; set; }
         public int Total { get; set; }
         public bool HasReply { get; set; }
+        public string AddedUser { get; set; }
 
         public ViewSystemEnhancementComment()
         {
