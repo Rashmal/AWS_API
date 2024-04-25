@@ -59,7 +59,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
                         StatusIdParameter.Value = bugFixes.StatusId;
                         SqlParameter ModuleIdParameter = sqlCommandToken.Parameters.Add("@ModuleId", SqlDbType.Int);
                         ModuleIdParameter.Value = bugFixes.ModuleId;
-                        SqlParameter AddedUserIdParameter = sqlCommandToken.Parameters.Add("@AddedUserId", SqlDbType.VarChar, 5000);
+                        SqlParameter AddedUserIdParameter = sqlCommandToken.Parameters.Add("@AddedUserId", SqlDbType.VarChar);
                         AddedUserIdParameter.Value = bugFixes.AddedUserId;
                         SqlParameter EstimatedHoursParameter = sqlCommandToken.Parameters.Add("@EstimatedHours", SqlDbType.Int);
                         EstimatedHoursParameter.Value = bugFixes.EstimatedHours;
@@ -130,7 +130,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
                         StatusIdParameter.Value = bugFixes.StatusId;
                         SqlParameter ModuleIdParameter = sqlCommandToken.Parameters.Add("@ModuleId", SqlDbType.Int);
                         ModuleIdParameter.Value = bugFixes.ModuleId;
-                        SqlParameter AddedUserIdParameter = sqlCommandToken.Parameters.Add("@AddedUserId", SqlDbType.VarChar, 5000);
+                        SqlParameter AddedUserIdParameter = sqlCommandToken.Parameters.Add("@AddedUserId", SqlDbType.VarChar);
                         AddedUserIdParameter.Value = bugFixes.AddedUserId;
                         SqlParameter EstimatedHoursParameter = sqlCommandToken.Parameters.Add("@EstimatedHours", SqlDbType.Int);
                         EstimatedHoursParameter.Value = bugFixes.EstimatedHours;
