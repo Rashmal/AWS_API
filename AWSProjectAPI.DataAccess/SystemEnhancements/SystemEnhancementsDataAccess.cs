@@ -58,7 +58,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
                         StatusIdParameter.Value = systemEnhancement.StatusId;
                         SqlParameter ModuleIdParameter = sqlCommandToken.Parameters.Add("@ModuleId", SqlDbType.Int);
                         ModuleIdParameter.Value = systemEnhancement.ModuleId;
-                        SqlParameter AddedUserIdParameter = sqlCommandToken.Parameters.Add("@AddedUserId", SqlDbType.VarChar, 5000);
+                        SqlParameter AddedUserIdParameter = sqlCommandToken.Parameters.Add("@AddedUserId", SqlDbType.VarChar);
                         AddedUserIdParameter.Value = systemEnhancement.AddedUserId;
                         SqlParameter EstimatedHoursParameter = sqlCommandToken.Parameters.Add("@EstimatedHours", SqlDbType.Int);
                         EstimatedHoursParameter.Value = systemEnhancement.EstimatedHours;
@@ -130,7 +130,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
                         StatusIdParameter.Value = systemEnhancement.StatusId;
                         SqlParameter ModuleIdParameter = sqlCommandToken.Parameters.Add("@ModuleId", SqlDbType.Int);
                         ModuleIdParameter.Value = systemEnhancement.ModuleId;
-                        SqlParameter AddedUserIdParameter = sqlCommandToken.Parameters.Add("@AddedUserId", SqlDbType.VarChar, 5000);
+                        SqlParameter AddedUserIdParameter = sqlCommandToken.Parameters.Add("@AddedUserId", SqlDbType.VarChar);
                         AddedUserIdParameter.Value = systemEnhancement.AddedUserId;
                         SqlParameter EstimatedHoursParameter = sqlCommandToken.Parameters.Add("@EstimatedHours", SqlDbType.Int);
                         EstimatedHoursParameter.Value = systemEnhancement.EstimatedHours;
