@@ -158,3 +158,5 @@ D:\IITC\Backup File 10 April 2024\Backup File 10 April 2024\AWS API\AWS_API\AWS_
 D:\IITC\Backup File 10 April 2024\Backup File 10 April 2024\AWS API\AWS_API\AWS_API\AWSProjectAPI\obj\Debug\net8.0\AWSProjectAPI.pdb
 D:\IITC\Backup File 10 April 2024\Backup File 10 April 2024\AWS API\AWS_API\AWS_API\AWSProjectAPI\obj\Debug\net8.0\AWSProjectAPI.genruntimeconfig.cache
 D:\IITC\Backup File 10 April 2024\Backup File 10 April 2024\AWS API\AWS_API\AWS_API\AWSProjectAPI\obj\Debug\net8.0\ref\AWSProjectAPI.dll
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI\bin\Debug\net8.0\Newtonsoft.Json.dll
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll
