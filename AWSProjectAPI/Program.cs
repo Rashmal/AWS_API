@@ -34,7 +34,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
         builder => builder.WithOrigins(
-                        "http://localhost")
+                        "https://iitcdemo.com")
                         .AllowCredentials()
                         .AllowAnyHeader()
                         .SetIsOriginAllowed(_ => true)
@@ -60,8 +60,10 @@ builder.Services.AddAuthentication(opt =>
 
         //ValidIssuer = "https://liveapi.iitcglobal.net",
         //ValidAudience = "https://liveapi.iitcglobal.net",
-        ValidIssuer = "http://localhost:7250",
-        ValidAudience = "http://localhost:7250",
+        //ValidIssuer = "http://localhost:7250",
+        //ValidAudience = "http://localhost:7250",
+        ValidIssuer = "https://iitcdemoapi.com/AWSAPI",
+        ValidAudience = "https://iitcdemoapi.com/AWSAPI",
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345superSecretKey@345"))
     };
 });

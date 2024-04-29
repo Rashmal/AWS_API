@@ -1,0 +1,12 @@
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Core\bin\Release\net8.0\AWSProjectAPI.Core.deps.json
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Core\bin\Release\net8.0\AWSProjectAPI.Core.dll
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Core\bin\Release\net8.0\AWSProjectAPI.Core.pdb
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Core\obj\Release\net8.0\AWSProjectAPI.Core.GeneratedMSBuildEditorConfig.editorconfig
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Core\obj\Release\net8.0\AWSProjectAPI.Core.AssemblyInfoInputs.cache
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Core\obj\Release\net8.0\AWSProjectAPI.Core.AssemblyInfo.cs
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Core\obj\Release\net8.0\AWSProjectAPI.Core.csproj.CoreCompileInputs.cache
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Core\obj\Release\net8.0\AWSProjectAPI.Core.sourcelink.json
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Core\obj\Release\net8.0\AWSProjectAPI.Core.dll
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Core\obj\Release\net8.0\refint\AWSProjectAPI.Core.dll
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Core\obj\Release\net8.0\AWSProjectAPI.Core.pdb
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWSProjectAPI.Core\obj\Release\net8.0\ref\AWSProjectAPI.Core.dll

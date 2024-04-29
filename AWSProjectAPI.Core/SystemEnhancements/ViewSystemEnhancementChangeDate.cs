@@ -8,6 +8,7 @@ namespace AWSProjectAPI.Core.SystemEnhancements
 {
     public class ViewSystemEnhancementChangeDate
     {
+        public int Id { get; set; }
         public DateTime NewFromDate { get; set; }
         public DateTime NewToDate { get; set; }
         public int NewDuration { get; set; }
@@ -16,6 +17,7 @@ namespace AWSProjectAPI.Core.SystemEnhancements
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Total { get; set; }
+        public int ApproveState { get; set; }
 
         public ViewSystemEnhancementChangeDate()
         {

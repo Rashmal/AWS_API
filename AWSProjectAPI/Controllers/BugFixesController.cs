@@ -220,6 +220,25 @@ namespace AWSProjectAPI.Controllers
                 return Json("System Failed: " + ex.Message);
             }
         }
+
+        // Approval of change date history
+        [HttpGet]
+        [Route("ApprovalChangeDate")]
+        public IActionResult ApprovalChangeDate(int BugFixChangeHistoryId, string approval)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iBugFixesService.ApprovalChangeDate(BugFixChangeHistoryId, approval);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
     }
 }
 

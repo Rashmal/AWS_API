@@ -314,5 +314,21 @@ namespace AWSProjectAPI.Service.BugFixes
         {
             return this.iBugFixesDataAccess.GetStatBoxes();
         }
+
+        // ApprovalChangeDate
+        /// <summary>
+        /// Getting the approval change date
+        /// </summary>
+        /// <returns>
+        /// SystemEnhancementsChangeHistoryId int value
+        /// approval string value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval)
+        {
+            return this.iBugFixesDataAccess.ApprovalChangeDate(SystemEnhancementsChangeHistoryId, approval);
+        }
     }
 }

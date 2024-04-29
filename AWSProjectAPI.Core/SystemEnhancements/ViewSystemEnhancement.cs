@@ -18,6 +18,7 @@ namespace AWSProjectAPI.Core.SystemEnhancements
         public string PriorityName { get; set; }
         public List<BasicUserDetails> RequestedStaffList { get; set; }
         public int Total { get; set; }
+        public int HasRequest { get; set; }
 
         public ViewSystemEnhancement()
         {

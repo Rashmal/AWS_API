@@ -315,5 +315,21 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         {
             return this.iSystemEnhancementsDataAccess.GetStatBoxes();
         }
+
+        // ApprovalChangeDate
+        /// <summary>
+        /// Getting the approval change date
+        /// </summary>
+        /// <returns>
+        /// SystemEnhancementsChangeHistoryId int value
+        /// approval string value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval)
+        {
+            return this.iSystemEnhancementsDataAccess.ApprovalChangeDate(SystemEnhancementsChangeHistoryId, approval);
+        }
     }
 }

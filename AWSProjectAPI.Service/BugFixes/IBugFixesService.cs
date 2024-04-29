@@ -134,5 +134,18 @@ namespace AWSProjectAPI.Service.BugFixes
         /// -
         /// </remarks>
         List<StatisticsBoxData> GetStatBoxes();
+
+        // ApprovalChangeDate
+        /// <summary>
+        /// Getting the approval change date
+        /// </summary>
+        /// <returns>
+        /// SystemEnhancementsChangeHistoryId int value
+        /// approval string value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval);
     }
 }

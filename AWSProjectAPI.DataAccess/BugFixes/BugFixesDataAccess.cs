@@ -565,7 +565,8 @@ namespace AWSProjectAPI.DataAccess.BugFixes
                                 EstimatedHours = Convert.ToInt32(resultToken["EstimatedHours"].ToString()),
                                 Id = resultToken["Id"].ToString(),
                                 RequestedStaffList = new List<BasicUserDetails>(),
-                                Total = Convert.ToInt32(resultToken["TotalRecords"].ToString())
+                                Total = Convert.ToInt32(resultToken["TotalRecords"].ToString()),
+                                HasRequest = Convert.ToInt32(resultToken["HasRequest"].ToString())
                             });
                         }
                     }
@@ -633,7 +634,8 @@ namespace AWSProjectAPI.DataAccess.BugFixes
                                 AddedUserId = resultToken["AddedUserId"].ToString(),
                                 EstimatedHours = Convert.ToInt32(resultToken["EstimatedHours"].ToString()),
                                 AssignedStaffList = new List<BasicUserDetails>(),
-                                RequestedStaffList = new List<BasicUserDetails>()
+                                RequestedStaffList = new List<BasicUserDetails>(),
+                                HasRequest = Convert.ToInt32(resultToken["HasRequest"].ToString())
                             };
                         }
                     }
@@ -1055,7 +1057,9 @@ namespace AWSProjectAPI.DataAccess.BugFixes
                                 NewFromDate = Convert.ToDateTime(resultToken["NewFromDate"].ToString()),
                                 NewToDate = Convert.ToDateTime(resultToken["NewToDate"].ToString()),
                                 Reason = resultToken["Reason"].ToString(),
-                                Total = Convert.ToInt32(resultToken["TotalRecords"].ToString())
+                                Total = Convert.ToInt32(resultToken["TotalRecords"].ToString()),
+                                ApproveState = Convert.ToInt32(resultToken["Approved"].ToString()),
+                                Id = Convert.ToInt32(resultToken["Id"].ToString())
                             });
                         }
                     }
@@ -1360,6 +1364,60 @@ namespace AWSProjectAPI.DataAccess.BugFixes
 
             // Return the values
             return statisticsBoxDataList;
+        }
+
+        // ApprovalChangeDate
+        /// <summary>
+        /// Getting the approval change date
+        /// </summary>
+        /// <returns>
+        /// SystemEnhancementsChangeHistoryId int value
+        /// approval string value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval)
+        {
+            // Declare the value list
+            bool status = false;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("BugFixesChangeHistory_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "APP$CD";
+                        SqlParameter ApprovalStateParameter = sqlCommandToken.Parameters.Add("@ApprovalState", SqlDbType.VarChar, 500);
+                        ApprovalStateParameter.Value = approval;
+                        SqlParameter IdParameter = sqlCommandToken.Parameters.Add("@Id", SqlDbType.Int);
+                        IdParameter.Value = SystemEnhancementsChangeHistoryId;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+                        status = true;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                status = false;
+                throw new Exception("Error in SystemEnhancementsDataAccess_ApprovalChangeDate ! :" + ex);
+            }
+
+            // Return the values
+            return status;
         }
     }
 }

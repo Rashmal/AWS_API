@@ -21,6 +21,7 @@ namespace AWSProjectAPI.Core.SystemEnhancements
         public DateTime EndDate { get; set; }
         public List<BasicUserDetails> AssignedStaffList { get; set; }
         public List<BasicUserDetails> RequestedStaffList { get; set; }
+        public int HasRequest { get; set; }
 
         public SystemEnhancement()
         {

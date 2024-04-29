@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace AWSProjectAPI.Service.Authentication
 {
-    public class AuthenticationService: IAuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
         #region Private Properties
         private readonly IAuthenticationDataAccess iAuthenticationDataAccess;
@@ -107,8 +107,8 @@ namespace AWSProjectAPI.Service.Authentication
                         //new Claim(JwtRegisteredClaimNames.Sub, basicUserDetails.UserTypeId.ToString())
                      };
                     var tokeOptions = new JwtSecurityToken(
-                               issuer: "http://localhost:7250",
-                               audience: "http://localhost:7250",
+                               issuer: "https://iitcdemoapi.com/AWSAPI",
+                               audience: "https://iitcdemoapi.com/AWSAPI",
                                claims: claims,
                                expires: DateTime.Now.AddMinutes(60),
                                signingCredentials: signinCredentials
