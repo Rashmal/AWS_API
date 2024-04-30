@@ -3151,19 +3151,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\PC\\.nuget\\packages\\": {}
+    "C:\\Users\\Aruth Jayasanka\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWSProjectAPI\\AWSProjectAPI.csproj",
+      "projectUniqueName": "D:\\IITC\\Backup File 10 April 2024\\Backup File 10 April 2024\\AWS API\\AWS_API\\AWSProjectAPI\\AWSProjectAPI.csproj",
       "projectName": "AWSProjectAPI",
-      "projectPath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWSProjectAPI\\AWSProjectAPI.csproj",
-      "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-      "outputPath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWSProjectAPI\\obj\\",
+      "projectPath": "D:\\IITC\\Backup File 10 April 2024\\Backup File 10 April 2024\\AWS API\\AWS_API\\AWSProjectAPI\\AWSProjectAPI.csproj",
+      "packagesPath": "C:\\Users\\Aruth Jayasanka\\.nuget\\packages\\",
+      "outputPath": "D:\\IITC\\Backup File 10 April 2024\\Backup File 10 April 2024\\AWS API\\AWS_API\\AWSProjectAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Aruth Jayasanka\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3177,11 +3177,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWSProjectAPI.DataAccess\\AWSProjectAPI.DataAccess.csproj": {
-              "projectPath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWSProjectAPI.DataAccess\\AWSProjectAPI.DataAccess.csproj"
+            "D:\\IITC\\Backup File 10 April 2024\\Backup File 10 April 2024\\AWS API\\AWS_API\\AWSProjectAPI.DataAccess\\AWSProjectAPI.DataAccess.csproj": {
+              "projectPath": "D:\\IITC\\Backup File 10 April 2024\\Backup File 10 April 2024\\AWS API\\AWS_API\\AWSProjectAPI.DataAccess\\AWSProjectAPI.DataAccess.csproj"
             },
-            "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWSProjectAPI.Service\\AWSProjectAPI.Service.csproj": {
-              "projectPath": "E:\\RNS\\AWS\\AWS_API\\AWSProjectAPI\\AWS_API\\AWSProjectAPI.Service\\AWSProjectAPI.Service.csproj"
+            "D:\\IITC\\Backup File 10 April 2024\\Backup File 10 April 2024\\AWS API\\AWS_API\\AWSProjectAPI.Service\\AWSProjectAPI.Service.csproj": {
+              "projectPath": "D:\\IITC\\Backup File 10 April 2024\\Backup File 10 April 2024\\AWS API\\AWS_API\\AWSProjectAPI.Service\\AWSProjectAPI.Service.csproj"
             }
           }
         }
@@ -3190,6 +3190,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -3228,7 +3233,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
