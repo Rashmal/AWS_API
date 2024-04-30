@@ -92,12 +92,15 @@ namespace AWSProjectAPI.Controllers
         // Getting the system enhancements details based on the Id
         [HttpGet]
         [Route("GetBugFixesDetailsById")]
-        public IActionResult GetBugFixesDetailsById(string bugFixesId)
+        public IActionResult GetBugFixesDetailsById(string bugFixesId,string userId)
         {
             try
             {
                 // Declare response
                 var response = this.iBugFixesService.GetBugFixesDetailsById(bugFixesId);
+                // Set notification count
+                hubContext.Clients.All.NotificationCountGN(commonService.TotalGlobalNotes("TOTAL", userId));
+                hubContext.Clients.All.NotificationCountBF(commonService.TotalGlobalNotes("BGF", userId));
                 // Returning the result
                 return Json(response);
             }
