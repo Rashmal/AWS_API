@@ -119,7 +119,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        List<ViewSystemEnhancement> GetSystemEnhancementDisplayList(Filter filter);
+        List<ViewSystemEnhancement> GetSystemEnhancementDisplayList(Filter filter, string UserId);
 
         // GetSystemEnhancementDetailsById
         /// <summary>
@@ -291,5 +291,18 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// -
         /// </remarks>
         bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval);
+
+        // AddViewId
+        /// <summary>
+        /// Setting the view ID for the system enhancement
+        /// </summary>
+        /// <returns>
+        /// itemId string value
+        /// userId string value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        bool AddViewId(string itemId, string userId);
     }
 }

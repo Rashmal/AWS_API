@@ -327,7 +327,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public int TotalGlobalNotes()
+        public int TotalGlobalNotes(string userId)
         {
             // Declare the return value
             int totalCount = 0;
@@ -379,7 +379,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public int TotalSE()
+        public int TotalSE(string userId)
         {
             // Declare the return value
             int totalCount = 0;
@@ -431,7 +431,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public int TotalBG()
+        public int TotalBG(string userId)
         {
             // Declare the return value
             int totalCount = 0;

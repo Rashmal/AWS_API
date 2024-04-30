@@ -135,12 +135,12 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        public List<ViewBugFix> GetBugFixesDisplayList(Filter filter)
+        public List<ViewBugFix> GetBugFixesDisplayList(Filter filter, string UserId)
         {
             // Declare the object
             List<ViewBugFix> bugFixesList = new List<ViewBugFix>();
             // Getting the list
-            bugFixesList = this.iBugFixesDataAccess.GetBugFixesDisplayList(filter);
+            bugFixesList = this.iBugFixesDataAccess.GetBugFixesDisplayList(filter, UserId);
             // Loop through the list
             for (int i = 0; i < bugFixesList.Count; i++)
             {
@@ -329,6 +329,22 @@ namespace AWSProjectAPI.Service.BugFixes
         public bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval)
         {
             return this.iBugFixesDataAccess.ApprovalChangeDate(SystemEnhancementsChangeHistoryId, approval);
+        }
+
+        // AddViewId
+        /// <summary>
+        /// Setting the view ID for the bug fixes
+        /// </summary>
+        /// <returns>
+        /// itemId string value
+        /// userId string value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public bool AddViewId(string itemId, string userId)
+        {
+            return this.iBugFixesDataAccess.AddViewId(itemId, userId);
         }
     }
 }

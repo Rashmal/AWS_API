@@ -106,7 +106,7 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public int TotalGlobalNotes(string tabSection)
+        public int TotalGlobalNotes(string tabSection, string userId)
         {
             // Declare the count
             int totalCount = 0;
@@ -115,13 +115,13 @@ namespace AWSProjectAPI.Service.Common
             switch (tabSection.ToUpper())
             {
                 case "TOTAL":
-                    totalCount = iCommonDataAccess.TotalGlobalNotes();
+                    totalCount = iCommonDataAccess.TotalGlobalNotes(userId);
                     break;
                 case "SE":
-                    totalCount = iCommonDataAccess.TotalSE();
+                    totalCount = iCommonDataAccess.TotalSE(userId);
                     break;
                 case "BGF":
-                    totalCount = iCommonDataAccess.TotalBG();
+                    totalCount = iCommonDataAccess.TotalBG(userId);
                     break;
             }
             // End of Check the tab section

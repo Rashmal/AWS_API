@@ -45,7 +45,7 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        List<ViewBugFix> GetBugFixesDisplayList(Filter filter);
+        List<ViewBugFix> GetBugFixesDisplayList(Filter filter, string UserId);
 
         // GetBugFixDetailsById
         /// <summary>
@@ -147,5 +147,18 @@ namespace AWSProjectAPI.Service.BugFixes
         /// -
         /// </remarks>
         bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval);
+
+        // AddViewId
+        /// <summary>
+        /// Setting the view ID for the bug fixes
+        /// </summary>
+        /// <returns>
+        /// itemId string value
+        /// userId string value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        bool AddViewId(string itemId, string userId);
     }
 }

@@ -31,15 +31,15 @@ namespace AWSProjectAPI.Controllers
         // Set System Enhancement Details
         [HttpPost]
         [Route("SetBugFixesDetails")]
-        public IActionResult SetBugFixesDetails([FromBody] BugFix bugFixes, string actionState)
+        public IActionResult SetBugFixesDetails([FromBody] BugFix bugFixes, string actionState, string userId)
         {
             try
             {
                 // Declare response
                 var response = this.iBugFixesService.SetBugFixesDetails(bugFixes, actionState);
                 // Set notification count
-                hubContext.Clients.All.NotificationCountGN(commonService.TotalGlobalNotes("TOTAL"));
-                hubContext.Clients.All.NotificationCountBF(commonService.TotalGlobalNotes("BGF"));
+                hubContext.Clients.All.NotificationCountGN(commonService.TotalGlobalNotes("TOTAL", userId));
+                hubContext.Clients.All.NotificationCountBF(commonService.TotalGlobalNotes("BGF", userId));
                 // Returning the result
                 return Json(response);
             }
@@ -72,16 +72,17 @@ namespace AWSProjectAPI.Controllers
         // Getting the system enhancements display list
         [HttpPost]
         [Route("GetBugFixesDisplayList")]
-        public IActionResult GetBugFixesDisplayList([FromBody] Filter filter)
+        public IActionResult GetBugFixesDisplayList([FromBody] Filter filter, string UserId)
         {
             try
             {
                 // Declare response
-                var response = this.iBugFixesService.GetBugFixesDisplayList(filter);
+                var response = this.iBugFixesService.GetBugFixesDisplayList(filter, UserId);
                 // Returning the result
                 return Json(response);
             }
             catch (Exception ex)
+
             {
                 // Returning the exception
                 return Json("System Failed: " + ex.Message);
@@ -230,6 +231,25 @@ namespace AWSProjectAPI.Controllers
             {
                 // Declare response
                 var response = this.iBugFixesService.ApprovalChangeDate(BugFixChangeHistoryId, approval);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Adding the view Id for the bug fixes
+        [HttpGet]
+        [Route("AddViewId")]
+        public IActionResult AddViewId(string itemId, string userId)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iBugFixesService.AddViewId(itemId, userId);
                 // Returning the result
                 return Json(response);
             }

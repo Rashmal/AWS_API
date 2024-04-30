@@ -29,15 +29,15 @@ namespace AWSProjectAPI.Controllers
         // Set System Enhancement Details
         [HttpPost]
         [Route("SetSystemEnhancementDetails")]
-        public IActionResult SetSystemEnhancementDetails([FromBody] SystemEnhancement systemEnhancement, string actionState)
+        public IActionResult SetSystemEnhancementDetails([FromBody] SystemEnhancement systemEnhancement, string actionState, string userId)
         {
             try
             {
                 // Declare response
                 var response = this.iSystemEnhancementsService.SetSystemEnhancementDetails(systemEnhancement, actionState);
                 // Set notification count
-                hubContext.Clients.All.NotificationCountGN(commonService.TotalGlobalNotes("TOTAL"));
-                hubContext.Clients.All.NotificationCountSE(commonService.TotalGlobalNotes("SE"));
+                hubContext.Clients.All.NotificationCountGN(commonService.TotalGlobalNotes("TOTAL", userId));
+                hubContext.Clients.All.NotificationCountSE(commonService.TotalGlobalNotes("SE", userId));
                 // Returning the result
                 return Json(response);
             }
@@ -70,12 +70,12 @@ namespace AWSProjectAPI.Controllers
         // Getting the system enhancements display list
         [HttpPost]
         [Route("GetSystemEnhancementDisplayList")]
-        public IActionResult GetSystemEnhancementDisplayList([FromBody] Filter filter)
+        public IActionResult GetSystemEnhancementDisplayList([FromBody] Filter filter, string UserId)
         {
             try
             {
                 // Declare response
-                var response = this.iSystemEnhancementsService.GetSystemEnhancementDisplayList(filter);
+                var response = this.iSystemEnhancementsService.GetSystemEnhancementDisplayList(filter, UserId);
                 // Returning the result
                 return Json(response);
             }
@@ -228,6 +228,25 @@ namespace AWSProjectAPI.Controllers
             {
                 // Declare response
                 var response = this.iSystemEnhancementsService.ApprovalChangeDate(SystemEnhancementsChangeHistoryId, approval);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Adding the view Id for the system enhancement
+        [HttpGet]
+        [Route("AddViewId")]
+        public IActionResult AddViewId(string itemId, string userId)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iSystemEnhancementsService.AddViewId(itemId, userId);
                 // Returning the result
                 return Json(response);
             }

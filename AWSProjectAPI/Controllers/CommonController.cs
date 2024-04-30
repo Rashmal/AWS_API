@@ -115,12 +115,12 @@ namespace AWSProjectAPI.Controllers
         // Getting the total of global notes
         [HttpGet]
         [Route("TotalGlobalNotes")]
-        public IActionResult TotalGlobalNotes(string tabSection)
+        public IActionResult TotalGlobalNotes(string tabSection, string userId)
         {
             try
             {
                 // Declare response
-                var response = this.iCommonService.TotalGlobalNotes(tabSection);
+                var response = this.iCommonService.TotalGlobalNotes(tabSection, userId);
                 // Returning the result
                 return Json(response);
             }

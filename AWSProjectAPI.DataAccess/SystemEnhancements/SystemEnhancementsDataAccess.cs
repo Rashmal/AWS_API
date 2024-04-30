@@ -508,7 +508,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        public List<ViewSystemEnhancement> GetSystemEnhancementDisplayList(Filter filter)
+        public List<ViewSystemEnhancement> GetSystemEnhancementDisplayList(Filter filter, string UserId)
         {
             // Declare the value list
             List<ViewSystemEnhancement> viewSystemEnhancementList = new List<ViewSystemEnhancement>();
@@ -547,6 +547,8 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
                         SortColumnParameter.Value = filter.SortColumn;
                         SqlParameter SortDirectionParameter = sqlCommandToken.Parameters.Add("@SortDirection", SqlDbType.VarChar);
                         SortDirectionParameter.Value = filter.SortDirection;
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = UserId;
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
                         UserParameter.Value = "VIEW";
@@ -567,7 +569,8 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
                                 Id = resultToken["Id"].ToString(),
                                 RequestedStaffList = new List<BasicUserDetails>(),
                                 Total = Convert.ToInt32(resultToken["TotalRecords"].ToString()),
-                                HasRequest = Convert.ToInt32(resultToken["HasRequest"].ToString())
+                                HasRequest = Convert.ToInt32(resultToken["HasRequest"].ToString()),
+                                IsNew = Convert.ToBoolean(resultToken["IsNew"].ToString())
                             });
                         }
                     }
@@ -1415,6 +1418,60 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             {
                 status = false;
                 throw new Exception("Error in SystemEnhancementsDataAccess_ApprovalChangeDate ! :" + ex);
+            }
+
+            // Return the values
+            return status;
+        }
+
+        // AddViewId
+        /// <summary>
+        /// Setting the view ID for the system enhancement
+        /// </summary>
+        /// <returns>
+        /// itemId string value
+        /// userId string value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public bool AddViewId(string itemId, string userId)
+        {
+            // Declare the value list
+            bool status = false;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("SystemEnhancements_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "ADD$VID";
+                        SqlParameter IdParameter = sqlCommandToken.Parameters.Add("@Id", SqlDbType.VarChar);
+                        IdParameter.Value = itemId;
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar, 500);
+                        UserIdParameter.Value = userId;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+                        status = true;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                status = false;
+                throw new Exception("Error in SystemEnhancementsDataAccess_AddViewId ! :" + ex);
             }
 
             // Return the values

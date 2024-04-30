@@ -80,7 +80,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        int TotalGlobalNotes();
+        int TotalGlobalNotes(string userId);
 
         // TotalSE
         /// <summary>
@@ -92,7 +92,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        int TotalSE();
+        int TotalSE(string userId);
 
         // TotalBG
         /// <summary>
@@ -104,6 +104,6 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        int TotalBG();
+        int TotalBG(string userId);
     }
 }

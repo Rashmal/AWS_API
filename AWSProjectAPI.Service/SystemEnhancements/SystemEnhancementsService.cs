@@ -136,12 +136,12 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        public List<ViewSystemEnhancement> GetSystemEnhancementDisplayList(Filter filter)
+        public List<ViewSystemEnhancement> GetSystemEnhancementDisplayList(Filter filter, string UserId)
         {
             // Declare the object
             List<ViewSystemEnhancement> systemEnhancementList = new List<ViewSystemEnhancement>();
             // Getting the list
-            systemEnhancementList = this.iSystemEnhancementsDataAccess.GetSystemEnhancementDisplayList(filter);
+            systemEnhancementList = this.iSystemEnhancementsDataAccess.GetSystemEnhancementDisplayList(filter, UserId);
             // Loop through the list
             for (int i = 0; i < systemEnhancementList.Count; i++)
             {
@@ -330,6 +330,28 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         public bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval)
         {
             return this.iSystemEnhancementsDataAccess.ApprovalChangeDate(SystemEnhancementsChangeHistoryId, approval);
+        }
+
+        // AddViewId
+        /// <summary>
+        /// Setting the view ID for the system enhancement
+        /// </summary>
+        /// <returns>
+        /// itemId string value
+        /// userId string value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public bool AddViewId(string itemId, string userId)
+        {
+            // Status
+            bool status = false;
+
+            status = this.iSystemEnhancementsDataAccess.AddViewId(itemId, userId);
+
+            // Return the value
+            return status;
         }
     }
 }

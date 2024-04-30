@@ -80,6 +80,6 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// -
         /// </remarks>
-        int TotalGlobalNotes(string tabSection);
+        int TotalGlobalNotes(string tabSection, string userId);
     }
 }
