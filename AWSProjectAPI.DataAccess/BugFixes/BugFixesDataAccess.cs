@@ -597,7 +597,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesId -> String value
         /// </remarks>
-        public BugFix GetBugFixesDetailsById(string BugFixesId)
+        public BugFix GetBugFixesDetailsById(string BugFixesId, string userId = "")
         {
             // Declare the value list
             BugFix bugFixes = new BugFix();
@@ -616,6 +616,8 @@ namespace AWSProjectAPI.DataAccess.BugFixes
                         // Adding stored procedure parameters
                         SqlParameter IdParameter = sqlCommandToken.Parameters.Add("@Id", SqlDbType.VarChar);
                         IdParameter.Value = BugFixesId;
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = userId;
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
                         UserParameter.Value = "BY$ID";
 
@@ -638,7 +640,8 @@ namespace AWSProjectAPI.DataAccess.BugFixes
                                 EstimatedHours = Convert.ToInt32(resultToken["EstimatedHours"].ToString()),
                                 AssignedStaffList = new List<BasicUserDetails>(),
                                 RequestedStaffList = new List<BasicUserDetails>(),
-                                HasRequest = Convert.ToInt32(resultToken["HasRequest"].ToString())
+                                HasRequest = Convert.ToInt32(resultToken["HasRequest"].ToString()),
+                                IsNew = Convert.ToBoolean(resultToken["IsNew"].ToString())
                             };
                         }
                     }

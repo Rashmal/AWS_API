@@ -1,7 +1,10 @@
-﻿using AWSProjectAPI.Core.Common;
+﻿using AWSProjectAPI.Core.Authentication;
+using AWSProjectAPI.Core.Common;
 using AWSProjectAPI.Core.SystemEnhancements;
 using AWSProjectAPI.DataAccess.Common;
 using AWSProjectAPI.DataAccess.SystemEnhancements;
+using AWSProjectAPI.Service.Authentication;
+using AWSProjectAPI.Service.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +17,17 @@ namespace AWSProjectAPI.Service.SystemEnhancements
     {
         #region Private Properties
         private readonly ISystemEnhancementsDataAccess iSystemEnhancementsDataAccess;
+        private readonly IAuthenticationService iAuthenticationService;
+        private readonly ICommonService iCommonService;
         #endregion
 
         // Constructor
-        public SystemEnhancementsService(ISystemEnhancementsDataAccess iSystemEnhancementsDataAccess)
+        public SystemEnhancementsService(ISystemEnhancementsDataAccess iSystemEnhancementsDataAccess, IAuthenticationService iAuthenticationService,
+            ICommonService iCommonService)
         {
             this.iSystemEnhancementsDataAccess = iSystemEnhancementsDataAccess;
+            this.iAuthenticationService = iAuthenticationService;
+            this.iCommonService = iCommonService;
         }
 
         // SetSystemEnhancementDetails
@@ -67,6 +75,11 @@ namespace AWSProjectAPI.Service.SystemEnhancements
                     });
                     // Wait untill all the tasks are completed
                     Task.WaitAll(taskAddAssignedStaff, taskAddRequestedStaff);
+
+                    // Getting the user details
+                    UserDetails addedUserDetails = iAuthenticationService.GetUserDetailsByUserId(systemEnhancement.AddedUserId);
+                    // Sending the emails
+                    sendAddedEmail(systemEnhancement, addedUserDetails, addedUserDetails);
                     break;
                 case "UPDATE":
                     // Updating the new system enhancement
@@ -164,12 +177,12 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// <remarks>
         /// systemEnhancementId -> String value
         /// </remarks>
-        public SystemEnhancement GetSystemEnhancementDetailsById(string systemEnhancementId)
+        public SystemEnhancement GetSystemEnhancementDetailsById(string systemEnhancementId, string userId)
         {
             // Declare the object
             SystemEnhancement systemEnhancement = new SystemEnhancement();
             // Getting the basic details
-            systemEnhancement = this.iSystemEnhancementsDataAccess.GetSystemEnhancementDetailsById(systemEnhancementId);
+            systemEnhancement = this.iSystemEnhancementsDataAccess.GetSystemEnhancementDetailsById(systemEnhancementId, userId);
             // Getting the assigned staff details
             systemEnhancement.AssignedStaffList = this.iSystemEnhancementsDataAccess.GetSystemEnhancementAssignedStaff(systemEnhancementId);
             // Getting the requested staff details
@@ -348,10 +361,118 @@ namespace AWSProjectAPI.Service.SystemEnhancements
             // Status
             bool status = false;
 
-            status = this.iSystemEnhancementsDataAccess.AddViewId(itemId, userId);
+            // Getting the system enhancement ID details
+            SystemEnhancement systemEnhancement = this.iSystemEnhancementsDataAccess.GetSystemEnhancementDetailsById(itemId, userId);
+
+            // Check if the ID is added
+            if (systemEnhancement.IsNew == true) {
+                status = this.iSystemEnhancementsDataAccess.AddViewId(itemId, userId);
+                // Getting the user details
+                UserDetails userDetails = iAuthenticationService.GetUserDetailsByUserId(userId);
+                // Getting the user details
+                UserDetails addedUserDetails = iAuthenticationService.GetUserDetailsByUserId(systemEnhancement.AddedUserId);
+                // Sending the emails
+                sendViewedEmail(systemEnhancement, userDetails, addedUserDetails);
+            }
+            else
+            {
+                status = true;
+            }
 
             // Return the value
             return status;
+        }
+
+        public void sendAddedEmail(SystemEnhancement systemEnhancement, UserDetails userDetails, UserDetails addedUserDetails)
+        {
+            // Getting the company details by company domain
+            //CompanyDetails companyDetails = i_Service.GetCompanyDetailsByDomain(companyDomain);
+
+            // Top part of the email
+            string emailBody = "<div>" +
+                "<div style='background:#2867af;text-align:center;padding:10px;'><img src='https://iitcdemo.com/assets/images/logo_aws.png' style='width:300px;height:50px;'></div>" +
+                "<div style='padding:10px'>" +
+                "<div style='padding:10px;text-align:center;font-size:30px;font-weight:bold;'><span>System Enhancement has been added by " + userDetails.FirstName + " " + userDetails.LastName + ":</span></div>" +
+                "<div style='font-weight:bold;text-align:center;'><span>" + systemEnhancement.Title + "</span></div>" +
+                "<div style='padding-bottom:5px;text-align:center;'><span>" + systemEnhancement.Description + "</span></div>" +
+                //"<div style='padding-bottom:5px;text-align:center;'><span>Added by: " + addedUserDetails.FirstName + " " + addedUserDetails.LastName + "</span></div>" +
+                "</div>" +
+                "</div>";
+
+            // Setting the email body
+            EmailBodyDetails internelEmailObject = new EmailBodyDetails()
+            {
+                AttachmentPath = new List<string>(),
+                Content = emailBody,
+                Subject = "SystemEnhancement: " + systemEnhancement.Title + " is added",
+                FromAddress = new EmailAddress()
+                {
+                    Address = "iitcglobalmail@gmail.com",
+                    Name = ""
+                },
+                ToAddressList = new List<EmailAddress>(),
+                BCCAddressList = new List<EmailAddress>(),
+                CCAddressList = new List<EmailAddress>()
+            };
+            //internelEmailObject.ToAddressList.Add(new EmailAddress()
+            //{
+            //    Address = receiverEmail,
+            //    Name = receiverName
+            //});
+            internelEmailObject.ToAddressList.Add(new EmailAddress()
+            {
+                Address = "rashmalat@gmail.com",
+                Name = "User AWS"
+            });
+
+            // Sending the email
+            string emailResponse = iCommonService.SendEmailLocally(internelEmailObject);
+        }
+
+        public void sendViewedEmail(SystemEnhancement systemEnhancement, UserDetails userDetails, UserDetails addedUserDetails)
+        {
+            // Getting the company details by company domain
+            //CompanyDetails companyDetails = i_Service.GetCompanyDetailsByDomain(companyDomain);
+
+            // Top part of the email
+            string emailBody = "<div>" +
+                "<div style='background:#2867af;text-align:center;padding:10px;'><img src='https://iitcdemo.com/assets/images/logo_aws.png' style='width:300px;height:50px;'></div>" +
+                "<div style='padding:10px'>" +
+                "<div style='padding:10px;text-align:center;font-size:30px;font-weight:bold;'><span>System Enhancement has been viewed by " + userDetails.FirstName + " " + userDetails.LastName + ":</span></div>" +
+                "<div style='font-weight:bold;text-align:center;'><span>" + systemEnhancement.Title + "</span></div>" +
+                "<div style='padding-bottom:5px;text-align:center;'><span>" + systemEnhancement.Description + "</span></div>" +
+                "<div style='padding-bottom:5px;text-align:center;'><span>Added by: " + addedUserDetails.FirstName + " " + addedUserDetails.LastName + "</span></div>" +
+                "</div>" +
+                "</div>";
+
+            // Setting the email body
+            EmailBodyDetails internelEmailObject = new EmailBodyDetails()
+            {
+                AttachmentPath = new List<string>(),
+                Content = emailBody,
+                Subject = "SystemEnhancement: " + systemEnhancement.Title + " is viwed",
+                FromAddress = new EmailAddress()
+                {
+                    Address = "iitcglobalmail@gmail.com",
+                    Name = ""
+                },
+                ToAddressList = new List<EmailAddress>(),
+                BCCAddressList = new List<EmailAddress>(),
+                CCAddressList = new List<EmailAddress>()
+            };
+            //internelEmailObject.ToAddressList.Add(new EmailAddress()
+            //{
+            //    Address = receiverEmail,
+            //    Name = receiverName
+            //});
+            internelEmailObject.ToAddressList.Add(new EmailAddress()
+            {
+                Address = "rashmalat@gmail.com",
+                Name = "User AWS"
+            });
+
+            // Sending the email
+            string emailResponse = iCommonService.SendEmailLocally(internelEmailObject);
         }
     }
 }

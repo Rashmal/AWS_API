@@ -89,12 +89,12 @@ namespace AWSProjectAPI.Controllers
         // Getting the system enhancements details based on the Id
         [HttpGet]
         [Route("GetSystemEnhancementDetailsById")]
-        public IActionResult GetSystemEnhancementDetailsById(string systemEnhancementId)
+        public IActionResult GetSystemEnhancementDetailsById(string systemEnhancementId, string userId)
         {
             try
             {
                 // Declare response
-                var response = this.iSystemEnhancementsService.GetSystemEnhancementDetailsById(systemEnhancementId);
+                var response = this.iSystemEnhancementsService.GetSystemEnhancementDetailsById(systemEnhancementId, userId);
                 // Returning the result
                 return Json(response);
             }

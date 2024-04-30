@@ -132,7 +132,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesId -> String value
         /// </remarks>
-        BugFix GetBugFixesDetailsById(string bugFixesId);
+        BugFix GetBugFixesDetailsById(string bugFixesId, string userId = "");
 
         // GetBugFixesAssignedStaff
         /// <summary>

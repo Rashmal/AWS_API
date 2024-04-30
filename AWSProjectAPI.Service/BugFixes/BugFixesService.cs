@@ -1,6 +1,10 @@
-﻿using AWSProjectAPI.Core.BugFixes;
+﻿using AWSProjectAPI.Core.Authentication;
+using AWSProjectAPI.Core.BugFixes;
 using AWSProjectAPI.Core.Common;
+using AWSProjectAPI.Core.SystemEnhancements;
 using AWSProjectAPI.DataAccess.BugFixes;
+using AWSProjectAPI.Service.Authentication;
+using AWSProjectAPI.Service.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +17,16 @@ namespace AWSProjectAPI.Service.BugFixes
     {
         #region Private Properties
         private readonly IBugFixesDataAccess iBugFixesDataAccess;
+        private readonly ICommonService iCommonService;
+        private readonly IAuthenticationService iAuthenticationService;
         #endregion
 
         // Constructor
-        public BugFixesService(IBugFixesDataAccess iBugFixesDataAccess)
+        public BugFixesService(IBugFixesDataAccess iBugFixesDataAccess, ICommonService iCommonService, IAuthenticationService iAuthenticationService)
         {
             this.iBugFixesDataAccess = iBugFixesDataAccess;
+            this.iCommonService = iCommonService;
+            this.iAuthenticationService = iAuthenticationService;
         }
 
         // SetBugFixesDetails
@@ -66,6 +74,10 @@ namespace AWSProjectAPI.Service.BugFixes
                     });
                     // Wait untill all the tasks are completed
                     Task.WaitAll(taskAddAssignedStaff, taskAddRequestedStaff);
+                    // Getting the user details
+                    UserDetails addedUserDetails = iAuthenticationService.GetUserDetailsByUserId(bugFix.AddedUserId);
+                    // Sending the emails
+                    sendAddedEmail(bugFix, addedUserDetails, addedUserDetails);
                     break;
                 case "UPDATE":
                     // Updating the new Bug Fixes
@@ -163,12 +175,12 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// BugFixesId -> String value
         /// </remarks>
-        public BugFix GetBugFixesDetailsById(string bugFixesId)
+        public BugFix GetBugFixesDetailsById(string bugFixesId, string userId)
         {
             // Declare the object
             BugFix BugFixes = new BugFix();
             // Getting the basic details
-            BugFixes = this.iBugFixesDataAccess.GetBugFixesDetailsById(bugFixesId);
+            BugFixes = this.iBugFixesDataAccess.GetBugFixesDetailsById(bugFixesId, userId);
             // Getting the assigned staff details
             BugFixes.AssignedStaffList = this.iBugFixesDataAccess.GetBugFixesAssignedStaff(bugFixesId);
             // Getting the requested staff details
@@ -344,7 +356,122 @@ namespace AWSProjectAPI.Service.BugFixes
         /// </remarks>
         public bool AddViewId(string itemId, string userId)
         {
-            return this.iBugFixesDataAccess.AddViewId(itemId, userId);
+            // Status
+            bool status = false;
+
+            // Getting the system enhancement ID details
+            BugFix bugFix = this.iBugFixesDataAccess.GetBugFixesDetailsById(itemId, userId);
+
+            // Check if the ID is added
+            if (bugFix.IsNew == true)
+            {
+                status = this.iBugFixesDataAccess.AddViewId(itemId, userId);
+                // Getting the user details
+                UserDetails userDetails = iAuthenticationService.GetUserDetailsByUserId(userId);
+                // Getting the user details
+                UserDetails addedUserDetails = iAuthenticationService.GetUserDetailsByUserId(bugFix.AddedUserId);
+                // Sending the emails
+                sendViewedEmail(bugFix, userDetails, addedUserDetails);
+            }
+            else
+            {
+                status = true;
+            }
+
+            // Return the value
+            return status;
+        }
+
+        public void sendAddedEmail(BugFix bugFix, UserDetails userDetails, UserDetails addedUserDetails)
+        {
+            // Getting the company details by company domain
+            //CompanyDetails companyDetails = i_Service.GetCompanyDetailsByDomain(companyDomain);
+
+            // Top part of the email
+            string emailBody = "<div>" +
+                "<div style='background:#2867af;text-align:center;padding:10px;'><img src='https://iitcdemo.com/assets/images/logo_aws.png' style='width:300px;height:50px;'></div>" +
+                "<div style='padding:10px'>" +
+                "<div style='padding:10px;text-align:center;font-size:30px;font-weight:bold;'><span>Bug Fix has been added by " + userDetails.FirstName + " " + userDetails.LastName + ":</span></div>" +
+                "<div style='font-weight:bold;text-align:center;'><span>" + bugFix.Title + "</span></div>" +
+                "<div style='padding-bottom:5px;text-align:center;'><span>" + bugFix.Description + "</span></div>" +
+                //"<div style='padding-bottom:5px;text-align:center;'><span>Added by: " + addedUserDetails.FirstName + " " + addedUserDetails.LastName + "</span></div>" +
+                "</div>" +
+                "</div>";
+
+            // Setting the email body
+            EmailBodyDetails internelEmailObject = new EmailBodyDetails()
+            {
+                AttachmentPath = new List<string>(),
+                Content = emailBody,
+                Subject = "Bug Fix: " + bugFix.Title + " is added",
+                FromAddress = new EmailAddress()
+                {
+                    Address = "iitcglobalmail@gmail.com",
+                    Name = ""
+                },
+                ToAddressList = new List<EmailAddress>(),
+                BCCAddressList = new List<EmailAddress>(),
+                CCAddressList = new List<EmailAddress>()
+            };
+            //internelEmailObject.ToAddressList.Add(new EmailAddress()
+            //{
+            //    Address = receiverEmail,
+            //    Name = receiverName
+            //});
+            internelEmailObject.ToAddressList.Add(new EmailAddress()
+            {
+                Address = "rashmalat@gmail.com",
+                Name = "User AWS"
+            });
+
+            // Sending the email
+            string emailResponse = iCommonService.SendEmailLocally(internelEmailObject);
+        }
+
+        public void sendViewedEmail(BugFix bugFix, UserDetails userDetails, UserDetails addedUserDetails)
+        {
+            // Getting the company details by company domain
+            //CompanyDetails companyDetails = i_Service.GetCompanyDetailsByDomain(companyDomain);
+
+            // Top part of the email
+            string emailBody = "<div>" +
+                "<div style='background:#2867af;text-align:center;padding:10px;'><img src='https://iitcdemo.com/assets/images/logo_aws.png' style='width:300px;height:50px;'></div>" +
+                "<div style='padding:10px'>" +
+                "<div style='padding:10px;text-align:center;font-size:30px;font-weight:bold;'><span>Bug Fix has been viewed by " + userDetails.FirstName + " " + userDetails.LastName + ":</span></div>" +
+                "<div style='font-weight:bold;text-align:center;'><span>" + bugFix.Title + "</span></div>" +
+                "<div style='padding-bottom:5px;text-align:center;'><span>" + bugFix.Description + "</span></div>" +
+                "<div style='padding-bottom:5px;text-align:center;'><span>Added by: " + addedUserDetails.FirstName + " " + addedUserDetails.LastName + "</span></div>" +
+                "</div>" +
+                "</div>";
+
+            // Setting the email body
+            EmailBodyDetails internelEmailObject = new EmailBodyDetails()
+            {
+                AttachmentPath = new List<string>(),
+                Content = emailBody,
+                Subject = "Bug Fix: " + bugFix.Title + " is viwed",
+                FromAddress = new EmailAddress()
+                {
+                    Address = "iitcglobalmail@gmail.com",
+                    Name = ""
+                },
+                ToAddressList = new List<EmailAddress>(),
+                BCCAddressList = new List<EmailAddress>(),
+                CCAddressList = new List<EmailAddress>()
+            };
+            //internelEmailObject.ToAddressList.Add(new EmailAddress()
+            //{
+            //    Address = receiverEmail,
+            //    Name = receiverName
+            //});
+            internelEmailObject.ToAddressList.Add(new EmailAddress()
+            {
+                Address = "rashmalat@gmail.com",
+                Name = "User AWS"
+            });
+
+            // Sending the email
+            string emailResponse = iCommonService.SendEmailLocally(internelEmailObject);
         }
     }
 }

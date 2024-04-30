@@ -57,7 +57,7 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// BugFixId -> String value
         /// </remarks>
-        BugFix GetBugFixesDetailsById(string bugFixId);
+        BugFix GetBugFixesDetailsById(string bugFixId, string userId);
 
         // UpdateBugFixStatus
         /// <summary>

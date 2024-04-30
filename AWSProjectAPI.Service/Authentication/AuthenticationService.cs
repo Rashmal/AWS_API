@@ -160,5 +160,19 @@ namespace AWSProjectAPI.Service.Authentication
         {
             return iAuthenticationDataAccess.GetUserAccessLevels(userId);
         }
+
+        /// <summary>
+        /// Getting the user detailsbased on the id
+        /// </summary>
+        /// <returns>
+        /// UserDetails object
+        /// </returns>
+        /// <remarks>
+        /// email -> string
+        /// </remarks>
+        public UserDetails GetUserDetailsByUserId(string userId)
+        {
+            return iAuthenticationDataAccess.GetUserDetailsByUserId(userId);
+        }
     }
 }

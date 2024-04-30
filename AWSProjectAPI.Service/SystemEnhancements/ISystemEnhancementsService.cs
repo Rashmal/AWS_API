@@ -57,7 +57,7 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// <remarks>
         /// systemEnhancementId -> String value
         /// </remarks>
-        SystemEnhancement GetSystemEnhancementDetailsById(string systemEnhancementId);
+        SystemEnhancement GetSystemEnhancementDetailsById(string systemEnhancementId,string userId);
 
         // UpdateSystemEnhancementStatus
         /// <summary>

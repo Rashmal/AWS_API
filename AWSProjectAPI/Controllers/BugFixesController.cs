@@ -92,12 +92,12 @@ namespace AWSProjectAPI.Controllers
         // Getting the system enhancements details based on the Id
         [HttpGet]
         [Route("GetBugFixesDetailsById")]
-        public IActionResult GetBugFixesDetailsById(string bugFixesId)
+        public IActionResult GetBugFixesDetailsById(string bugFixesId, string userId)
         {
             try
             {
                 // Declare response
-                var response = this.iBugFixesService.GetBugFixesDetailsById(bugFixesId);
+                var response = this.iBugFixesService.GetBugFixesDetailsById(bugFixesId, userId);
                 // Returning the result
                 return Json(response);
             }

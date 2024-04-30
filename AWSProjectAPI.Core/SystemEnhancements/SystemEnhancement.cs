@@ -22,6 +22,7 @@ namespace AWSProjectAPI.Core.SystemEnhancements
         public List<BasicUserDetails> AssignedStaffList { get; set; }
         public List<BasicUserDetails> RequestedStaffList { get; set; }
         public int HasRequest { get; set; }
+        public bool IsNew { get; set; }
 
         public SystemEnhancement()
         {

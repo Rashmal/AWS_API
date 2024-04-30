@@ -369,5 +369,69 @@ namespace AWSProjectAPI.DataAccess.Authentication
             // Return the value
             return accessLevels;
         }
+
+        /// <summary>
+        /// Getting the user detailsbased on the id
+        /// </summary>
+        /// <returns>
+        /// UserDetails object
+        /// </returns>
+        /// <remarks>
+        /// email -> string
+        /// </remarks>
+        public UserDetails GetUserDetailsByUserId(string userId)
+        {
+            // Declare return value
+            UserDetails userDetails = new UserDetails();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("User_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = userId;
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET$US$BID";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            userDetails = new UserDetails()
+                            {
+                                UserId = resultToken["Id"].ToString(),
+                                FirstName = resultToken["FirstName"].ToString(),
+                                LastName = resultToken["LastName"].ToString(),
+                                Email = resultToken["Email"].ToString(),
+                                Avatar = resultToken["Avatar"].ToString(),
+                                Password = resultToken["Password"].ToString(),
+                                RoleName = resultToken["RoleName"].ToString(),
+                                RoleCode = resultToken["RoleCode"].ToString()
+                            };
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in AuthenticationDataAccess_GetUserDetailsByUserId ! :" + ex);
+            }
+
+            // Return the value
+            return userDetails;
+        }
     }
 }

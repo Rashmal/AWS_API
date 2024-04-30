@@ -81,5 +81,29 @@ namespace AWSProjectAPI.Service.Common
         /// -
         /// </remarks>
         int TotalGlobalNotes(string tabSection, string userId);
+
+        // SendEmail
+        /// <summary>
+        /// Sending the emails 
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        string SendEmail(EmailBodyDetails internelEmailObject);
+
+        // SendEmailLocally
+        /// <summary>
+        /// Sending the emails 
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        string SendEmailLocally(EmailBodyDetails emailDetails);
     }
 }

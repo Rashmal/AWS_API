@@ -598,7 +598,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementId -> String value
         /// </remarks>
-        public SystemEnhancement GetSystemEnhancementDetailsById(string systemEnhancementId)
+        public SystemEnhancement GetSystemEnhancementDetailsById(string systemEnhancementId, string userId = "")
         {
             // Declare the value list
             SystemEnhancement systemEnhancement = new SystemEnhancement();
@@ -617,6 +617,8 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
                         // Adding stored procedure parameters
                         SqlParameter IdParameter = sqlCommandToken.Parameters.Add("@Id", SqlDbType.VarChar);
                         IdParameter.Value = systemEnhancementId;
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = userId;
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
                         UserParameter.Value = "BY$ID";
 
@@ -639,7 +641,8 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
                                 EstimatedHours = Convert.ToInt32(resultToken["EstimatedHours"].ToString()),
                                 AssignedStaffList = new List<Core.Authentication.BasicUserDetails>(),
                                 RequestedStaffList = new List<Core.Authentication.BasicUserDetails>(),
-                                HasRequest = Convert.ToInt32(resultToken["HasRequest"].ToString())
+                                HasRequest = Convert.ToInt32(resultToken["HasRequest"].ToString()),
+                                IsNew = Convert.ToBoolean(resultToken["IsNew"].ToString())
                             };
                         }
                     }
