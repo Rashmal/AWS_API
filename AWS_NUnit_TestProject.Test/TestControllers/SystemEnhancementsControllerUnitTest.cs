@@ -3,9 +3,14 @@ using AWSProjectAPI.Core.Authentication;
 using AWSProjectAPI.Core.Common;
 using AWSProjectAPI.Core.SystemEnhancements;
 using AWSProjectAPI.DataAccess.Authentication;
+using AWSProjectAPI.DataAccess.Common;
 using AWSProjectAPI.DataAccess.SystemEnhancements;
+using AWSProjectAPI.Notification;
+using AWSProjectAPI.Service.Authentication;
+using AWSProjectAPI.Service.Common;
 using AWSProjectAPI.Service.SystemEnhancements;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -20,8 +25,13 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
     {
         ISystemEnhancementsService _iSystemEnhancementsService;
         ISystemEnhancementsDataAccess _iSystemEnhancementsDataAccess;
+        ICommonDataAccess _iCommonDataAccess;
+        IAuthenticationDataAccess _iAuthenticationDataAccess;
+        ICommonService _iCommonService;
+        IAuthenticationService _iAuthenticationService;
         IConfiguration configurationString;
         string newlyAddedSEId = "";
+        IHubContext<NotificationHub, INotificationClient> _hubContext;
 
         [SetUp]
         public void Setup()
@@ -30,7 +40,12 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
             configurationString = builder.Build();
 
             _iSystemEnhancementsDataAccess = new SystemEnhancementsDataAccess(configurationString);
-            _iSystemEnhancementsService = new SystemEnhancementsService(_iSystemEnhancementsDataAccess);
+            _iCommonDataAccess = new CommonDataAccess(configurationString);
+            _iAuthenticationDataAccess = new AuthenticationDataAccess(configurationString);
+
+            _iCommonService = new CommonService(_iCommonDataAccess);
+            _iAuthenticationService = new AuthenticationService(_iAuthenticationDataAccess);
+            _iSystemEnhancementsService = new SystemEnhancementsService(_iSystemEnhancementsDataAccess, _iAuthenticationService, _iCommonService);
         }
 
         [Test]
@@ -73,10 +88,10 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 }
             };
 
-            var controller = new SystemEnhancementsController(_iSystemEnhancementsService);
+            var controller = new SystemEnhancementsController(_iSystemEnhancementsService, _hubContext, _iCommonService);
 
             // Act
-            var result = controller.SetSystemEnhancementDetails(systemEnhancementDetails, "NEW") as JsonResult;
+            var result = controller.SetSystemEnhancementDetails(systemEnhancementDetails, "NEW", "") as JsonResult;
             newlyAddedSEId = result.Value.ToString();
 
             // Assert
@@ -125,10 +140,10 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 }
             };
 
-            var controller = new SystemEnhancementsController(_iSystemEnhancementsService);
+            var controller = new SystemEnhancementsController(_iSystemEnhancementsService, _hubContext, _iCommonService);
 
             // Act
-            var result = controller.SetSystemEnhancementDetails(systemEnhancementDetails, "UPDATE") as JsonResult;
+            var result = controller.SetSystemEnhancementDetails(systemEnhancementDetails, "UPDATE", "") as JsonResult;
 
             // Assert
             Assert.IsNotNull(result);
@@ -176,10 +191,10 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 }
             };
 
-            var controller = new SystemEnhancementsController(_iSystemEnhancementsService);
+            var controller = new SystemEnhancementsController(_iSystemEnhancementsService, _hubContext, _iCommonService);
 
             // Act
-            var result = controller.SetSystemEnhancementDetails(systemEnhancementDetails, "DELETE") as JsonResult;
+            var result = controller.SetSystemEnhancementDetails(systemEnhancementDetails, "DELETE", "") as JsonResult;
 
             // Assert
             Assert.IsNotNull(result);
@@ -205,7 +220,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 StatusId = -1,
                 SearchQuery = ""
             };
-            var controller = new SystemEnhancementsController(_iSystemEnhancementsService);
+            var controller = new SystemEnhancementsController(_iSystemEnhancementsService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.GetSystemEnhancementDisplayModules(defaultFilter) as JsonResult;
@@ -234,10 +249,10 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 StatusId = -1,
                 SearchQuery = ""
             };
-            var controller = new SystemEnhancementsController(_iSystemEnhancementsService);
+            var controller = new SystemEnhancementsController(_iSystemEnhancementsService, _hubContext, _iCommonService);
 
             // Act
-            var result = controller.GetSystemEnhancementDisplayList(defaultFilter) as JsonResult;
+            var result = controller.GetSystemEnhancementDisplayList(defaultFilter, "") as JsonResult;
 
             // Assert
             var model = result.Value as List<ViewSystemEnhancement>;
@@ -250,10 +265,10 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
         {
             // Arrange
             var systemEnhancementId = "57C5B0A3-40CC-4E91-B33B-17B8D844848F";
-            var controller = new SystemEnhancementsController(_iSystemEnhancementsService);
+            var controller = new SystemEnhancementsController(_iSystemEnhancementsService, _hubContext, _iCommonService);
 
             // Act
-            var result = controller.GetSystemEnhancementDetailsById(systemEnhancementId) as JsonResult;
+            var result = controller.GetSystemEnhancementDetailsById(systemEnhancementId, "") as JsonResult;
 
             // Assert
             var model = result.Value as SystemEnhancement;
@@ -267,7 +282,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
             // Arrange
             var systemEnhancementId = "57C5B0A3-40CC-4E91-B33B-17B8D844848F";
             var statusId = 2;
-            var controller = new SystemEnhancementsController(_iSystemEnhancementsService);
+            var controller = new SystemEnhancementsController(_iSystemEnhancementsService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.UpdateSystemEnhancementStatus(systemEnhancementId, statusId) as JsonResult;
@@ -294,7 +309,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 SystemEnhancementId = "57C5B0A3-40CC-4E91-B33B-17B8D844848F",
                 UserId = "D7FC4D7F-511A-413D-96C4-D3097F4188CA"
             };
-            var controller = new SystemEnhancementsController(_iSystemEnhancementsService);
+            var controller = new SystemEnhancementsController(_iSystemEnhancementsService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.SetSystemEhancementChangeDate(systemEhancementChangeDate, "NEW") as JsonResult;
@@ -322,7 +337,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 SystemEnhancementId = "57C5B0A3-40CC-4E91-B33B-17B8D844848F",
                 UserId = "D7FC4D7F-511A-413D-96C4-D3097F4188CA"
             };
-            var controller = new SystemEnhancementsController(_iSystemEnhancementsService);
+            var controller = new SystemEnhancementsController(_iSystemEnhancementsService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.SetSystemEhancementChangeDate(systemEhancementChangeDate, "UPDATE") as JsonResult;
@@ -350,7 +365,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 SystemEnhancementId = "57C5B0A3-40CC-4E91-B33B-17B8D844848F",
                 UserId = "D7FC4D7F-511A-413D-96C4-D3097F4188CA"
             };
-            var controller = new SystemEnhancementsController(_iSystemEnhancementsService);
+            var controller = new SystemEnhancementsController(_iSystemEnhancementsService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.SetSystemEhancementChangeDate(systemEhancementChangeDate, "DELETE") as JsonResult;
@@ -381,7 +396,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 StatusId = -1,
                 SearchQuery = ""
             };
-            var controller = new SystemEnhancementsController(_iSystemEnhancementsService);
+            var controller = new SystemEnhancementsController(_iSystemEnhancementsService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.GetSystemEhancementChangeDate(defaultFilter, systemEnhancementId) as JsonResult;
@@ -405,7 +420,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 SystemEnhancementId = "57C5B0A3-40CC-4E91-B33B-17B8D844848F",
                 Description = "This is a sample comment"
             };
-            var controller = new SystemEnhancementsController(_iSystemEnhancementsService);
+            var controller = new SystemEnhancementsController(_iSystemEnhancementsService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.SetSystemEhancementComment(systemEnhancementCommentData, "NEW") as JsonResult;
@@ -428,7 +443,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 SystemEnhancementId = "57C5B0A3-40CC-4E91-B33B-17B8D844848F",
                 Description = "This is a sample comment"
             };
-            var controller = new SystemEnhancementsController(_iSystemEnhancementsService);
+            var controller = new SystemEnhancementsController(_iSystemEnhancementsService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.SetSystemEhancementComment(systemEnhancementCommentData, "UPDATE") as JsonResult;
@@ -451,7 +466,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 SystemEnhancementId = "57C5B0A3-40CC-4E91-B33B-17B8D844848F",
                 Description = "This is a sample comment"
             };
-            var controller = new SystemEnhancementsController(_iSystemEnhancementsService);
+            var controller = new SystemEnhancementsController(_iSystemEnhancementsService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.SetSystemEhancementComment(systemEnhancementCommentData, "DELETE") as JsonResult;
@@ -480,7 +495,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 StatusId = -1,
                 SearchQuery = ""
             };
-            var controller = new SystemEnhancementsController(_iSystemEnhancementsService);
+            var controller = new SystemEnhancementsController(_iSystemEnhancementsService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.GetSystemEhancementComment(defaultFilter) as JsonResult;
@@ -496,7 +511,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
         public void GetStatBoxes_GettingDashboardStats_ReturnsList()
         {
             // Arrange
-            var controller = new SystemEnhancementsController(_iSystemEnhancementsService);
+            var controller = new SystemEnhancementsController(_iSystemEnhancementsService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.GetStatBoxes() as JsonResult;

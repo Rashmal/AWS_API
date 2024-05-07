@@ -105,5 +105,29 @@ namespace AWSProjectAPI.DataAccess.Common
         /// -
         /// </remarks>
         int TotalBG(string userId);
+
+        // GetModuleListBasedUserRole
+        /// <summary>
+        /// Getting the module list based on user role
+        /// </summary>
+        /// <returns>
+        /// Module object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<Module> GetModuleListBasedUserRole(string userRole, bool isStatic);
+
+        // GetAccessListBasedUserRole
+        /// <summary>
+        /// Getting all the access list based on the user role
+        /// </summary>
+        /// <returns>
+        /// UserRoleAccessDetail object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<UserRoleAccessDetail> GetAccessListBasedUserRole(string userRole);
     }
 }

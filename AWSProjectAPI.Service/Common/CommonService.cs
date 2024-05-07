@@ -308,5 +308,35 @@ namespace AWSProjectAPI.Service.Common
 
             return emailResponse;
         }
+
+        // GetModuleListBasedUserRole
+        /// <summary>
+        /// Getting the module list based on user role
+        /// </summary>
+        /// <returns>
+        /// Module object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<Module> GetModuleListBasedUserRole(string userRole, bool isStatic)
+        {
+            return iCommonDataAccess.GetModuleListBasedUserRole(userRole, isStatic);
+        }
+
+        // GetAccessListBasedUserRole
+        /// <summary>
+        /// Getting all the access list based on the user role
+        /// </summary>
+        /// <returns>
+        /// UserRoleAccessDetail object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<UserRoleAccessDetail> GetAccessListBasedUserRole(string userRole)
+        {
+            return iCommonDataAccess.GetAccessListBasedUserRole(userRole);
+        }
     }
 }

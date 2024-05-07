@@ -420,8 +420,18 @@ namespace AWSProjectAPI.Service.BugFixes
             //});
             internelEmailObject.ToAddressList.Add(new EmailAddress()
             {
+                Address = "testuser@iitcglobal.com",
+                Name = "testuser"
+            });
+            internelEmailObject.CCAddressList.Add(new EmailAddress()
+            {
+                Address = "leo@iitcglobal.com",
+                Name = "leo"
+            });
+            internelEmailObject.CCAddressList.Add(new EmailAddress()
+            {
                 Address = "rashmalat@gmail.com",
-                Name = "User AWS"
+                Name = "Rashmal"
             });
 
             // Sending the email
@@ -466,8 +476,18 @@ namespace AWSProjectAPI.Service.BugFixes
             //});
             internelEmailObject.ToAddressList.Add(new EmailAddress()
             {
+                Address = "testuser@iitcglobal.com",
+                Name = "testuser"
+            });
+            internelEmailObject.CCAddressList.Add(new EmailAddress()
+            {
+                Address = "leo@iitcglobal.com",
+                Name = "leo"
+            });
+            internelEmailObject.CCAddressList.Add(new EmailAddress()
+            {
                 Address = "rashmalat@gmail.com",
-                Name = "User AWS"
+                Name = "Rashmal"
             });
 
             // Sending the email

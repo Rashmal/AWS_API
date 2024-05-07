@@ -265,3 +265,4 @@ E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\obj\Debug\ne
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\obj\Debug\net8.0\AWS_NUnit_TestProject.Test.pdb
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\obj\Debug\net8.0\AWS_NUnit_TestProject.Test.genruntimeconfig.cache
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\obj\Debug\net8.0\ref\AWS_NUnit_TestProject.Test.dll
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll

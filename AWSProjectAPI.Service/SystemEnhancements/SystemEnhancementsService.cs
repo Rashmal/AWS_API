@@ -5,6 +5,7 @@ using AWSProjectAPI.DataAccess.Common;
 using AWSProjectAPI.DataAccess.SystemEnhancements;
 using AWSProjectAPI.Service.Authentication;
 using AWSProjectAPI.Service.Common;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -421,8 +422,18 @@ namespace AWSProjectAPI.Service.SystemEnhancements
             //});
             internelEmailObject.ToAddressList.Add(new EmailAddress()
             {
+                Address = "testuser@iitcglobal.com",
+                Name = "testuser"
+            });
+            internelEmailObject.CCAddressList.Add(new EmailAddress()
+            {
+                Address = "leo@iitcglobal.com",
+                Name = "leo"
+            });
+            internelEmailObject.CCAddressList.Add(new EmailAddress()
+            {
                 Address = "rashmalat@gmail.com",
-                Name = "User AWS"
+                Name = "Rashmal"
             });
 
             // Sending the email
@@ -467,8 +478,18 @@ namespace AWSProjectAPI.Service.SystemEnhancements
             //});
             internelEmailObject.ToAddressList.Add(new EmailAddress()
             {
+                Address = "testuser@iitcglobal.com",
+                Name = "testuser"
+            });
+            internelEmailObject.CCAddressList.Add(new EmailAddress()
+            {
+                Address = "leo@iitcglobal.com",
+                Name = "leo"
+            });
+            internelEmailObject.CCAddressList.Add(new EmailAddress()
+            {
                 Address = "rashmalat@gmail.com",
-                Name = "User AWS"
+                Name = "Rashmal"
             });
 
             // Sending the email

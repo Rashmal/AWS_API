@@ -95,6 +95,9 @@ namespace AWSProjectAPI.Controllers
             {
                 // Declare response
                 var response = this.iSystemEnhancementsService.GetSystemEnhancementDetailsById(systemEnhancementId, userId);
+                // Set notification count
+                hubContext.Clients.All.NotificationCountGN(commonService.TotalGlobalNotes("TOTAL", userId));
+                hubContext.Clients.All.NotificationCountSE(commonService.TotalGlobalNotes("SE", userId));
                 // Returning the result
                 return Json(response);
             }

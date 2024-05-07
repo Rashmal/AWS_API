@@ -2,12 +2,19 @@
 using AWSProjectAPI.Core.BugFixes;
 using AWSProjectAPI.Core.Common;
 using AWSProjectAPI.Core.SystemEnhancements;
+using AWSProjectAPI.DataAccess.Authentication;
 using AWSProjectAPI.DataAccess.BugFixes;
+using AWSProjectAPI.DataAccess.Common;
 using AWSProjectAPI.DataAccess.SystemEnhancements;
+using AWSProjectAPI.Notification;
+using AWSProjectAPI.Service.Authentication;
 using AWSProjectAPI.Service.BugFixes;
+using AWSProjectAPI.Service.Common;
 using AWSProjectAPI.Service.SystemEnhancements;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
+using Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Adapter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +27,13 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
     {
         IBugFixesService _iBugFixesService;
         IBugFixesDataAccess _iBugFixesDataAccess;
+        ICommonDataAccess _iCommonDataAccess;
+        IAuthenticationDataAccess _iAuthenticationDataAccess;
+        ICommonService _iCommonService;
+        IAuthenticationService _iAuthenticationService;
         IConfiguration configurationString;
         string newlyAddedBEId = "";
+        IHubContext<NotificationHub, INotificationClient> _hubContext;
 
         [SetUp]
         public void Setup()
@@ -29,8 +41,13 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
             var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
             configurationString = builder.Build();
 
+            _iCommonDataAccess = new CommonDataAccess(configurationString);
+            _iAuthenticationDataAccess = new AuthenticationDataAccess(configurationString);
             _iBugFixesDataAccess = new BugFixesDataAccess(configurationString);
-            _iBugFixesService = new BugFixesService(_iBugFixesDataAccess);
+
+            _iCommonService = new CommonService(_iCommonDataAccess);
+            _iAuthenticationService = new AuthenticationService(_iAuthenticationDataAccess);
+            _iBugFixesService = new BugFixesService(_iBugFixesDataAccess, _iCommonService, _iAuthenticationService);
         }
 
         [Test]
@@ -73,10 +90,10 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 }
             };
 
-            var controller = new BugFixesController(_iBugFixesService);
+            var controller = new BugFixesController(_iBugFixesService, _hubContext, _iCommonService);
 
             // Act
-            var result = controller.SetBugFixesDetails(bugFixDetails, "NEW") as JsonResult;
+            var result = controller.SetBugFixesDetails(bugFixDetails, "NEW", "") as JsonResult;
             newlyAddedBEId = result.Value.ToString();
 
             // Assert
@@ -125,10 +142,10 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 }
             };
 
-            var controller = new BugFixesController(_iBugFixesService);
+            var controller = new BugFixesController(_iBugFixesService, _hubContext, _iCommonService);
 
             // Act
-            var result = controller.SetBugFixesDetails(bugFixDetails, "UPDATE") as JsonResult;
+            var result = controller.SetBugFixesDetails(bugFixDetails, "UPDATE", "") as JsonResult;
 
             // Assert
             Assert.IsNotNull(result);
@@ -176,10 +193,10 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 }
             };
 
-            var controller = new BugFixesController(_iBugFixesService);
+            var controller = new BugFixesController(_iBugFixesService, _hubContext, _iCommonService);
 
             // Act
-            var result = controller.SetBugFixesDetails(bugFixDetails, "DELETE") as JsonResult;
+            var result = controller.SetBugFixesDetails(bugFixDetails, "DELETE", "") as JsonResult;
 
             // Assert
             Assert.IsNotNull(result);
@@ -205,7 +222,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 StatusId = -1,
                 SearchQuery = ""
             };
-            var controller = new BugFixesController(_iBugFixesService);
+            var controller = new BugFixesController(_iBugFixesService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.GetBugFixesDisplayModules(defaultFilter) as JsonResult;
@@ -234,10 +251,10 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 StatusId = -1,
                 SearchQuery = ""
             };
-            var controller = new BugFixesController(_iBugFixesService);
+            var controller = new BugFixesController(_iBugFixesService, _hubContext, _iCommonService);
 
             // Act
-            var result = controller.GetBugFixesDisplayList(defaultFilter) as JsonResult;
+            var result = controller.GetBugFixesDisplayList(defaultFilter, "") as JsonResult;
 
             // Assert
             var model = result.Value as List<ViewBugFix>;
@@ -250,10 +267,10 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
         {
             // Arrange
             var bugFixId = "659CF9A1-2024-4B53-B388-71C7817B6C0B";
-            var controller = new BugFixesController(_iBugFixesService);
+            var controller = new BugFixesController(_iBugFixesService, _hubContext, _iCommonService);
 
             // Act
-            var result = controller.GetBugFixesDetailsById(bugFixId) as JsonResult;
+            var result = controller.GetBugFixesDetailsById(bugFixId, "") as JsonResult;
 
             // Assert
             var model = result.Value as BugFix;
@@ -267,7 +284,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
             // Arrange
             var bugFixId = "659CF9A1-2024-4B53-B388-71C7817B6C0B";
             var statusId = 2;
-            var controller = new BugFixesController(_iBugFixesService);
+            var controller = new BugFixesController(_iBugFixesService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.UpdateBugFixesStatus(bugFixId, statusId) as JsonResult;
@@ -294,7 +311,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 BugFixesId = "659CF9A1-2024-4B53-B388-71C7817B6C0B",
                 UserId = "D7FC4D7F-511A-413D-96C4-D3097F4188CA"
             };
-            var controller = new BugFixesController(_iBugFixesService);
+            var controller = new BugFixesController(_iBugFixesService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.SetBugFixesChangeDate(bugFixChangeDate, "NEW") as JsonResult;
@@ -322,7 +339,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 BugFixesId = "659CF9A1-2024-4B53-B388-71C7817B6C0B",
                 UserId = "D7FC4D7F-511A-413D-96C4-D3097F4188CA"
             };
-            var controller = new BugFixesController(_iBugFixesService);
+            var controller = new BugFixesController(_iBugFixesService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.SetBugFixesChangeDate(bugFixChangeDate, "UPDATE") as JsonResult;
@@ -350,7 +367,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 BugFixesId = "659CF9A1-2024-4B53-B388-71C7817B6C0B",
                 UserId = "D7FC4D7F-511A-413D-96C4-D3097F4188CA"
             };
-            var controller = new BugFixesController(_iBugFixesService);
+            var controller = new BugFixesController(_iBugFixesService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.SetBugFixesChangeDate(bugFixChangeDate, "DELETE") as JsonResult;
@@ -381,7 +398,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 StatusId = -1,
                 SearchQuery = ""
             };
-            var controller = new BugFixesController(_iBugFixesService);
+            var controller = new BugFixesController(_iBugFixesService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.GetBugFixesChangeDate(defaultFilter, bugFixId) as JsonResult;
@@ -405,7 +422,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 BugFixesId = "659CF9A1-2024-4B53-B388-71C7817B6C0B",
                 Description = "This is a sample comment"
             };
-            var controller = new BugFixesController(_iBugFixesService);
+            var controller = new BugFixesController(_iBugFixesService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.SetBugFixesComment(bugFixCommentData, "NEW") as JsonResult;
@@ -428,7 +445,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 BugFixesId = "659CF9A1-2024-4B53-B388-71C7817B6C0B",
                 Description = "This is a sample comment"
             };
-            var controller = new BugFixesController(_iBugFixesService);
+            var controller = new BugFixesController(_iBugFixesService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.SetBugFixesComment(bugFixCommentData, "UPDATE") as JsonResult;
@@ -451,7 +468,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 BugFixesId = "659CF9A1-2024-4B53-B388-71C7817B6C0B",
                 Description = "This is a sample comment"
             };
-            var controller = new BugFixesController(_iBugFixesService);
+            var controller = new BugFixesController(_iBugFixesService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.SetBugFixesComment(bugFixCommentData, "DELETE") as JsonResult;
@@ -480,7 +497,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
                 StatusId = -1,
                 SearchQuery = ""
             };
-            var controller = new BugFixesController(_iBugFixesService);
+            var controller = new BugFixesController(_iBugFixesService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.GetBugFixesComment(defaultFilter) as JsonResult;
@@ -496,7 +513,7 @@ namespace AWS_NUnit_TestProject.Test.TestControllers
         public void GetStatBoxes_GettingDashboardStats_ReturnsList()
         {
             // Arrange
-            var controller = new BugFixesController(_iBugFixesService);
+            var controller = new BugFixesController(_iBugFixesService, _hubContext, _iCommonService);
 
             // Act
             var result = controller.GetStatBoxes() as JsonResult;

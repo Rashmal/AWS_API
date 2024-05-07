@@ -130,5 +130,43 @@ namespace AWSProjectAPI.Controllers
                 return Json("System Failed: " + ex.Message);
             }
         }
+
+        // Getting the module list based on user role
+        [HttpGet]
+        [Route("GetModuleListBasedUserRole")]
+        public IActionResult GetModuleListBasedUserRole(string userRole, bool isStatic)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iCommonService.GetModuleListBasedUserRole(userRole, isStatic);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Getting all the access list based on the user role
+        [HttpGet]
+        [Route("GetAccessListBasedUserRole")]
+        public IActionResult GetAccessListBasedUserRole(string userRole)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iCommonService.GetAccessListBasedUserRole(userRole);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
     }
 }

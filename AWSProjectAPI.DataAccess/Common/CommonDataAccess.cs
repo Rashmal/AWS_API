@@ -472,5 +472,129 @@ namespace AWSProjectAPI.DataAccess.Common
             // Return the values
             return totalCount;
         }
+
+        // GetModuleListBasedUserRole
+        /// <summary>
+        /// Getting the module list based on user role
+        /// </summary>
+        /// <returns>
+        /// Module object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<Module> GetModuleListBasedUserRole(string userRole, bool isStatic)
+        {
+            // Declare the return value
+            List<Module> moduleList = new List<Module>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("Modules_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET$BUR";
+                        SqlParameter UserRoleCodeParameter = sqlCommandToken.Parameters.Add("@UserRoleCode", SqlDbType.VarChar, 50);
+                        UserRoleCodeParameter.Value = userRole;
+                        SqlParameter IsStaticParameter = sqlCommandToken.Parameters.Add("@IsStatic", SqlDbType.Bit);
+                        IsStaticParameter.Value = isStatic;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            moduleList.Add(new Module()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                ModuleCode = resultToken["ModuleCode"].ToString(),
+                                Name = resultToken["Name"].ToString(),
+                                ModuleIcon = resultToken["ModuleIcon"].ToString(),
+                                IsDisable = Convert.ToBoolean(resultToken["IsDisabled"].ToString()),
+                                RedirectUrl = resultToken["RedirectUrl"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetModuleListBasedUserRole ! :" + ex);
+            }
+
+            // Return the values
+            return moduleList;
+        }
+
+        // GetAccessListBasedUserRole
+        /// <summary>
+        /// Getting all the access list based on the user role
+        /// </summary>
+        /// <returns>
+        /// UserRoleAccessDetail object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<UserRoleAccessDetail> GetAccessListBasedUserRole(string userRole)
+        {
+            // Declare the return value
+            List<UserRoleAccessDetail> userRoleAccessDetailList = new List<UserRoleAccessDetail>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("UserRoleAccessDetails_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET$ALL";
+                        SqlParameter UserRoleCodeParameter = sqlCommandToken.Parameters.Add("@UserRoleCode", SqlDbType.VarChar, 50);
+                        UserRoleCodeParameter.Value = userRole;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            userRoleAccessDetailList.Add(new UserRoleAccessDetail()
+                            {
+                                AccessList = resultToken["AccessList"].ToString(),
+                                ModuleCode = resultToken["ModuleCode"].ToString(),
+                                ModuleId = Convert.ToInt32(resultToken["ModuleId"].ToString()),
+                                ModuleName = resultToken["ModuleName"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetAccessListBasedUserRole ! :" + ex);
+            }
+
+            // Return the values
+            return userRoleAccessDetailList;
+        }
     }
 }
