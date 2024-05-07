@@ -338,5 +338,20 @@ namespace AWSProjectAPI.Service.Common
         {
             return iCommonDataAccess.GetAccessListBasedUserRole(userRole);
         }
+
+        // Getting all the access list based on the user role for view
+        /// <summary>
+        /// Getting the module list based on user role
+        /// </summary>
+        /// <returns>
+        /// Module object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<Module> GetViewAccessListBasedUserRole(string userRole)
+        {
+            return iCommonDataAccess.GetViewAccessListBasedUserRole(userRole);
+        }
     }
 }

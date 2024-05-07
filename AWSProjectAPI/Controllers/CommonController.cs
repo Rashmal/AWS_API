@@ -168,5 +168,24 @@ namespace AWSProjectAPI.Controllers
                 return Json("System Failed: " + ex.Message);
             }
         }
+
+        // Getting all the access list based on the user role for view
+        [HttpGet]
+        [Route("GetViewAccessListBasedUserRole")]
+        public IActionResult GetViewAccessListBasedUserRole(string userRole)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iCommonService.GetViewAccessListBasedUserRole(userRole);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
     }
 }
