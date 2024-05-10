@@ -387,16 +387,40 @@ namespace AWSProjectAPI.Service.BugFixes
             // Getting the company details by company domain
             //CompanyDetails companyDetails = i_Service.GetCompanyDetailsByDomain(companyDomain);
 
+            // Getting all the modules list
+            List<Module> modulesList = this.iCommonService.GetModuleList();
+            // Getting the module index
+            int moduleIndex = modulesList.FindIndex(obj => obj.Id == bugFix.ModuleId);
+            // Getting the module name
+            string moduleName = (moduleIndex == -1) ? "None" : modulesList[moduleIndex].Name;
+            // Getting all the priority list
+            List<Priority> priorityList = this.iCommonService.GetPriorityList();
+            // Getting the priority index
+            int priorityIndex = priorityList.FindIndex(obj => obj.Id == bugFix.PriorityId);
+            // Getting the priority name
+            string priorityName = (priorityIndex == -1) ? "None" : priorityList[moduleIndex].Name;
+            // Getitng the current date
+            DateTime today = DateTime.Today;
+            // Getting the priority color
+            string priorityColor = (priorityList[priorityIndex].Code == "UG") ? "#ff5757" : (priorityList[moduleIndex].Code == "NM") ? "#ebb32c" : "#21ba45";
+
             // Top part of the email
             string emailBody = "<div>" +
-                "<div style='background:#2867af;text-align:center;padding:10px;'><img src='https://iitcdemo.com/assets/images/logo_aws.png' style='width:300px;height:50px;'></div>" +
-                "<div style='padding:10px'>" +
-                "<div style='padding:10px;text-align:center;font-size:30px;font-weight:bold;'><span>Bug Fix has been added by " + userDetails.FirstName + " " + userDetails.LastName + ":</span></div>" +
-                "<div style='font-weight:bold;text-align:center;'><span>" + bugFix.Title + "</span></div>" +
-                "<div style='padding-bottom:5px;text-align:center;'><span>" + bugFix.Description + "</span></div>" +
-                //"<div style='padding-bottom:5px;text-align:center;'><span>Added by: " + addedUserDetails.FirstName + " " + addedUserDetails.LastName + "</span></div>" +
-                "</div>" +
-                "</div>";
+              "<div style='text-align:center;padding:10px;'><img src='https://iitcdemo.com/assets/images/logo_aws.png' style='width:300px;height:50px;object-fit: contain;'></div>" +
+              "<div style='padding:10px'>" +
+              "<div style='padding:10px;text-align:center;font-size:30px;font-weight:bold;'><span>A New Bug Fix has been added</span></div><br/>" +
+              "<div style='text-align:left;'><span>Requested By:" + addedUserDetails.FirstName + " " + addedUserDetails.LastName + "</span></div>" +
+              "<div style='text-align:left;'><span>Requested On:" + today.ToString("dd-MMM-yyyy") + "</span></div>" +
+              "<div style='text-align:left;'><span>Module:" + moduleName + "</span></div>" +
+              "<div style='text-align:left;'><span style='color:" + priorityColor + "'>Priority:" + priorityName + "</span></div>" +
+              "<div style='text-align:left;'><span>Estimated Hours:" + bugFix.EstimatedHours + "</span></div>" +
+              "<div style='text-align:left;'><span>Started:" + bugFix.StartDate.ToString("dd-MMM-yyyy") + "</span></div>" +
+              "<div style='text-align:left;'><span>Title:" + bugFix.Title + "</span></div>" +
+              "<div style='text-align:left;'><span>Description:" + bugFix.Description + "</span></div>" +
+              //"<div style='padding-bottom:5px;text-align:center;'><span>" + systemEnhancement.Description + "</span></div>" +
+              //"<div style='padding-bottom:5px;text-align:center;'><span>Added by: " + addedUserDetails.FirstName + " " + addedUserDetails.LastName + "</span></div>" +
+              "</div>" +
+              "</div>";
 
             // Setting the email body
             EmailBodyDetails internelEmailObject = new EmailBodyDetails()
@@ -443,16 +467,40 @@ namespace AWSProjectAPI.Service.BugFixes
             // Getting the company details by company domain
             //CompanyDetails companyDetails = i_Service.GetCompanyDetailsByDomain(companyDomain);
 
+            // Getting all the modules list
+            List<Module> modulesList = this.iCommonService.GetModuleList();
+            // Getting the module index
+            int moduleIndex = modulesList.FindIndex(obj => obj.Id == bugFix.ModuleId);
+            // Getting the module name
+            string moduleName = (moduleIndex == -1) ? "None" : modulesList[moduleIndex].Name;
+            // Getting all the priority list
+            List<Priority> priorityList = this.iCommonService.GetPriorityList();
+            // Getting the priority index
+            int priorityIndex = priorityList.FindIndex(obj => obj.Id == bugFix.PriorityId);
+            // Getting the priority name
+            string priorityName = (priorityIndex == -1) ? "None" : priorityList[moduleIndex].Name;
+            // Getitng the current date
+            DateTime today = DateTime.Today;
+            // Getting the priority color
+            string priorityColor = (priorityList[priorityIndex].Code == "UG") ? "#ff5757" : (priorityList[moduleIndex].Code == "NM") ? "#ebb32c" : "#21ba45";
+
             // Top part of the email
             string emailBody = "<div>" +
-                "<div style='background:#2867af;text-align:center;padding:10px;'><img src='https://iitcdemo.com/assets/images/logo_aws.png' style='width:300px;height:50px;'></div>" +
-                "<div style='padding:10px'>" +
-                "<div style='padding:10px;text-align:center;font-size:30px;font-weight:bold;'><span>Bug Fix has been viewed by " + userDetails.FirstName + " " + userDetails.LastName + ":</span></div>" +
-                "<div style='font-weight:bold;text-align:center;'><span>" + bugFix.Title + "</span></div>" +
-                "<div style='padding-bottom:5px;text-align:center;'><span>" + bugFix.Description + "</span></div>" +
-                "<div style='padding-bottom:5px;text-align:center;'><span>Added by: " + addedUserDetails.FirstName + " " + addedUserDetails.LastName + "</span></div>" +
-                "</div>" +
-                "</div>";
+              "<div style='text-align:center;padding:10px;'><img src='https://iitcdemo.com/assets/images/logo_aws.png' style='width:300px;height:50px;object-fit: contain;'></div>" +
+              "<div style='padding:10px'>" +
+              "<div style='padding:10px;text-align:center;font-size:30px;font-weight:bold;'><span>A Bug Fix has been viewed</span></div><br/>" +
+              "<div style='text-align:left;'><span>Requested By:" + addedUserDetails.FirstName + " " + addedUserDetails.LastName + "</span></div>" +
+              "<div style='text-align:left;'><span>Requested On:" + today.ToString("dd-MMM-yyyy") + "</span></div>" +
+              "<div style='text-align:left;'><span>Module:" + moduleName + "</span></div>" +
+              "<div style='text-align:left;'><span style='color:" + priorityColor + "'>Priority:" + priorityName + "</span></div>" +
+              "<div style='text-align:left;'><span>Estimated Hours:" + bugFix.EstimatedHours + "</span></div>" +
+              "<div style='text-align:left;'><span>Started:" + bugFix.StartDate.ToString("dd-MMM-yyyy") + "</span></div>" +
+              "<div style='text-align:left;'><span>Title:" + bugFix.Title + "</span></div>" +
+              "<div style='text-align:left;'><span>Description:" + bugFix.Description + "</span></div>" +
+              //"<div style='padding-bottom:5px;text-align:center;'><span>" + systemEnhancement.Description + "</span></div>" +
+              //"<div style='padding-bottom:5px;text-align:center;'><span>Added by: " + addedUserDetails.FirstName + " " + addedUserDetails.LastName + "</span></div>" +
+              "</div>" +
+              "</div>";
 
             // Setting the email body
             EmailBodyDetails internelEmailObject = new EmailBodyDetails()

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AWSProjectAPI.Service")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+98dcddee5161a557d0ed1add602e490d6cd4a935")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cad216ead597a63b8c780732c8dc91490594bd29")]
 [assembly: System.Reflection.AssemblyProductAttribute("AWSProjectAPI.Service")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AWSProjectAPI.Service")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

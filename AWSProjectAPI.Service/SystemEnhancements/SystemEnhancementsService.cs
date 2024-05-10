@@ -366,7 +366,8 @@ namespace AWSProjectAPI.Service.SystemEnhancements
             SystemEnhancement systemEnhancement = this.iSystemEnhancementsDataAccess.GetSystemEnhancementDetailsById(itemId, userId);
 
             // Check if the ID is added
-            if (systemEnhancement.IsNew == true) {
+            if (systemEnhancement.IsNew == true)
+            {
                 status = this.iSystemEnhancementsDataAccess.AddViewId(itemId, userId);
                 // Getting the user details
                 UserDetails userDetails = iAuthenticationService.GetUserDetailsByUserId(userId);
@@ -389,13 +390,37 @@ namespace AWSProjectAPI.Service.SystemEnhancements
             // Getting the company details by company domain
             //CompanyDetails companyDetails = i_Service.GetCompanyDetailsByDomain(companyDomain);
 
+            // Getting all the modules list
+            List<Module> modulesList = this.iCommonService.GetModuleList();
+            // Getting the module index
+            int moduleIndex = modulesList.FindIndex(obj => obj.Id == systemEnhancement.ModuleId);
+            // Getting the module name
+            string moduleName = (moduleIndex == -1) ? "None" : modulesList[moduleIndex].Name;
+            // Getting all the priority list
+            List<Priority> priorityList = this.iCommonService.GetPriorityList();
+            // Getting the priority index
+            int priorityIndex = priorityList.FindIndex(obj => obj.Id == systemEnhancement.PriorityId);
+            // Getting the priority name
+            string priorityName = (priorityIndex == -1) ? "None" : priorityList[moduleIndex].Name;
+            // Getitng the current date
+            DateTime today = DateTime.Today;
+            // Getting the priority color
+            string priorityColor = (priorityList[priorityIndex].Code == "UG") ? "#ff5757" : (priorityList[moduleIndex].Code == "NM") ? "#ebb32c" : "#21ba45";
+
             // Top part of the email
             string emailBody = "<div>" +
-                "<div style='background:#2867af;text-align:center;padding:10px;'><img src='https://iitcdemo.com/assets/images/logo_aws.png' style='width:300px;height:50px;'></div>" +
+                "<div style='text-align:center;padding:10px;'><img src='https://iitcdemo.com/assets/images/logo_aws.png' style='width:300px;height:50px;object-fit: contain;'></div>" +
                 "<div style='padding:10px'>" +
-                "<div style='padding:10px;text-align:center;font-size:30px;font-weight:bold;'><span>System Enhancement has been added by " + userDetails.FirstName + " " + userDetails.LastName + ":</span></div>" +
-                "<div style='font-weight:bold;text-align:center;'><span>" + systemEnhancement.Title + "</span></div>" +
-                "<div style='padding-bottom:5px;text-align:center;'><span>" + systemEnhancement.Description + "</span></div>" +
+                "<div style='padding:10px;text-align:center;font-size:30px;font-weight:bold;'><span>A New System Enhancement has been added</span></div><br/>" +
+                "<div style='text-align:left;'><span>Requested By:" + addedUserDetails.FirstName + " " + addedUserDetails.LastName + "</span></div>" +
+                "<div style='text-align:left;'><span>Requested On:" + today.ToString("dd-MMM-yyyy") + "</span></div>" +
+                "<div style='text-align:left;'><span>Module:" + moduleName + "</span></div>" +
+                "<div style='text-align:left;'><span style='color:" + priorityColor + "'>Priority:" + priorityName + "</span></div>" +
+                "<div style='text-align:left;'><span>Estimated Hours:" + systemEnhancement.EstimatedHours + "</span></div>" +
+                "<div style='text-align:left;'><span>Started:" + systemEnhancement.StartDate.ToString("dd-MMM-yyyy") + "</span></div>" +
+                "<div style='text-align:left;'><span>Title:" + systemEnhancement.Title + "</span></div>" +
+                "<div style='text-align:left;'><span>Description:" + systemEnhancement.Description + "</span></div>" +
+                //"<div style='padding-bottom:5px;text-align:center;'><span>" + systemEnhancement.Description + "</span></div>" +
                 //"<div style='padding-bottom:5px;text-align:center;'><span>Added by: " + addedUserDetails.FirstName + " " + addedUserDetails.LastName + "</span></div>" +
                 "</div>" +
                 "</div>";
@@ -444,17 +469,41 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         {
             // Getting the company details by company domain
             //CompanyDetails companyDetails = i_Service.GetCompanyDetailsByDomain(companyDomain);
+            // Getting all the modules list
+            List<Module> modulesList = this.iCommonService.GetModuleList();
+            // Getting the module index
+            int moduleIndex = modulesList.FindIndex(obj => obj.Id == systemEnhancement.ModuleId);
+            // Getting the module name
+            string moduleName = (moduleIndex == -1) ? "None" : modulesList[moduleIndex].Name;
+            // Getting all the priority list
+            List<Priority> priorityList = this.iCommonService.GetPriorityList();
+            // Getting the priority index
+            int priorityIndex = priorityList.FindIndex(obj => obj.Id == systemEnhancement.PriorityId);
+            // Getting the priority name
+            string priorityName = (priorityIndex == -1) ? "None" : priorityList[moduleIndex].Name;
+            // Getitng the current date
+            DateTime today = DateTime.Today;
+            // Getting the priority color
+            string priorityColor = (priorityList[priorityIndex].Code == "UG") ? "#ff5757" : (priorityList[moduleIndex].Code == "NM") ? "#ebb32c" : "#21ba45";
 
             // Top part of the email
             string emailBody = "<div>" +
-                "<div style='background:#2867af;text-align:center;padding:10px;'><img src='https://iitcdemo.com/assets/images/logo_aws.png' style='width:300px;height:50px;'></div>" +
+                "<div style='text-align:center;padding:10px;'><img src='https://iitcdemo.com/assets/images/logo_aws.png' style='width:300px;height:50px;object-fit: contain;'></div>" +
                 "<div style='padding:10px'>" +
-                "<div style='padding:10px;text-align:center;font-size:30px;font-weight:bold;'><span>System Enhancement has been viewed by " + userDetails.FirstName + " " + userDetails.LastName + ":</span></div>" +
-                "<div style='font-weight:bold;text-align:center;'><span>" + systemEnhancement.Title + "</span></div>" +
-                "<div style='padding-bottom:5px;text-align:center;'><span>" + systemEnhancement.Description + "</span></div>" +
-                "<div style='padding-bottom:5px;text-align:center;'><span>Added by: " + addedUserDetails.FirstName + " " + addedUserDetails.LastName + "</span></div>" +
+                "<div style='padding:10px;text-align:center;font-size:30px;font-weight:bold;'><span>A System Enhancement has been viewed</span></div><br/>" +
+                "<div style='text-align:left;'><span>Requested By:" + addedUserDetails.FirstName + " " + addedUserDetails.LastName + "</span></div>" +
+                "<div style='text-align:left;'><span>Requested On:" + today.ToString("dd-MMM-yyyy") + "</span></div>" +
+                "<div style='text-align:left;'><span>Module:" + moduleName + "</span></div>" +
+                "<div style='text-align:left;'><span style='color:" + priorityColor + "'>Priority:" + priorityName + "</span></div>" +
+                "<div style='text-align:left;'><span>Estimated Hours:" + systemEnhancement.EstimatedHours + "</span></div>" +
+                "<div style='text-align:left;'><span>Started:" + systemEnhancement.StartDate.ToString("dd-MMM-yyyy") + "</span></div>" +
+                "<div style='text-align:left;'><span>Title:" + systemEnhancement.Title + "</span></div>" +
+                "<div style='text-align:left;'><span>Description:" + systemEnhancement.Description + "</span></div>" +
+                //"<div style='padding-bottom:5px;text-align:center;'><span>" + systemEnhancement.Description + "</span></div>" +
+                //"<div style='padding-bottom:5px;text-align:center;'><span>Added by: " + addedUserDetails.FirstName + " " + addedUserDetails.LastName + "</span></div>" +
                 "</div>" +
                 "</div>";
+
 
             // Setting the email body
             EmailBodyDetails internelEmailObject = new EmailBodyDetails()
