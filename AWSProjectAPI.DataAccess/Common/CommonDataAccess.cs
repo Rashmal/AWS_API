@@ -16,6 +16,7 @@ namespace AWSProjectAPI.DataAccess.Common
     {
         #region Private Properties
         protected string AWSDBConnectionString { get; set; }
+        protected string AWS_COMMON_DBConnectionString { get; set; }
         #endregion
 
         // Constructor
@@ -23,6 +24,7 @@ namespace AWSProjectAPI.DataAccess.Common
         {
             // Intantiating the object
             this.AWSDBConnectionString = configurationString.GetConnectionString("AWSDBString");
+            this.AWS_COMMON_DBConnectionString = configurationString.GetConnectionString("AWS_COMMON_DBString");
         }
 
         // CheckEmailExists
@@ -657,6 +659,633 @@ namespace AWSProjectAPI.DataAccess.Common
 
             // Return the values
             return moduleList;
+        }
+
+        // GetAccountDetails
+        /// <summary>
+        /// Getting all the account details
+        /// </summary>
+        /// <returns>
+        /// AccountDetails object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<AccountDetails> GetAccountDetails()
+        {
+            // Declare the return value
+            List<AccountDetails> accountDetailsList = new List<AccountDetails>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_COMMON_DBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CM_Account_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "ALL";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            accountDetailsList.Add(new AccountDetails()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["Name"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetAccountDetails ! :" + ex);
+            }
+
+            // Return the values
+            return accountDetailsList;
+        }
+
+        // GetAllBusinessNumberTypes
+        /// <summary>
+        /// Getting all the business number type details
+        /// </summary>
+        /// <returns>
+        /// BusinessNumberType object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<BusinessNumberType> GetAllBusinessNumberTypes()
+        {
+            // Declare the return value
+            List<BusinessNumberType> businessNumberTypeList = new List<BusinessNumberType>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_COMMON_DBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CM_BusinessNumberTypes_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "ALL";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            businessNumberTypeList.Add(new BusinessNumberType()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["Name"].ToString(),
+                                Code = resultToken["Code"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetAllBusinessNumberTypes ! :" + ex);
+            }
+
+            // Return the values
+            return businessNumberTypeList;
+        }
+
+        // GetAllClientSizes
+        /// <summary>
+        /// Getting all the client size details
+        /// </summary>
+        /// <returns>
+        /// ClientSize object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<ClientSize> GetAllClientSizes()
+        {
+            // Declare the return value
+            List<ClientSize> clientSizeseList = new List<ClientSize>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_COMMON_DBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CM_ClientSizes_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "ALL";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            clientSizeseList.Add(new ClientSize()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["Name"].ToString(),
+                                Code = resultToken["Code"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetAllClientSizes ! :" + ex);
+            }
+
+            // Return the values
+            return clientSizeseList;
+        }
+
+        // GetAllContactTypes
+        /// <summary>
+        /// Getting all the contact type details
+        /// </summary>
+        /// <returns>
+        /// ContactType object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<ContactType> GetAllContactTypes()
+        {
+            // Declare the return value
+            List<ContactType> contactTypesList = new List<ContactType>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_COMMON_DBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CM_ContactTypes_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "ALL";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            contactTypesList.Add(new ContactType()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["Name"].ToString(),
+                                Code = resultToken["Code"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetAllContactTypes ! :" + ex);
+            }
+
+            // Return the values
+            return contactTypesList;
+        }
+
+        // GetAllCountries
+        /// <summary>
+        /// Getting all the country details
+        /// </summary>
+        /// <returns>
+        /// Country object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<Country> GetAllCountries()
+        {
+            // Declare the return value
+            List<Country> countryList = new List<Country>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_COMMON_DBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CM_Country_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "ALL";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            countryList.Add(new Country()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["Name"].ToString(),
+                                Code = resultToken["Code"].ToString(),
+                                FlagIcon = resultToken["FlagIcon"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetAllCountries ! :" + ex);
+            }
+
+            // Return the values
+            return countryList;
+        }
+
+        // GetAllDays
+        /// <summary>
+        /// Getting all the day details
+        /// </summary>
+        /// <returns>
+        /// DayDetails object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<DayDetails> GetAllDays()
+        {
+            // Declare the return value
+            List<DayDetails> dayList = new List<DayDetails>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_COMMON_DBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CM_Days_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "ALL";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            dayList.Add(new DayDetails()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["Name"].ToString(),
+                                Code = resultToken["Code"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetAllDays ! :" + ex);
+            }
+
+            // Return the values
+            return dayList;
+        }
+
+        // GetAllPriceClassifications
+        /// <summary>
+        /// Getting all the price classfication details
+        /// </summary>
+        /// <returns>
+        /// PriceClassification object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<PriceClassification> GetAllPriceClassifications()
+        {
+            // Declare the return value
+            List<PriceClassification> priceClassificationList = new List<PriceClassification>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_COMMON_DBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CM_PriceClassifications_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "ALL";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            priceClassificationList.Add(new PriceClassification()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["Name"].ToString(),
+                                Code = resultToken["Code"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetAllPriceClassifications ! :" + ex);
+            }
+
+            // Return the values
+            return priceClassificationList;
+        }
+
+        // GetAllRatings
+        /// <summary>
+        /// Getting all the rating details
+        /// </summary>
+        /// <returns>
+        /// RatingDetails object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<RatingDetails> GetAllRatings()
+        {
+            // Declare the return value
+            List<RatingDetails> ratingDetailsList = new List<RatingDetails>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_COMMON_DBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CM_Ratings_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "ALL";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            ratingDetailsList.Add(new RatingDetails()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["Name"].ToString(),
+                                Code = resultToken["Code"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetAllRatings ! :" + ex);
+            }
+
+            // Return the values
+            return ratingDetailsList;
+        }
+
+        // GetAllSocialMediaTypes
+        /// <summary>
+        /// Getting all the social media type details
+        /// </summary>
+        /// <returns>
+        /// SocialMediaType object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<SocialMediaType> GetAllSocialMediaTypes()
+        {
+            // Declare the return value
+            List<SocialMediaType> socialMediTypeList = new List<SocialMediaType>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_COMMON_DBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CM_SocialMediaTypes_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "ALL";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            socialMediTypeList.Add(new SocialMediaType()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["Name"].ToString(),
+                                Code = resultToken["Code"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetAllSocialMediaTypes ! :" + ex);
+            }
+
+            // Return the values
+            return socialMediTypeList;
+        }
+
+        // GetAllTermTypes
+        /// <summary>
+        /// Getting all the term type details
+        /// </summary>
+        /// <returns>
+        /// TermType object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<TermType> GetAllTermTypes()
+        {
+            // Declare the return value
+            List<TermType> termTypeList = new List<TermType>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_COMMON_DBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CM_TermTypes_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "ALL";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            termTypeList.Add(new TermType()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["Name"].ToString(),
+                                Code = resultToken["Code"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetAllTermTypes ! :" + ex);
+            }
+
+            // Return the values
+            return termTypeList;
+        }
+
+        // GetAllRoleDetails
+        /// <summary>
+        /// Getting all the role details
+        /// </summary>
+        /// <returns>
+        /// RoleDetails object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<RoleDetails> GetAllRoleDetails()
+        {
+            // Declare the return value
+            List<RoleDetails> roleDetailsList = new List<RoleDetails>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_COMMON_DBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CM_RoleDetails_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "ALL";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            roleDetailsList.Add(new RoleDetails()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["Name"].ToString(),
+                                Code = resultToken["Code"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetAllRoleDetails ! :" + ex);
+            }
+
+            // Return the values
+            return roleDetailsList;
         }
     }
 }

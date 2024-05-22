@@ -141,5 +141,137 @@ namespace AWSProjectAPI.Service.Common
         /// -
         /// </remarks>
         List<Module> GetViewAccessListBasedUserRole(string userRole);
+
+        // GetAccountDetails
+        /// <summary>
+        /// Getting all the account details
+        /// </summary>
+        /// <returns>
+        /// AccountDetails object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<AccountDetails> GetAccountDetails();
+
+        // GetAllBusinessNumberTypes
+        /// <summary>
+        /// Getting all the business number type details
+        /// </summary>
+        /// <returns>
+        /// BusinessNumberType object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<BusinessNumberType> GetAllBusinessNumberTypes();
+
+        // GetAllClientSizes
+        /// <summary>
+        /// Getting all the client size details
+        /// </summary>
+        /// <returns>
+        /// ClientSize object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<ClientSize> GetAllClientSizes();
+
+        // GetAllContactTypes
+        /// <summary>
+        /// Getting all the contact type details
+        /// </summary>
+        /// <returns>
+        /// ContactType object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<ContactType> GetAllContactTypes();
+
+        // GetAllCountries
+        /// <summary>
+        /// Getting all the country details
+        /// </summary>
+        /// <returns>
+        /// Country object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<Country> GetAllCountries();
+
+        // GetAllDays
+        /// <summary>
+        /// Getting all the day details
+        /// </summary>
+        /// <returns>
+        /// DayDetails object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<DayDetails> GetAllDays();
+
+        // GetAllPriceClassifications
+        /// <summary>
+        /// Getting all the price classfication details
+        /// </summary>
+        /// <returns>
+        /// PriceClassification object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<PriceClassification> GetAllPriceClassifications();
+
+        // GetAllRatings
+        /// <summary>
+        /// Getting all the rating details
+        /// </summary>
+        /// <returns>
+        /// RatingDetails object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<RatingDetails> GetAllRatings();
+
+        // GetAllSocialMediaTypes
+        /// <summary>
+        /// Getting all the social media type details
+        /// </summary>
+        /// <returns>
+        /// SocialMediaType object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<SocialMediaType> GetAllSocialMediaTypes();
+
+        // GetAllTermTypes
+        /// <summary>
+        /// Getting all the term type details
+        /// </summary>
+        /// <returns>
+        /// TermType object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<TermType> GetAllTermTypes();
+
+        // GetAllRoleDetails
+        /// <summary>
+        /// Getting all the role details
+        /// </summary>
+        /// <returns>
+        /// RoleDetails object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<RoleDetails> GetAllRoleDetails();
     }
 }

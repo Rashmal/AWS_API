@@ -187,5 +187,214 @@ namespace AWSProjectAPI.Controllers
                 return Json("System Failed: " + ex.Message);
             }
         }
+
+        // Getting all the account details
+        [HttpGet]
+        [Route("GetAccountDetails")]
+        public IActionResult GetAccountDetails()
+        {
+            try
+            {
+                // Declare response
+                var response = this.iCommonService.GetAccountDetails();
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Getting all the business number type details
+        [HttpGet]
+        [Route("GetAllBusinessNumberTypes")]
+        public IActionResult GetAllBusinessNumberTypes()
+        {
+            try
+            {
+                // Declare response
+                var response = this.iCommonService.GetAllBusinessNumberTypes();
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Getting all the client size details
+        [HttpGet]
+        [Route("GetAllClientSizes")]
+        public IActionResult GetAllClientSizes()
+        {
+            try
+            {
+                // Declare response
+                var response = this.iCommonService.GetAllClientSizes();
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Getting all the contact type details
+        [HttpGet]
+        [Route("GetAllContactTypes")]
+        public IActionResult GetAllContactTypes()
+        {
+            try
+            {
+                // Declare response
+                var response = this.iCommonService.GetAllContactTypes();
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Getting all the country details
+        [HttpGet]
+        [Route("GetAllCountries")]
+        public IActionResult GetAllCountries()
+        {
+            try
+            {
+                // Declare response
+                var response = this.iCommonService.GetAllCountries();
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Getting all the day details
+        [HttpGet]
+        [Route("GetAllDays")]
+        public IActionResult GetAllDays()
+        {
+            try
+            {
+                // Declare response
+                var response = this.iCommonService.GetAllDays();
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Getting all the price classfication details
+        [HttpGet]
+        [Route("GetAllPriceClassifications")]
+        public IActionResult GetAllPriceClassifications()
+        {
+            try
+            {
+                // Declare response
+                var response = this.iCommonService.GetAllPriceClassifications();
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Getting all the rating details
+        [HttpGet]
+        [Route("GetAllRatings")]
+        public IActionResult GetAllRatings()
+        {
+            try
+            {
+                // Declare response
+                var response = this.iCommonService.GetAllRatings();
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Getting all the social media type details
+        [HttpGet]
+        [Route("GetAllSocialMediaTypes")]
+        public IActionResult GetAllSocialMediaTypes()
+        {
+            try
+            {
+                // Declare response
+                var response = this.iCommonService.GetAllSocialMediaTypes();
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Getting all the term type details
+        [HttpGet]
+        [Route("GetAllTermTypes")]
+        public IActionResult GetAllTermTypes()
+        {
+            try
+            {
+                // Declare response
+                var response = this.iCommonService.GetAllTermTypes();
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Getting all the role details
+        [HttpGet]
+        [Route("GetAllRoleDetails")]
+        public IActionResult GetAllRoleDetails()
+        {
+            try
+            {
+                // Declare response
+                var response = this.iCommonService.GetAllRoleDetails();
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
     }
 }

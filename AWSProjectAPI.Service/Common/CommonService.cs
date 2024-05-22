@@ -353,5 +353,170 @@ namespace AWSProjectAPI.Service.Common
         {
             return iCommonDataAccess.GetViewAccessListBasedUserRole(userRole);
         }
+
+        // GetAccountDetails
+        /// <summary>
+        /// Getting all the account details
+        /// </summary>
+        /// <returns>
+        /// AccountDetails object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<AccountDetails> GetAccountDetails()
+        {
+            return iCommonDataAccess.GetAccountDetails();
+        }
+
+        // GetAllBusinessNumberTypes
+        /// <summary>
+        /// Getting all the business number type details
+        /// </summary>
+        /// <returns>
+        /// BusinessNumberType object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<BusinessNumberType> GetAllBusinessNumberTypes()
+        {
+            return iCommonDataAccess.GetAllBusinessNumberTypes();
+        }
+
+        // GetAllClientSizes
+        /// <summary>
+        /// Getting all the client size details
+        /// </summary>
+        /// <returns>
+        /// ClientSize object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<ClientSize> GetAllClientSizes()
+        {
+            return iCommonDataAccess.GetAllClientSizes();
+        }
+
+        // GetAllContactTypes
+        /// <summary>
+        /// Getting all the contact type details
+        /// </summary>
+        /// <returns>
+        /// ContactType object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<ContactType> GetAllContactTypes()
+        {
+            return iCommonDataAccess.GetAllContactTypes();
+        }
+
+        // GetAllCountries
+        /// <summary>
+        /// Getting all the country details
+        /// </summary>
+        /// <returns>
+        /// Country object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<Country> GetAllCountries()
+        {
+            return iCommonDataAccess.GetAllCountries();
+        }
+
+        // GetAllDays
+        /// <summary>
+        /// Getting all the day details
+        /// </summary>
+        /// <returns>
+        /// DayDetails object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<DayDetails> GetAllDays()
+        {
+            return iCommonDataAccess.GetAllDays();
+        }
+
+        // GetAllPriceClassifications
+        /// <summary>
+        /// Getting all the price classfication details
+        /// </summary>
+        /// <returns>
+        /// PriceClassification object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<PriceClassification> GetAllPriceClassifications()
+        {
+            return iCommonDataAccess.GetAllPriceClassifications();
+        }
+
+        // GetAllRatings
+        /// <summary>
+        /// Getting all the rating details
+        /// </summary>
+        /// <returns>
+        /// RatingDetails object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<RatingDetails> GetAllRatings()
+        {
+            return iCommonDataAccess.GetAllRatings();
+        }
+
+        // GetAllSocialMediaTypes
+        /// <summary>
+        /// Getting all the social media type details
+        /// </summary>
+        /// <returns>
+        /// SocialMediaType object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<SocialMediaType> GetAllSocialMediaTypes()
+        {
+            return iCommonDataAccess.GetAllSocialMediaTypes();
+        }
+
+        // GetAllTermTypes
+        /// <summary>
+        /// Getting all the term type details
+        /// </summary>
+        /// <returns>
+        /// TermType object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<TermType> GetAllTermTypes()
+        {
+            return iCommonDataAccess.GetAllTermTypes();
+        }
+
+        // GetAllRoleDetails
+        /// <summary>
+        /// Getting all the role details
+        /// </summary>
+        /// <returns>
+        /// RoleDetails object List value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<RoleDetails> GetAllRoleDetails()
+        {
+            return iCommonDataAccess.GetAllRoleDetails();
+        }
     }
 }
