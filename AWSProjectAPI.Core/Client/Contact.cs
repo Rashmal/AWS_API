@@ -13,6 +13,7 @@ namespace AWSProjectAPI.Core.Client
         public string Name { get; set; }
         public string ContactValue { get; set; }
         public ContactType ContactType { get; set; }
+        public int TotalRecords { get; set; }
 
         public Contact()
         {

@@ -28,6 +28,7 @@ builder.Services.AddSingleton<IClientService, ClientService>();
 builder.Services.AddSingleton<IAuthenticationDataAccess, AuthenticationDataAccess>();
 builder.Services.AddSingleton<IBugFixesDataAccess, BugFixesDataAccess>();
 builder.Services.AddSingleton<ICommonDataAccess, CommonDataAccess>();
+builder.Services.AddSingleton<ISystemEnhancementsDataAccess, SystemEnhancementsDataAccess>();
 builder.Services.AddSingleton<IClientDataAccess, ClientDataAccess>();
 
 

@@ -132,19 +132,19 @@ E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_NUnit_TestProject.Test\obj\Debug\net8.0\AWS
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_NUnit_TestProject.Test\obj\Debug\net8.0\AWS_NUnit_TestProject.Test.genruntimeconfig.cache
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_NUnit_TestProject.Test\obj\Debug\net8.0\ref\AWS_NUnit_TestProject.Test.dll
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\CoverletSourceRootsMapping_AWS_NUnit_TestProject.Test
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\testhost.dll
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\AWSProjectAPI.deps.json
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\AWSProjectAPI.runtimeconfig.json
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\appsettings.Development.json
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\appsettings.json
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\AWSProjectAPI.exe
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\testhost.exe
-E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\testhost.dll
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\NUnit3.TestAdapter.dll
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\NUnit3.TestAdapter.pdb
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\nunit.engine.dll
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\nunit.engine.api.dll
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\nunit.engine.core.dll
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\testcentric.engine.metadata.dll
-E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\AWSProjectAPI.deps.json
-E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\AWSProjectAPI.runtimeconfig.json
-E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\AWSProjectAPI.exe
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\AWS_NUnit_TestProject.Test.deps.json
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\AWS_NUnit_TestProject.Test.runtimeconfig.json
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\AWS_NUnit_TestProject.Test.dll
@@ -175,6 +175,7 @@ E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\ne
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\System.Data.SqlClient.dll
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\cs\Microsoft.TestPlatform.CoreUtilities.resources.dll
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\cs\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\de\Microsoft.TestPlatform.CoreUtilities.resources.dll
@@ -265,4 +266,3 @@ E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\obj\Debug\ne
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\obj\Debug\net8.0\AWS_NUnit_TestProject.Test.pdb
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\obj\Debug\net8.0\AWS_NUnit_TestProject.Test.genruntimeconfig.cache
 E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\obj\Debug\net8.0\ref\AWS_NUnit_TestProject.Test.dll
-E:\RNS\AWS\AWS_API\AWSProjectAPI\AWS_API\AWS_NUnit_TestProject.Test\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll

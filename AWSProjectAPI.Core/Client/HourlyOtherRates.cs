@@ -12,5 +12,6 @@ namespace AWSProjectAPI.Core.Client
         public string RateName { get; set; }
         public double Rate { get; set; }
         public string RateType { get; set; }
+        public int TotalRecords { get; set; }
     }
 }

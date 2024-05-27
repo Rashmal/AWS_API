@@ -13,6 +13,7 @@ namespace AWSProjectAPI.Core.Client
         public string ResourceFile { get; set; }
         public string InternalNotes { get; set; }
         public ResourceType ResourceType { get; set; }
+        public int TotalRecords { get; set; }
 
         public ImageFiles()
         {

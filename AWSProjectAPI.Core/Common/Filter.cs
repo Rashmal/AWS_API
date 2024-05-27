@@ -21,6 +21,7 @@ namespace AWSProjectAPI.Core.Common
         public string Id { get; set; }
         public string SortColumn { get; set; }
         public string SortDirection { get; set; }
+        public string? Param1 { get; set; }
 
         public Filter()
         {

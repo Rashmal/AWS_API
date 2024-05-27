@@ -11,5 +11,11 @@ namespace AWSProjectAPI.Core.Client
         public int Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
+        public int TotalRecords { get; set; }
+
+        public ResourceType()
+        {
+
+        }
     }
 }

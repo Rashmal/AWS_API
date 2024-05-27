@@ -13,10 +13,13 @@ namespace AWSProjectAPI.Core.Client
         public string Title { get; set; }
         public string AdditionalData { get; set; }
         public RoleDetails RoleDetails { get; set; }
+        public List<ClientRequirementFile> ClientRequirementFiles { get; set; }
+        public int TotalRecords { get; set; }
 
         public ClientRequirement()
         {
             RoleDetails = new RoleDetails();
+            ClientRequirementFiles = new List<ClientRequirementFile>(); 
         }
     }
 }

@@ -24,7 +24,6 @@ namespace AWSProjectAPI.Core.Client
         public DateTime NextReportDateTime { get; set; }
         public PriceClassification PriceClassification { get; set; }
         public ClientSize ClientSize { get; set; }
-        public TermType TermType { get; set; }
         public TermType ClientTermType { get; set; }
         public TermType SupplierTermType { get; set; }
         public DayDetails DayDetails { get; set; }
@@ -36,7 +35,6 @@ namespace AWSProjectAPI.Core.Client
             NextReportDateTime = new DateTime();
             PriceClassification = new PriceClassification();
             ClientSize = new ClientSize();
-            TermType = new TermType();
             ClientTermType = new TermType();
             SupplierTermType = new TermType();
             DayDetails = new DayDetails();

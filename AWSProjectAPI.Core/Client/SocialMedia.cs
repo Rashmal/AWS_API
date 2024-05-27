@@ -12,6 +12,7 @@ namespace AWSProjectAPI.Core.Client
         public int Id { get; set; }
         public string Setting { get; set; }
         public SocialMediaType SocialMediaType { get; set; }
+        public int TotalRecords { get; set; }
 
         public SocialMedia()
         {
