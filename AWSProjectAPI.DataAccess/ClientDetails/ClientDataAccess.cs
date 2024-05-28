@@ -25,7 +25,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         public ClientDataAccess(IConfiguration configurationString)
         {
             // Intantiating the object
-            this.AWSDBConnectionString = configurationString.GetConnectionString("AWSDBString");
+            this.AWS_CLIENT_DBConnectionString = configurationString.GetConnectionString("AWSDBString");
             this.AWS_CLIENT_DBConnectionString = configurationString.GetConnectionString("AWS_CLIENT_DBString");
         }
 
@@ -48,7 +48,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -122,7 +122,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -189,7 +189,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -257,7 +257,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -327,7 +327,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -397,7 +397,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -469,7 +469,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -534,7 +534,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -596,7 +596,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -652,7 +652,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -726,7 +726,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -789,7 +789,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -849,7 +849,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -905,7 +905,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -979,7 +979,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1075,7 +1075,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1188,7 +1188,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1253,7 +1253,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1315,7 +1315,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1371,7 +1371,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1440,7 +1440,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1509,7 +1509,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1566,7 +1566,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1626,7 +1626,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1689,7 +1689,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1757,7 +1757,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1814,7 +1814,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1870,7 +1870,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1924,7 +1924,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1989,7 +1989,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2053,7 +2053,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2109,7 +2109,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2185,7 +2185,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2248,7 +2248,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2308,7 +2308,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2364,7 +2364,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2427,7 +2427,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2482,7 +2482,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2539,7 +2539,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2596,7 +2596,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2653,7 +2653,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2724,7 +2724,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2795,7 +2795,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2860,7 +2860,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2922,7 +2922,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2984,7 +2984,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -3041,7 +3041,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -3097,7 +3097,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -3162,7 +3162,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
