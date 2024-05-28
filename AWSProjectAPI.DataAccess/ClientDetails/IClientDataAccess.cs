@@ -609,7 +609,95 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        List<ClientRequirementFile> GetClientRequirementFiles(int customerId, int companyId);
+        List<ClientRequirementFile> GetClientRequirementFiles(int clientRequirementId, int companyId);
+
+        // SetClientRequirementRole
+        /// <summary>
+        /// Setting the client requirement file
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// actionType -> string
+        /// clientRequirement -> ClientRequirement
+        /// </remarks>
+        int SetClientRequirementRole(int roleId, int clientRequirementId, int customerId, int companyId);
+
+        // RemoveClientRequirementRole
+        /// <summary>
+        /// Setting the client requirement file
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// actionType -> string
+        /// clientRequirement -> ClientRequirement
+        /// </remarks>
+        int RemoveClientRequirementRole(int clientRequirementId, int customerId, int companyId);
+
+        // SetGlobalClientRequirementRole
+        /// <summary>
+        /// Setting the client requirement file
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// actionType -> string
+        /// clientRequirement -> ClientRequirement
+        /// </remarks>
+        int SetGlobalClientRequirementRole(int roleId, int clientRequirementId, int customerId, int companyId);
+
+        // RemoveGlobalClientRequirementRole
+        /// <summary>
+        /// Setting the client requirement file
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// actionType -> string
+        /// clientRequirement -> ClientRequirement
+        /// </remarks>
+        int RemoveGlobalClientRequirementRole(int clientRequirementId, int customerId, int companyId);
+
+        // GetClientRequirementRole
+        /// <summary>
+        /// Setting the client requirement file
+        /// </summary>
+        /// <returns>
+        /// RoleDetails List value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// clientRequirementId -> number
+        /// </remarks>
+        List<RoleDetails> GetClientRequirementRole(int clientRequirementId, int customerId, int companyId);
+
+        // GetGlobalClientRequirementRole
+        /// <summary>
+        /// Setting the client requirement file
+        /// </summary>
+        /// <returns>
+        /// RoleDetails List value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// clientRequirementId -> number
+        /// </remarks>
+        List<RoleDetails> GetGlobalClientRequirementRole(int clientRequirementId, int customerId, int companyId);
 
     }
 }

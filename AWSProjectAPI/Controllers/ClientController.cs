@@ -319,7 +319,7 @@ namespace AWSProjectAPI.Controllers
             List<IFormFile> files = (List<IFormFile>)Request.Form.Files;
 
             // Declare response
-            var response = this.iClientService.UploadGlobalFile(files[0], customerId, companyId);
+            var response = this.iClientService.UploadGlobalFile(files, customerId, companyId);
 
             // Returning the result
             return Json(response);
@@ -391,7 +391,7 @@ namespace AWSProjectAPI.Controllers
             List<IFormFile> files = (List<IFormFile>)Request.Form.Files;
 
             // Declare response
-            var response = this.iClientService.UploadImageDocFile(files[0], customerId, companyId, resourceTypeId);
+            var response = this.iClientService.UploadImageDocFile(files, customerId, companyId, resourceTypeId);
 
             // Returning the result
             return Json(response);
@@ -471,7 +471,7 @@ namespace AWSProjectAPI.Controllers
                 // Declare form list
                 List<IFormFile> files = (List<IFormFile>)Request.Form.Files;
                 // Declare response
-                var response = this.iClientService.SetClientRequirementFile(files[0], clientRequirementId, actionType, customerId, companyId);
+                var response = this.iClientService.SetClientRequirementFile(files, clientRequirementId, actionType, customerId, companyId);
                 // Returning the result
                 return Json(response);
             }

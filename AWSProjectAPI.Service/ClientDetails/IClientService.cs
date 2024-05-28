@@ -247,7 +247,7 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// companyId -> number
         /// file -> IFormFile
         /// </remarks>
-        string UploadGlobalFile(IFormFile file, int customerId, int companyId);
+        string UploadGlobalFile(List<IFormFile> files, int customerId, int companyId);
 
         // GetAllResourceFiles
         /// <summary>
@@ -302,7 +302,7 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// resourceTypeId -> number
         /// file -> IFormFile
         /// </remarks>
-        string UploadImageDocFile(IFormFile file, int customerId, int companyId, int resourceTypeId);
+        string UploadImageDocFile(List<IFormFile> files, int customerId, int companyId, int resourceTypeId);
 
         // SetUpdateImageDocFile
         /// <summary>
@@ -374,7 +374,7 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        string SetClientRequirementFile(IFormFile file, int clientRequirementId, string actionType, int customerId, int companyId);
+        string SetClientRequirementFile(List<IFormFile> files, int clientRequirementId, string actionType, int customerId, int companyId);
 
         // RemoveClientRequirementFile
         /// <summary>
@@ -433,6 +433,7 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// companyId -> number
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
+        /// 
         /// </remarks>
         List<ClientRequirement> GetGlobalClientRequirement(Filter filter, int customerId, int companyId);
 

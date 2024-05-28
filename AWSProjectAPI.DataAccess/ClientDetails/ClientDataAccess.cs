@@ -2200,8 +2200,6 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         TitleParameter.Value = clientRequirement.Title;
                         SqlParameter AdditionalDataParameter = sqlCommandToken.Parameters.Add("@AdditionalData", SqlDbType.VarChar);
                         AdditionalDataParameter.Value = clientRequirement.AdditionalData;
-                        SqlParameter RoleIdParameter = sqlCommandToken.Parameters.Add("@RoleId", SqlDbType.Int);
-                        RoleIdParameter.Value = clientRequirement.RoleDetails.Id;
                         SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.BigInt);
                         CustomerIdParameter.Value = customerId;
                         // Adding stored procedure parameters
@@ -2265,8 +2263,6 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         TitleParameter.Value = clientRequirement.Title;
                         SqlParameter AdditionalDataParameter = sqlCommandToken.Parameters.Add("@AdditionalData", SqlDbType.VarChar);
                         AdditionalDataParameter.Value = clientRequirement.AdditionalData;
-                        SqlParameter RoleIdParameter = sqlCommandToken.Parameters.Add("@RoleId", SqlDbType.Int);
-                        RoleIdParameter.Value = clientRequirement.RoleDetails.Id;
                         SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.BigInt);
                         CustomerIdParameter.Value = customerId;
                         // Adding stored procedure parameters
@@ -2556,8 +2552,6 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         TitleParameter.Value = clientRequirement.Title;
                         SqlParameter AdditionalDataParameter = sqlCommandToken.Parameters.Add("@AdditionalData", SqlDbType.VarChar);
                         AdditionalDataParameter.Value = clientRequirement.AdditionalData;
-                        SqlParameter RoleIdParameter = sqlCommandToken.Parameters.Add("@RoleId", SqlDbType.Int);
-                        RoleIdParameter.Value = clientRequirement.RoleDetails.Id;
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
                         UserParameter.Value = "SET$NEW";
@@ -2690,12 +2684,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                                 AdditionalData = resultToken["AdditionalData"].ToString(),
                                 Title = resultToken["Title"].ToString(),
                                 ClientRequirementFiles = new List<ClientRequirementFile>(),
-                                RoleDetails = new RoleDetails()
-                                {
-                                    Id = Convert.ToInt32(resultToken["FK_RoleDetailsId"].ToString()),
-                                    Code = "",
-                                    Name = ""
-                                },
+                                RoleDetails = new List<RoleDetails>(),
                                 TotalRecords = Convert.ToInt32(resultToken["TotalRecords"].ToString())
                             });
                         }
@@ -2766,12 +2755,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                                 AdditionalData = resultToken["AdditionalData"].ToString(),
                                 Title = resultToken["Title"].ToString(),
                                 ClientRequirementFiles = new List<ClientRequirementFile>(),
-                                RoleDetails = new RoleDetails()
-                                {
-                                    Id = Convert.ToInt32(resultToken["FK_RoleDetailsId"].ToString()),
-                                    Code = "",
-                                    Name = ""
-                                },
+                                RoleDetails = new List<RoleDetails>(),
                                 TotalRecords = Convert.ToInt32(resultToken["TotalRecords"].ToString())
                             });
                         }
@@ -2803,7 +2787,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        public List<ClientRequirementFile> GetClientRequirementFiles(int customerId, int companyId)
+        public List<ClientRequirementFile> GetClientRequirementFiles(int clientRequirementId, int companyId)
         {
             // Declare the value list
             List<ClientRequirementFile> clientRequirementFileList = new List<ClientRequirementFile>();
@@ -2821,7 +2805,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                     {
                         // Adding stored procedure parameters
                         SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.BigInt);
-                        CustomerIdParameter.Value = customerId;
+                        CustomerIdParameter.Value = clientRequirementId;
 
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
@@ -2853,6 +2837,374 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
 
             // Return the values
             return clientRequirementFileList;
+        }
+
+        // SetClientRequirementRole
+        /// <summary>
+        /// Setting the client requirement file
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// actionType -> string
+        /// clientRequirement -> ClientRequirement
+        /// </remarks>
+        public int SetClientRequirementRole(int roleId, int clientRequirementId, int customerId, int companyId)
+        {
+            // Declare the value list
+            int newId = 0;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_ClientRequirementRoles_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter ClientRequirementIdParameter = sqlCommandToken.Parameters.Add("@ClientRequirementId", SqlDbType.Int);
+                        ClientRequirementIdParameter.Value = clientRequirementId;
+                        SqlParameter RoleIdParameter = sqlCommandToken.Parameters.Add("@RoleId", SqlDbType.Int);
+                        RoleIdParameter.Value = roleId;
+                        SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.BigInt);
+                        CustomerIdParameter.Value = customerId;
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "SET$NEW";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            newId = Convert.ToInt32(resultToken["NewId"].ToString());
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_SetClientRequirementRole ! :" + ex);
+            }
+
+            // Return the values
+            return newId;
+        }
+
+        // SetClientRequiSetGlobalClientRequirementRolerementRole
+        /// <summary>
+        /// Setting the client requirement file
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// actionType -> string
+        /// clientRequirement -> ClientRequirement
+        /// </remarks>
+        public int SetGlobalClientRequirementRole(int roleId, int clientRequirementId, int customerId, int companyId)
+        {
+            // Declare the value list
+            int newId = 0;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_GlobalClientRequirementRoles_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter ClientRequirementIdParameter = sqlCommandToken.Parameters.Add("@ClientRequirementId", SqlDbType.Int);
+                        ClientRequirementIdParameter.Value = clientRequirementId;
+                        SqlParameter RoleIdParameter = sqlCommandToken.Parameters.Add("@RoleId", SqlDbType.Int);
+                        RoleIdParameter.Value = roleId;
+                        SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.BigInt);
+                        CustomerIdParameter.Value = customerId;
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "SET$NEW";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            newId = Convert.ToInt32(resultToken["NewId"].ToString());
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_SetGlobalClientRequirementRole ! :" + ex);
+            }
+
+            // Return the values
+            return newId;
+        }
+
+        // RemoveClientRequirementRole
+        /// <summary>
+        /// Setting the client requirement file
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// actionType -> string
+        /// clientRequirement -> ClientRequirement
+        /// </remarks>
+        public int RemoveClientRequirementRole(int clientRequirementId, int customerId, int companyId)
+        {
+            // Declare the value list
+            int newId = 0;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_ClientRequirementRoles_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter ClientRequirementIdParameter = sqlCommandToken.Parameters.Add("@ClientRequirementId", SqlDbType.Int);
+                        ClientRequirementIdParameter.Value = clientRequirementId;
+                        SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.BigInt);
+                        CustomerIdParameter.Value = customerId;
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "RMV$ALL";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        newId = clientRequirementId;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_RemoveClientRequirementRole ! :" + ex);
+            }
+
+            // Return the values
+            return newId;
+        }
+
+        // RemoveGlobalClientRequirementRole
+        /// <summary>
+        /// Setting the client requirement file
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// actionType -> string
+        /// clientRequirement -> ClientRequirement
+        /// </remarks>
+        public int RemoveGlobalClientRequirementRole(int clientRequirementId, int customerId, int companyId)
+        {
+            // Declare the value list
+            int newId = 0;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_GlobalClientRequirementRoles_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter ClientRequirementIdParameter = sqlCommandToken.Parameters.Add("@ClientRequirementId", SqlDbType.Int);
+                        ClientRequirementIdParameter.Value = clientRequirementId;
+                        SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.BigInt);
+                        CustomerIdParameter.Value = customerId;
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "RMV$ALL";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        newId = clientRequirementId;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_RemoveGlobalClientRequirementRole ! :" + ex);
+            }
+
+            // Return the values
+            return newId;
+        }
+
+        // GetClientRequirementRole
+        /// <summary>
+        /// Setting the client requirement file
+        /// </summary>
+        /// <returns>
+        /// RoleDetails List value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// clientRequirementId -> number
+        /// </remarks>
+        public List<RoleDetails> GetClientRequirementRole(int clientRequirementId, int customerId, int companyId)
+        {
+            // Declare the value list
+            List<RoleDetails> roleDetailsList = new List<RoleDetails>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_ClientRequirementFiles_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.BigInt);
+                        CustomerIdParameter.Value = customerId;
+                        SqlParameter ClientRequirementIdParameter = sqlCommandToken.Parameters.Add("@ClientRequirementId", SqlDbType.BigInt);
+                        ClientRequirementIdParameter.Value = clientRequirementId;
+
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            roleDetailsList.Add(new RoleDetails()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Code = resultToken["Code"].ToString(),
+                                Name = resultToken["Name"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_GetClientRequirementRole ! :" + ex);
+            }
+
+            // Return the values
+            return roleDetailsList;
+        }
+
+        // GetGlobalClientRequirementRole
+        /// <summary>
+        /// Setting the client requirement file
+        /// </summary>
+        /// <returns>
+        /// RoleDetails List value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// clientRequirementId -> number
+        /// </remarks>
+        public List<RoleDetails> GetGlobalClientRequirementRole(int clientRequirementId, int customerId, int companyId)
+        {
+            // Declare the value list
+            List<RoleDetails> roleDetailsList = new List<RoleDetails>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_GlobalClientRequirementRoles_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.BigInt);
+                        CustomerIdParameter.Value = customerId;
+                        SqlParameter ClientRequirementIdParameter = sqlCommandToken.Parameters.Add("@ClientRequirementId", SqlDbType.BigInt);
+                        ClientRequirementIdParameter.Value = clientRequirementId;
+
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            roleDetailsList.Add(new RoleDetails()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Code = resultToken["Code"].ToString(),
+                                Name = resultToken["Name"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_GetGlobalClientRequirementRole ! :" + ex);
+            }
+
+            // Return the values
+            return roleDetailsList;
         }
     }
 }

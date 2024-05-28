@@ -397,7 +397,7 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// companyId -> number
         /// file -> IFormFile
         /// </remarks>
-        public string UploadGlobalFile(IFormFile file, int customerId, int companyId)
+        public string UploadGlobalFile(List<IFormFile> files, int customerId, int companyId)
         {
             // Store the return value
             string uploadStatus = "ERROR";
@@ -405,55 +405,59 @@ namespace AWSProjectAPI.Service.ClientDetails
             // Uploading the file
             try
             {
-                // Getting the file path
-                string folderName = this.GLOBAL_FILES_PATH;
-
-                // Check the file length
-                if (file.Length > 0)
+                for (int i = 0; i < files.Count; i++)
                 {
-                    // File name
-                    var fileName = file.FileName;
 
-                    // Reading the extenstion
-                    string fileExt = System.IO.Path.GetExtension(file.FileName);
-
-                    // Updating the file name
-                    folderName = folderName + "\\" + RandomStringOnly(5);
-
-                    // Path
-                    var pathToSave = Path.Combine(folderName);
-
-                    // Check the directory
-                    if (!Directory.Exists(pathToSave))
+                    // Getting the file path
+                    string folderName = this.GLOBAL_FILES_PATH;
+                    IFormFile file = files[i];
+                    // Check the file length
+                    if (file.Length > 0)
                     {
-                        Directory.CreateDirectory(pathToSave);
-                    }
-                    // End of Check the directory
+                        // File name
+                        var fileName = file.FileName;
 
-                    // Setting the full path
-                    string fullPath = Path.Combine(pathToSave, fileName);
+                        // Reading the extenstion
+                        string fileExt = System.IO.Path.GetExtension(file.FileName);
 
-                    // Check if file exists with its full path
-                    if (File.Exists(fullPath))
-                    {
-                        // If file found, delete it  
-                        File.Delete(fullPath);
-                    }
-                    // End of Check if file exists with its full path
+                        // Updating the file name
+                        folderName = folderName + "\\" + RandomStringOnly(5);
 
-                    // Upload the file
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-                    // End of Upload the file
+                        // Path
+                        var pathToSave = Path.Combine(folderName);
 
-                    // Writing to the DB
-                    int newUploadedFileId = this.iClientDataAccess.SetGlobalFile(fileName, fullPath, fileExt.ToUpper(), companyId);
+                        // Check the directory
+                        if (!Directory.Exists(pathToSave))
+                        {
+                            Directory.CreateDirectory(pathToSave);
+                        }
+                        // End of Check the directory
 
-                    if (newUploadedFileId > 0)
-                    {
-                        uploadStatus = "SUCCESS";
+                        // Setting the full path
+                        string fullPath = Path.Combine(pathToSave, fileName);
+
+                        // Check if file exists with its full path
+                        if (File.Exists(fullPath))
+                        {
+                            // If file found, delete it  
+                            File.Delete(fullPath);
+                        }
+                        // End of Check if file exists with its full path
+
+                        // Upload the file
+                        using (var stream = new FileStream(fullPath, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                        }
+                        // End of Upload the file
+
+                        // Writing to the DB
+                        int newUploadedFileId = this.iClientDataAccess.SetGlobalFile(fileName, fullPath, fileExt.ToUpper(), companyId);
+
+                        if (newUploadedFileId > 0)
+                        {
+                            uploadStatus = "SUCCESS";
+                        }
                     }
 
                 }
@@ -567,7 +571,7 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// resourceTypeId -> number
         /// file -> IFormFile
         /// </remarks>
-        public string UploadImageDocFile(IFormFile file, int customerId, int companyId, int resourceTypeId)
+        public string UploadImageDocFile(List<IFormFile> files, int customerId, int companyId, int resourceTypeId)
         {
             // Store the return value
             string uploadStatus = "ERROR";
@@ -575,75 +579,80 @@ namespace AWSProjectAPI.Service.ClientDetails
             // Uploading the file
             try
             {
-                // Getting the file path
-                string folderName = this.IMAGE_DOC_FILES_PATH;
-
-                // Check the file length
-                if (file.Length > 0)
+                for (int i = 0; i < files.Count; i++)
                 {
-                    // File name
-                    var fileName = file.FileName;
+                    // Getting the file path
+                    string folderName = this.IMAGE_DOC_FILES_PATH;
 
-                    // Reading the extenstion
-                    string fileExt = System.IO.Path.GetExtension(file.FileName);
+                    IFormFile file = files[i];
 
-                    // Updating the file name
-                    folderName = folderName + "\\" + RandomStringOnly(5);
-
-                    // Path
-                    var pathToSave = Path.Combine(folderName);
-
-                    // Check the directory
-                    if (!Directory.Exists(pathToSave))
+                    // Check the file length
+                    if (file.Length > 0)
                     {
-                        Directory.CreateDirectory(pathToSave);
-                    }
-                    // End of Check the directory
+                        // File name
+                        var fileName = file.FileName;
 
-                    // Setting the full path
-                    string fullPath = Path.Combine(pathToSave, fileName);
+                        // Reading the extenstion
+                        string fileExt = System.IO.Path.GetExtension(file.FileName);
 
-                    // Check if file exists with its full path
-                    if (File.Exists(fullPath))
-                    {
-                        // If file found, delete it  
-                        File.Delete(fullPath);
-                    }
-                    // End of Check if file exists with its full path
+                        // Updating the file name
+                        folderName = folderName + "\\" + RandomStringOnly(5);
 
-                    // Upload the file
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-                    // End of Upload the file
+                        // Path
+                        var pathToSave = Path.Combine(folderName);
 
-                    // Writing to the DB
-                    ImageFiles imageFiles = new ImageFiles()
-                    {
-                        Id = 0,
-                        Caption = fileName,
-                        InternalNotes = "",
-                        ResourceFile = fullPath,
-                        TotalRecords = 0,
-                        ResourceType = new ResourceType()
+                        // Check the directory
+                        if (!Directory.Exists(pathToSave))
                         {
-                            Id = resourceTypeId,
-                            Code = "",
-                            Name = "",
-                            TotalRecords = 0
+                            Directory.CreateDirectory(pathToSave);
                         }
-                    };
+                        // End of Check the directory
 
-                    int newUploadedFileId = this.iClientDataAccess.SetImageDocFile(imageFiles, customerId, companyId);
+                        // Setting the full path
+                        string fullPath = Path.Combine(pathToSave, fileName);
 
-                    if (newUploadedFileId > 0)
-                    {
-                        uploadStatus = "SUCCESS";
+                        // Check if file exists with its full path
+                        if (File.Exists(fullPath))
+                        {
+                            // If file found, delete it  
+                            File.Delete(fullPath);
+                        }
+                        // End of Check if file exists with its full path
+
+                        // Upload the file
+                        using (var stream = new FileStream(fullPath, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                        }
+                        // End of Upload the file
+
+                        // Writing to the DB
+                        ImageFiles imageFiles = new ImageFiles()
+                        {
+                            Id = 0,
+                            Caption = fileName,
+                            InternalNotes = "",
+                            ResourceFile = fullPath,
+                            TotalRecords = 0,
+                            ResourceType = new ResourceType()
+                            {
+                                Id = resourceTypeId,
+                                Code = "",
+                                Name = "",
+                                TotalRecords = 0
+                            }
+                        };
+
+                        int newUploadedFileId = this.iClientDataAccess.SetImageDocFile(imageFiles, customerId, companyId);
+
+                        if (newUploadedFileId > 0)
+                        {
+                            uploadStatus = "SUCCESS";
+                        }
+
                     }
-
+                    // End of Check the file length
                 }
-                // End of Check the file length
             }
             catch (Exception ex)
             {
@@ -732,11 +741,31 @@ namespace AWSProjectAPI.Service.ClientDetails
             {
                 case "NEW":
                     newId = iClientDataAccess.SetNewClientRequirement(clientRequirement, customerId, companyId);
+                    // Remove all roles
+                    iClientDataAccess.RemoveClientRequirementRole(clientRequirement.Id, customerId, companyId);
+                    // Loop through the requirements roles
+                    for (int i = 0; i < clientRequirement.RoleDetails.Count; i++)
+                    {
+                        // Setting the role
+                        iClientDataAccess.SetClientRequirementRole(clientRequirement.RoleDetails[i].Id, newId, customerId, companyId);
+                    }
+                    // End of Loop through the requirements roles
                     break;
                 case "UPDATE":
                     newId = iClientDataAccess.SetUpdateClientRequirement(clientRequirement, customerId, companyId);
+                    // Remove all roles
+                    iClientDataAccess.RemoveClientRequirementRole(clientRequirement.Id, customerId, companyId);
+                    // Loop through the requirements roles
+                    for (int i = 0; i < clientRequirement.RoleDetails.Count; i++)
+                    {
+                        // Setting the role
+                        iClientDataAccess.SetClientRequirementRole(clientRequirement.RoleDetails[i].Id, newId, customerId, companyId);
+                    }
+                    // End of Loop through the requirements roles
                     break;
                 case "REMOVE":
+                    // Remove all roles
+                    iClientDataAccess.RemoveClientRequirementRole(clientRequirement.Id, customerId, companyId);
                     newId = iClientDataAccess.SetRemoveClientRequirement(clientRequirement.Id, customerId, companyId);
                     break;
             }
@@ -759,7 +788,7 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        public string SetClientRequirementFile(IFormFile file, int clientRequirementId, string actionType, int customerId, int companyId)
+        public string SetClientRequirementFile(List<IFormFile> files, int clientRequirementId, string actionType, int customerId, int companyId)
         {
             // Store the return value
             string uploadStatus = "ERROR";
@@ -767,59 +796,64 @@ namespace AWSProjectAPI.Service.ClientDetails
             // Uploading the file
             try
             {
-                // Getting the file path
-                string folderName = this.CLIENT_REQ_FILES_PATH;
-
-                // Check the file length
-                if (file.Length > 0)
+                for (int i = 0; i < files.Count; i++)
                 {
-                    // File name
-                    var fileName = file.FileName;
+                    // Getting the file path
+                    string folderName = this.CLIENT_REQ_FILES_PATH;
 
-                    // Reading the extenstion
-                    string fileExt = System.IO.Path.GetExtension(file.FileName);
+                    IFormFile file = files[i];
 
-                    // Updating the file name
-                    folderName = folderName + "\\" + RandomStringOnly(5);
-
-                    // Path
-                    var pathToSave = Path.Combine(folderName);
-
-                    // Check the directory
-                    if (!Directory.Exists(pathToSave))
+                    // Check the file length
+                    if (file.Length > 0)
                     {
-                        Directory.CreateDirectory(pathToSave);
+                        // File name
+                        var fileName = file.FileName;
+
+                        // Reading the extenstion
+                        string fileExt = System.IO.Path.GetExtension(file.FileName);
+
+                        // Updating the file name
+                        folderName = folderName + "\\" + RandomStringOnly(5);
+
+                        // Path
+                        var pathToSave = Path.Combine(folderName);
+
+                        // Check the directory
+                        if (!Directory.Exists(pathToSave))
+                        {
+                            Directory.CreateDirectory(pathToSave);
+                        }
+                        // End of Check the directory
+
+                        // Setting the full path
+                        string fullPath = Path.Combine(pathToSave, fileName);
+
+                        // Check if file exists with its full path
+                        if (File.Exists(fullPath))
+                        {
+                            // If file found, delete it  
+                            File.Delete(fullPath);
+                        }
+                        // End of Check if file exists with its full path
+
+                        // Upload the file
+                        using (var stream = new FileStream(fullPath, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                        }
+                        // End of Upload the file
+
+                        // Writing to the DB
+                        int newUploadedFileId = this.iClientDataAccess.SetClientRequirementFile(fileName, fullPath, fileExt.ToUpper(), clientRequirementId, companyId);
+
+                        if (newUploadedFileId > 0)
+                        {
+                            uploadStatus = "SUCCESS";
+                        }
+
                     }
-                    // End of Check the directory
-
-                    // Setting the full path
-                    string fullPath = Path.Combine(pathToSave, fileName);
-
-                    // Check if file exists with its full path
-                    if (File.Exists(fullPath))
-                    {
-                        // If file found, delete it  
-                        File.Delete(fullPath);
-                    }
-                    // End of Check if file exists with its full path
-
-                    // Upload the file
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-                    // End of Upload the file
-
-                    // Writing to the DB
-                    int newUploadedFileId = this.iClientDataAccess.SetClientRequirementFile(fileName, fullPath, fileExt.ToUpper(), clientRequirementId, companyId);
-
-                    if (newUploadedFileId > 0)
-                    {
-                        uploadStatus = "SUCCESS";
-                    }
-
+                    // End of Check the file length
                 }
-                // End of Check the file length
             }
             catch (Exception ex)
             {
@@ -892,8 +926,19 @@ namespace AWSProjectAPI.Service.ClientDetails
             {
                 case "NEW":
                     newId = iClientDataAccess.SetNewGlobalClientRequirement(clientRequirement, customerId, companyId);
+                    // Remove all roles
+                    iClientDataAccess.RemoveGlobalClientRequirementRole(clientRequirement.Id, customerId, companyId);
+                    // Loop through the requirements roles
+                    for (int i = 0; i < clientRequirement.RoleDetails.Count; i++)
+                    {
+                        // Setting the role
+                        iClientDataAccess.SetGlobalClientRequirementRole(clientRequirement.RoleDetails[i].Id, newId, customerId, companyId);
+                    }
+                    // End of Loop through the requirements roles
                     break;
                 case "REMOVE":
+                    // Remove all roles
+                    iClientDataAccess.RemoveGlobalClientRequirementRole(clientRequirement.Id, customerId, companyId);
                     newId = iClientDataAccess.SetRemoveGlobalClientRequirement(clientRequirement.Id, customerId, companyId);
                     break;
             }
@@ -919,7 +964,18 @@ namespace AWSProjectAPI.Service.ClientDetails
         public List<ClientRequirement> GetGlobalClientRequirement(Filter filter, int customerId, int companyId)
         {
             // Getting the result
-            return this.iClientDataAccess.GetGlobalClientRequirement(filter, customerId, companyId);
+            List<ClientRequirement> globalClientRequirements = this.iClientDataAccess.GetGlobalClientRequirement(filter, customerId, companyId);
+
+            // Loop through the client requirements
+            for (int i = 0; i < globalClientRequirements.Count; i++)
+            {
+                // Getting the client requirement roles
+                globalClientRequirements[i].RoleDetails = this.iClientDataAccess.GetGlobalClientRequirementRole(globalClientRequirements[i].Id, customerId, companyId);
+            }
+            // End of Loop through the client requirements
+
+            // Return the requirements
+            return globalClientRequirements;
         }
 
         // GetClientRequirement
@@ -943,7 +999,11 @@ namespace AWSProjectAPI.Service.ClientDetails
             // Loop through the client requirements
             for (int i = 0; i < clientRequirements.Count; i++)
             {
-                clientRequirements[i].ClientRequirementFiles = this.iClientDataAccess.GetClientRequirementFiles(customerId, companyId);
+                // Getting the client requirement roles
+                clientRequirements[i].RoleDetails = this.iClientDataAccess.GetClientRequirementRole(clientRequirements[i].Id, customerId, companyId);
+
+                // Getting the client requirement files
+                clientRequirements[i].ClientRequirementFiles = this.iClientDataAccess.GetClientRequirementFiles(clientRequirements[i].Id, companyId);
             }
             // End of Loop through the client requirements
 
