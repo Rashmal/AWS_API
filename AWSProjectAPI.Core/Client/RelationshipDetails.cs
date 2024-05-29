@@ -32,7 +32,7 @@ namespace AWSProjectAPI.Core.Client
 
         public RelationshipDetails()
         {
-            NextReportDateTime = new DateTime();
+            NextReportDateTime = DateTime.Now;
             PriceClassification = new PriceClassification();
             ClientSize = new ClientSize();
             ClientTermType = new TermType();
