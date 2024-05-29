@@ -76,7 +76,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         {
                             displayClients.Add(new DisplayClientDetails()
                             {
-                                Id = Convert.ToInt32(resultToken["ModuleId"].ToString()),
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
                                 BillingAddress = resultToken["BillingAddress"].ToString(),
                                 CreatedBy = resultToken["CreatedBy"].ToString(),
                                 CreatedDate = Convert.ToDateTime(resultToken["CreatedDate"].ToString()),
@@ -985,12 +985,12 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                     connection.Open();
 
                     // Check Token expired
-                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_SocialMedias_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_RelationshipDetails_Set", connection) { CommandType = CommandType.StoredProcedure })
                     {
                         // Adding stored procedure parameters
                         SqlParameter IdParameter = sqlCommandToken.Parameters.Add("@Id", SqlDbType.BigInt);
                         IdParameter.Value = relationshipDetails.Id;
-                        SqlParameter OfficeJobParameter = sqlCommandToken.Parameters.Add("@OfficeJob", SqlDbType.VarChar);
+                        SqlParameter OfficeJobParameter = sqlCommandToken.Parameters.Add("@OfficeJob", SqlDbType.Decimal);
                         OfficeJobParameter.Value = relationshipDetails.OfficeJob;
                         SqlParameter WorkCreditParameter = sqlCommandToken.Parameters.Add("@WorkCredit", SqlDbType.Decimal);
                         WorkCreditParameter.Value = relationshipDetails.WorkCredit;
@@ -1032,7 +1032,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         CustomerIdParameter.Value = customerId;
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
-                        UserParameter.Value = "SET$NEW";
+                        UserParameter.Value = (actionType == "NEW") ? "SET$NEW" : "SET$UPD";
 
                         // Executing the sql SP command
                         var resultToken = sqlCommandToken.ExecuteReader();
@@ -1098,7 +1098,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                             relationshipDetails = new RelationshipDetails()
                             {
                                 Id = Convert.ToInt32(resultToken["Id"].ToString()),
-                                OfficeJob = resultToken["OfficeJob"].ToString(),
+                                OfficeJob = Convert.ToDouble(resultToken["OfficeJob"].ToString()),
                                 WorkCredit = Convert.ToDouble(resultToken["WorkCredit"].ToString()),
                                 PriceClassification = new PriceClassification()
                                 {

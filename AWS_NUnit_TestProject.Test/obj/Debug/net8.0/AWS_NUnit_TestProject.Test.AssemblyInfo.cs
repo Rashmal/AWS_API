@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AWS_NUnit_TestProject.Test")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a2cdc172978ef380a0551222196d01279fd84308")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+caf534d3fa4fe34678f77b9b4dd3f2abcc0bb9c7")]
 [assembly: System.Reflection.AssemblyProductAttribute("AWS_NUnit_TestProject.Test")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AWS_NUnit_TestProject.Test")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

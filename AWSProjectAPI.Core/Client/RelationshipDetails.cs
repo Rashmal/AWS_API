@@ -10,7 +10,7 @@ namespace AWSProjectAPI.Core.Client
     public class RelationshipDetails
     {
         public int Id { get; set; }
-        public string OfficeJob { get; set; }
+        public double OfficeJob { get; set; }
         public double WorkCredit { get; set; }
         public int ClientTerms { get; set; }
         public double DefaultDeposit { get; set; }
