@@ -114,7 +114,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// clientId -> number
         /// companyId -> number
         /// </remarks>
-        public List<Contact> GetAllContactList(int clientId, int companyId)
+        public List<Contact> GetAllContactList(Filter filter, int clientId, int companyId)
         {
             // Declare the value list
             List<Contact> contactList = new List<Contact>();
@@ -133,6 +133,10 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         // Adding stored procedure parameters
                         SqlParameter IdParameter = sqlCommandToken.Parameters.Add("@Id", SqlDbType.Int);
                         IdParameter.Value = clientId;
+                        SqlParameter CurrentPageParameter = sqlCommandToken.Parameters.Add("@CurrentPage", SqlDbType.Int);
+                        CurrentPageParameter.Value = filter.CurrentPage;
+                        SqlParameter RecordsPerPageValueParameter = sqlCommandToken.Parameters.Add("@RecordsPerPage", SqlDbType.Int);
+                        RecordsPerPageValueParameter.Value = filter.RecordsPerPage;
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
                         UserParameter.Value = "GET";
@@ -144,7 +148,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         {
                             contactList.Add(new Contact()
                             {
-                                Id = Convert.ToInt32(resultToken["ModuleId"].ToString()),
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
                                 ContactValue = resultToken["ContactValue"].ToString(),
                                 Name = resultToken["Name"].ToString(),
                                 ContactType = new ContactType()
@@ -152,7 +156,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                                     Id = Convert.ToInt32(resultToken["FK_CM_ContactTypesId"].ToString()),
                                     Name = resultToken["ContactType"].ToString(),
                                     Code = resultToken["ContactTypeCode"].ToString()
-                                }
+                                },
+                                TotalRecords = Convert.ToInt32(resultToken["TotalRecords"].ToString())
                             });
                         }
                     }
@@ -3205,6 +3210,77 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
 
             // Return the values
             return roleDetailsList;
+        }
+
+        // GetAllSocialMediaList
+        /// <summary>
+        /// Get all the contact list
+        /// </summary>
+        /// <returns>
+        /// SocialMedia object list
+        /// </returns>
+        /// <remarks>
+        /// clientId -> number
+        /// companyId -> number
+        /// </remarks>
+        public List<SocialMedia> GetAllSocialMediaList(Filter filter, int clientId, int companyId)
+        {
+            // Declare the value list
+            List<SocialMedia> socialMediaList = new List<SocialMedia>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_SocialMedias_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter IdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.Int);
+                        IdParameter.Value = clientId;
+                        SqlParameter CurrentPageParameter = sqlCommandToken.Parameters.Add("@CurrentPage", SqlDbType.Int);
+                        CurrentPageParameter.Value = filter.CurrentPage;
+                        SqlParameter RecordsPerPageValueParameter = sqlCommandToken.Parameters.Add("@RecordsPerPage", SqlDbType.Int);
+                        RecordsPerPageValueParameter.Value = filter.RecordsPerPage;
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            socialMediaList.Add(new SocialMedia()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Setting = resultToken["Setting"].ToString(),
+                                SocialMediaType = new SocialMediaType()
+                                {
+                                    Id = Convert.ToInt32(resultToken["FK_CM_SocialMediaTypesId"].ToString()),
+                                    Name = resultToken["SocialMediaName"].ToString(),
+                                    Code = resultToken["SocialMediaCode"].ToString()
+                                },
+                                TotalRecords = Convert.ToInt32(resultToken["TotalRecords"].ToString())
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_GetAllSocialMediaList ! :" + ex);
+            }
+
+            // Return the values
+            return socialMediaList;
         }
     }
 }

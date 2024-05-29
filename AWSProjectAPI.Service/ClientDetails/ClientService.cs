@@ -50,11 +50,30 @@ namespace AWSProjectAPI.Service.ClientDetails
             // Getting the display client display list
             List<DisplayClientDetails> displayClientDetailsList = this.iClientDataAccess.GetDisplayClientDetails(filter, companyId);
 
+            // Declare the filter
+            Filter filterContacts = new Filter()
+            {
+                Id = "",
+                CurrentPage = 1,
+                RecordsPerPage = 10,
+                EndDate = DateTime.Now,
+                StartDate = DateTime.Now,
+                ModuleId = 0,
+                Param1 = "",
+                ParentId = 0,
+                PriorityId = 0,
+                SearchQuery = "",
+                SortColumn = "",
+                SortDirection = "",
+                StaffId = "",
+                StatusId = 0
+            };
+
             // Loop through the list
             for (int i = 0; i < displayClientDetailsList.Count; i++)
             {
                 // Getting the type
-                displayClientDetailsList[i].Contacts = this.iClientDataAccess.GetAllContactList(displayClientDetailsList[i].Id, companyId);
+                displayClientDetailsList[i].Contacts = this.iClientDataAccess.GetAllContactList(filterContacts, displayClientDetailsList[i].Id, companyId);
             }
             // End of Loop through the list
 
@@ -73,10 +92,10 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// clientId -> number
         /// companyId -> number
         /// </remarks>
-        public List<Contact> GetAllContactList(int clientId, int companyId)
+        public List<Contact> GetAllContactList(Filter filter, int clientId, int companyId)
         {
             // Getting the client list
-            return this.iClientDataAccess.GetAllContactList(clientId, companyId);
+            return this.iClientDataAccess.GetAllContactList(filter, clientId, companyId);
         }
 
         // SetClientCustomer
@@ -1009,6 +1028,23 @@ namespace AWSProjectAPI.Service.ClientDetails
 
             // Return the requirements
             return clientRequirements;
+        }
+
+        // GetAllSocialMediaList
+        /// <summary>
+        /// Get all the contact list
+        /// </summary>
+        /// <returns>
+        /// SocialMedia object list
+        /// </returns>
+        /// <remarks>
+        /// clientId -> number
+        /// companyId -> number
+        /// </remarks>
+        public List<SocialMedia> GetAllSocialMediaList(Filter filter, int clientId, int companyId)
+        {
+            // Getting the result
+            return this.iClientDataAccess.GetAllSocialMediaList(filter, clientId, companyId);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// clientId -> number
         /// companyId -> number
         /// </remarks>
-        List<Contact> GetAllContactList(int clientId, int companyId);
+        List<Contact> GetAllContactList(Filter filter, int clientId, int companyId);
 
         // SetClientCustomer
         /// <summary>
@@ -451,5 +451,18 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// clientRequirement -> ClientRequirement
         /// </remarks>
         List<ClientRequirement> GetClientRequirement(Filter filter, int customerId, int companyId);
+
+        // GetAllSocialMediaList
+        /// <summary>
+        /// Get all the contact list
+        /// </summary>
+        /// <returns>
+        /// SocialMedia object list
+        /// </returns>
+        /// <remarks>
+        /// clientId -> number
+        /// companyId -> number
+        /// </remarks>
+        List<SocialMedia> GetAllSocialMediaList(Filter filter, int clientId, int companyId);
     }
 }

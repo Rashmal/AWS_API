@@ -45,14 +45,14 @@ namespace AWSProjectAPI.Controllers
         }
 
         // Get all the contact list
-        [HttpGet]
+        [HttpPost]
         [Route("GetAllContactList")]
-        public IActionResult GetAllContactList(int clientId, int companyId)
+        public IActionResult GetAllContactList([FromBody] Filter filter, int clientId, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iClientService.GetAllContactList(clientId, companyId);
+                var response = this.iClientService.GetAllContactList(filter,clientId, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -567,6 +567,25 @@ namespace AWSProjectAPI.Controllers
             {
                 // Declare response
                 var response = this.iClientService.GetClientRequirement(filter, customerId, companyId);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Getting the social media list
+        [HttpPost]
+        [Route("GetAllSocialMediaList")]
+        public IActionResult GetAllSocialMediaList([FromBody] Filter filter, int customerId, int companyId)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iClientService.GetAllSocialMediaList(filter, customerId, companyId);
                 // Returning the result
                 return Json(response);
             }
