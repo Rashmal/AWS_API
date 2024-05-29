@@ -152,7 +152,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        List<AccountDetails> GetAccountDetails();
+        List<AccountDetails> GetAccountDetails(Filter filter);
 
         // GetAllBusinessNumberTypes
         /// <summary>

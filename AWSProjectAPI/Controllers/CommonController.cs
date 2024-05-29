@@ -1,4 +1,5 @@
-﻿using AWSProjectAPI.Service.Common;
+﻿using AWSProjectAPI.Core.Common;
+using AWSProjectAPI.Service.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AWSProjectAPI.Controllers
@@ -189,14 +190,14 @@ namespace AWSProjectAPI.Controllers
         }
 
         // Getting all the account details
-        [HttpGet]
+        [HttpPost]
         [Route("GetAccountDetails")]
-        public IActionResult GetAccountDetails()
+        public IActionResult GetAccountDetails([FromBody] Filter filter)
         {
             try
             {
                 // Declare response
-                var response = this.iCommonService.GetAccountDetails();
+                var response = this.iCommonService.GetAccountDetails(filter);
                 // Returning the result
                 return Json(response);
             }

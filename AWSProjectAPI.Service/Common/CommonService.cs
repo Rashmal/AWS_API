@@ -364,9 +364,9 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public List<AccountDetails> GetAccountDetails()
+        public List<AccountDetails> GetAccountDetails(Filter filter)
         {
-            return iCommonDataAccess.GetAccountDetails();
+            return iCommonDataAccess.GetAccountDetails(filter);
         }
 
         // GetAllBusinessNumberTypes

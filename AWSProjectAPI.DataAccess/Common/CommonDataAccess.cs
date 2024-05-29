@@ -671,7 +671,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public List<AccountDetails> GetAccountDetails()
+        public List<AccountDetails> GetAccountDetails(Filter filter)
         {
             // Declare the return value
             List<AccountDetails> accountDetailsList = new List<AccountDetails>();
@@ -687,6 +687,10 @@ namespace AWSProjectAPI.DataAccess.Common
                     // Check Token expired
                     using (SqlCommand sqlCommandToken = new SqlCommand("CM_Account_Get", connection) { CommandType = CommandType.StoredProcedure })
                     {
+                        SqlParameter RecordsPerPageParameter = sqlCommandToken.Parameters.Add("@RecordsPerPage", SqlDbType.Int);
+                        RecordsPerPageParameter.Value = filter.RecordsPerPage;
+                        SqlParameter CurrentPageParameter = sqlCommandToken.Parameters.Add("@CurrentPage", SqlDbType.Int);
+                        CurrentPageParameter.Value = filter.CurrentPage;
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
                         UserParameter.Value = "ALL";
@@ -699,7 +703,8 @@ namespace AWSProjectAPI.DataAccess.Common
                             accountDetailsList.Add(new AccountDetails()
                             {
                                 Id = Convert.ToInt32(resultToken["Id"].ToString()),
-                                Name = resultToken["Name"].ToString()
+                                Name = resultToken["Name"].ToString(),
+                                Total = Convert.ToInt32(resultToken["TotalRecords"].ToString())
                             });
                         }
                     }
