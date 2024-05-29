@@ -1154,7 +1154,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                                 ExpenseAccount = new AccountDetails()
                                 {
                                     Id = Convert.ToInt32(resultToken["FK_ExpenseAccount_CM_Account"].ToString()),
-                                    Name = ""
+                                    Name = resultToken["AccountName"].ToString(),
+                                    Total = 0
                                 }
                             };
                         }
