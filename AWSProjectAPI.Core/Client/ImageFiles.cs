@@ -16,10 +16,12 @@ namespace AWSProjectAPI.Core.Client
         public int TotalRecords { get; set; }
         public string CreatedByFullName { get; set; }
         public int RotateXY { get; set; }
+        public DateTime AddedDate { get; set; }
 
         public ImageFiles()
         {
             ResourceType = new ResourceType();
+            AddedDate = DateTime.Now;
         }
     }
 }

@@ -22,6 +22,7 @@ namespace AWSProjectAPI.Service.ClientDetails
         protected string GLOBAL_FILES_PATH { get; set; }
         protected string IMAGE_DOC_FILES_PATH { get; set; }
         protected string CLIENT_REQ_FILES_PATH { get; set; }
+        protected string IMAGE_LIVE_URL { get; set; }
         #endregion
 
         // Constructor
@@ -32,6 +33,7 @@ namespace AWSProjectAPI.Service.ClientDetails
             this.GLOBAL_FILES_PATH = configurationString.GetConnectionString("GLOBAL_FILES_PATH");
             this.IMAGE_DOC_FILES_PATH = configurationString.GetConnectionString("IMAGE_DOC_FILES_PATH");
             this.CLIENT_REQ_FILES_PATH = configurationString.GetConnectionString("CLIENT_REQ_FILES_PATH");
+            this.IMAGE_LIVE_URL = configurationString.GetConnectionString("LIVE_IMAGE_URL");
         }
 
         // GetDisplayClientDetails

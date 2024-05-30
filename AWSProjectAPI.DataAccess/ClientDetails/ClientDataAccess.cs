@@ -1889,7 +1889,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         IdParameter.Value = resourceId;
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
-                        UserParameter.Value = "SET$UPD";
+                        UserParameter.Value = "SET$RMV";
 
                         // Executing the sql SP command
                         var resultToken = sqlCommandToken.ExecuteReader();
@@ -2161,7 +2161,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                                 },
                                 TotalRecords = Convert.ToInt32(resultToken["TotalRecords"].ToString()),
                                 RotateXY = Convert.ToInt32(resultToken["RotateXY"].ToString()),
-                                CreatedByFullName = resultToken["CreatedByName"].ToString()
+                                CreatedByFullName = resultToken["CreatedByName"].ToString(),
+                                AddedDate = Convert.ToDateTime(resultToken["AddedDate"].ToString())
                             });
                         }
                     }

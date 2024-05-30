@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AWSProjectAPI.DataAccess")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+21eda0d54e3b943131cccc5aee79654bb211c1b1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+73d56b3f59a0dc3415e58e350064aca8875d1a25")]
 [assembly: System.Reflection.AssemblyProductAttribute("AWSProjectAPI.DataAccess")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AWSProjectAPI.DataAccess")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
