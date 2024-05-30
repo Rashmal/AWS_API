@@ -457,6 +457,9 @@ namespace AWSProjectAPI.Service.ClientDetails
                         // Setting the full path
                         string fullPath = Path.Combine(pathToSave, fileName);
 
+                        // Getting the live url
+                        string liveUrl = this.IMAGE_LIVE_URL + fullPath.Replace(this.GLOBAL_FILES_PATH, "").Replace("\\","//");
+
                         // Check if file exists with its full path
                         if (File.Exists(fullPath))
                         {
@@ -473,7 +476,7 @@ namespace AWSProjectAPI.Service.ClientDetails
                         // End of Upload the file
 
                         // Writing to the DB
-                        int newUploadedFileId = this.iClientDataAccess.SetGlobalFile(fileName, fullPath, fileExt.Substring(1).ToUpper(), companyId);
+                        int newUploadedFileId = this.iClientDataAccess.SetGlobalFile(fileName, liveUrl, fileExt.Substring(1).ToUpper(), companyId);
 
                         if (newUploadedFileId > 0)
                         {
@@ -632,6 +635,9 @@ namespace AWSProjectAPI.Service.ClientDetails
                         // Setting the full path
                         string fullPath = Path.Combine(pathToSave, fileName);
 
+                        // Getting the live url
+                        string liveUrl = this.IMAGE_LIVE_URL + fullPath.Replace(this.IMAGE_DOC_FILES_PATH, "").Replace("\\", "//");
+
                         // Check if file exists with its full path
                         if (File.Exists(fullPath))
                         {
@@ -653,7 +659,7 @@ namespace AWSProjectAPI.Service.ClientDetails
                             Id = 0,
                             Caption = fileName,
                             InternalNotes = "",
-                            ResourceFile = fullPath,
+                            ResourceFile = liveUrl,
                             TotalRecords = 0,
                             ResourceType = new ResourceType()
                             {
@@ -849,6 +855,9 @@ namespace AWSProjectAPI.Service.ClientDetails
                         // Setting the full path
                         string fullPath = Path.Combine(pathToSave, fileName);
 
+                        // Getting the live url
+                        string liveUrl = this.IMAGE_LIVE_URL + fullPath.Replace(this.CLIENT_REQ_FILES_PATH, "").Replace("\\", "//");
+
                         // Check if file exists with its full path
                         if (File.Exists(fullPath))
                         {
@@ -865,7 +874,7 @@ namespace AWSProjectAPI.Service.ClientDetails
                         // End of Upload the file
 
                         // Writing to the DB
-                        int newUploadedFileId = this.iClientDataAccess.SetClientRequirementFile(fileName, fullPath, fileExt.Substring(1).ToUpper(), clientRequirementId, companyId);
+                        int newUploadedFileId = this.iClientDataAccess.SetClientRequirementFile(fileName, liveUrl, fileExt.Substring(1).ToUpper(), clientRequirementId, companyId);
 
                         if (newUploadedFileId > 0)
                         {
