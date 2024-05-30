@@ -2134,6 +2134,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         RecordsPerPageParameter.Value = filter.RecordsPerPage;
                         SqlParameter CurrentPageParameter = sqlCommandToken.Parameters.Add("@CurrentPage", SqlDbType.Int);
                         CurrentPageParameter.Value = filter.CurrentPage;
+                        SqlParameter ResourceTypeIdParameter = sqlCommandToken.Parameters.Add("@ResourceTypeId", SqlDbType.Int);
+                        ResourceTypeIdParameter.Value = filter.StatusId;
 
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
