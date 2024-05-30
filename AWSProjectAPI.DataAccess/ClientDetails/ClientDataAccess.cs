@@ -1209,7 +1209,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         RateNameParameter.Value = hourlyOtherRates.RateName;
                         SqlParameter RateParameter = sqlCommandToken.Parameters.Add("@Rate", SqlDbType.Decimal);
                         RateParameter.Value = hourlyOtherRates.Rate;
-                        SqlParameter RateTypeIdParameter = sqlCommandToken.Parameters.Add("@RateTypeId", SqlDbType.VarChar);
+                        SqlParameter RateTypeIdParameter = sqlCommandToken.Parameters.Add("@RateType", SqlDbType.VarChar);
                         RateTypeIdParameter.Value = hourlyOtherRates.RateType;
                         SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.Int);
                         CustomerIdParameter.Value = customerId;
@@ -1922,7 +1922,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> string
         /// imageFiles -> ImageFiles Object
         /// </remarks>
-        public int SetImageDocFile(ImageFiles imageFiles, int customerId, int companyId)
+        public int SetImageDocFile(ImageFiles imageFiles, int customerId, int companyId, string staffId)
         {
             // Declare the value list
             int newId = 0;
@@ -1949,6 +1949,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         ResourceTypeIdParameter.Value = imageFiles.ResourceType.Id;
                         SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.BigInt);
                         CustomerIdParameter.Value = customerId;
+                        SqlParameter StaffIdParameter = sqlCommandToken.Parameters.Add("@StaffId", SqlDbType.VarChar);
+                        StaffIdParameter.Value = staffId;
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
                         UserParameter.Value = "SET$NEW";
@@ -1987,7 +1989,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> string
         /// imageFiles -> ImageFiles Object
         /// </remarks>
-        public int SetUpdateImageDocFile(ImageFiles imageFiles, int customerId, int companyId)
+        public int SetUpdateImageDocFile(ImageFiles imageFiles, int customerId, int companyId, string staffId)
         {
             // Declare the value list
             int newId = 0;
@@ -2016,6 +2018,10 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         CustomerIdParameter.Value = customerId;
                         SqlParameter IdParameter = sqlCommandToken.Parameters.Add("@Id", SqlDbType.BigInt);
                         IdParameter.Value = imageFiles.Id;
+                        SqlParameter RotateXYParameter = sqlCommandToken.Parameters.Add("@RotateXY", SqlDbType.Int);
+                        RotateXYParameter.Value = imageFiles.RotateXY;
+                        SqlParameter StaffIdParameter = sqlCommandToken.Parameters.Add("@StaffId", SqlDbType.VarChar);
+                        StaffIdParameter.Value = staffId;
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
                         UserParameter.Value = "SET$UPD";
@@ -2121,7 +2127,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                     connection.Open();
 
                     // Check Token expired
-                    using (SqlCommand sqlCommandToken = new SqlCommand("CM_ResourceTypes_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_ImageFiles_Get", connection) { CommandType = CommandType.StoredProcedure })
                     {
                         // Adding stored procedure parameters
                         SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.BigInt);
@@ -2149,11 +2155,13 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                                 ResourceType = new ResourceType()
                                 {
                                     Id = Convert.ToInt32(resultToken["FK_CM_ResourceTypesId"].ToString()),
-                                    Code = "",
-                                    Name = "",
+                                    Code = resultToken["Code"].ToString(),
+                                    Name = resultToken["Name"].ToString(),
                                     TotalRecords = 0
                                 },
-                                TotalRecords = Convert.ToInt32(resultToken["TotalRecords"].ToString())
+                                TotalRecords = Convert.ToInt32(resultToken["TotalRecords"].ToString()),
+                                RotateXY = Convert.ToInt32(resultToken["RotateXY"].ToString()),
+                                CreatedByFullName = resultToken["CreatedByName"].ToString()
                             });
                         }
                     }

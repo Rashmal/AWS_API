@@ -14,6 +14,8 @@ namespace AWSProjectAPI.Core.Client
         public string InternalNotes { get; set; }
         public ResourceType ResourceType { get; set; }
         public int TotalRecords { get; set; }
+        public string CreatedByFullName { get; set; }
+        public int RotateXY { get; set; }
 
         public ImageFiles()
         {

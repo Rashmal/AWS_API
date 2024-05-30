@@ -408,7 +408,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> string
         /// imageFiles -> ImageFiles Object
         /// </remarks>
-        int SetImageDocFile(ImageFiles imageFiles, int customerId, int companyId);
+        int SetImageDocFile(ImageFiles imageFiles, int customerId, int companyId, string staffId);
 
         // SetUpdateImageDocFile
         /// <summary>
@@ -422,7 +422,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> string
         /// imageFiles -> ImageFiles Object
         /// </remarks>
-        int SetUpdateImageDocFile(ImageFiles imageFiles, int customerId, int companyId);
+        int SetUpdateImageDocFile(ImageFiles imageFiles, int customerId, int companyId, string staffId);
 
         // RemoveImageDocFile
         /// <summary>

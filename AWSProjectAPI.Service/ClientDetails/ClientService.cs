@@ -590,7 +590,7 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// resourceTypeId -> number
         /// file -> IFormFile
         /// </remarks>
-        public string UploadImageDocFile(List<IFormFile> files, int customerId, int companyId, int resourceTypeId)
+        public string UploadImageDocFile(List<IFormFile> files, int customerId, int companyId, int resourceTypeId, string staffId)
         {
             // Store the return value
             string uploadStatus = "ERROR";
@@ -662,7 +662,7 @@ namespace AWSProjectAPI.Service.ClientDetails
                             }
                         };
 
-                        int newUploadedFileId = this.iClientDataAccess.SetImageDocFile(imageFiles, customerId, companyId);
+                        int newUploadedFileId = this.iClientDataAccess.SetImageDocFile(imageFiles, customerId, companyId, staffId);
 
                         if (newUploadedFileId > 0)
                         {
@@ -695,10 +695,10 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// companyId -> string
         /// imageFiles -> ImageFiles Object
         /// </remarks>
-        public int SetUpdateImageDocFile(ImageFiles imageFiles, int customerId, int companyId)
+        public int SetUpdateImageDocFile(ImageFiles imageFiles, int customerId, int companyId, string staffId)
         {
             // Getting the result
-            return this.iClientDataAccess.SetUpdateImageDocFile(imageFiles, customerId, companyId);
+            return this.iClientDataAccess.SetUpdateImageDocFile(imageFiles, customerId, companyId, staffId);
         }
 
         // RemoveImageDocFile

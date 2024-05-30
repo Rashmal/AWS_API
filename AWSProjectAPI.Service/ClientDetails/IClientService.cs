@@ -302,7 +302,7 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// resourceTypeId -> number
         /// file -> IFormFile
         /// </remarks>
-        string UploadImageDocFile(List<IFormFile> files, int customerId, int companyId, int resourceTypeId);
+        string UploadImageDocFile(List<IFormFile> files, int customerId, int companyId, int resourceTypeId, string staffId);
 
         // SetUpdateImageDocFile
         /// <summary>
@@ -316,7 +316,7 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// companyId -> string
         /// imageFiles -> ImageFiles Object
         /// </remarks>
-        int SetUpdateImageDocFile(ImageFiles imageFiles, int customerId, int companyId);
+        int SetUpdateImageDocFile(ImageFiles imageFiles, int customerId, int companyId, string staffId);
 
         // RemoveImageDocFile
         /// <summary>

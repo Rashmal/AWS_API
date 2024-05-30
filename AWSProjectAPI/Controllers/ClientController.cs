@@ -385,13 +385,13 @@ namespace AWSProjectAPI.Controllers
         // Setting the image doc files
         [HttpPost]
         [Route("UploadImageDocFile")]
-        public IActionResult UploadImageDocFile(int customerId, int companyId, int resourceTypeId)
+        public IActionResult UploadImageDocFile(int customerId, int companyId, int resourceTypeId, string staffId)
         {
             // Declare form list
             List<IFormFile> files = (List<IFormFile>)Request.Form.Files;
 
             // Declare response
-            var response = this.iClientService.UploadImageDocFile(files, customerId, companyId, resourceTypeId);
+            var response = this.iClientService.UploadImageDocFile(files, customerId, companyId, resourceTypeId, staffId);
 
             // Returning the result
             return Json(response);
@@ -400,11 +400,11 @@ namespace AWSProjectAPI.Controllers
         // Updating the image doc files
         [HttpPost]
         [Route("UpdateImageDocFile")]
-        public IActionResult UpdateImageDocFile([FromBody]ImageFiles imageFiles, int customerId, int companyId)
+        public IActionResult UpdateImageDocFile([FromBody]ImageFiles imageFiles, int customerId, int companyId, string staffId)
         {
 
             // Declare response
-            var response = this.iClientService.SetUpdateImageDocFile(imageFiles, customerId, companyId);
+            var response = this.iClientService.SetUpdateImageDocFile(imageFiles, customerId, companyId, staffId);
 
             // Returning the result
             return Json(response);
