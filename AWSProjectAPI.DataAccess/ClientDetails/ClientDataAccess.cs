@@ -1274,7 +1274,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         RateNameParameter.Value = hourlyOtherRates.RateName;
                         SqlParameter RateParameter = sqlCommandToken.Parameters.Add("@Rate", SqlDbType.Decimal);
                         RateParameter.Value = hourlyOtherRates.Rate;
-                        SqlParameter RateTypeIdParameter = sqlCommandToken.Parameters.Add("@RateTypeId", SqlDbType.VarChar);
+                        SqlParameter RateTypeIdParameter = sqlCommandToken.Parameters.Add("@RateType", SqlDbType.VarChar);
                         RateTypeIdParameter.Value = hourlyOtherRates.RateType;
                         SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.Int);
                         CustomerIdParameter.Value = customerId;
