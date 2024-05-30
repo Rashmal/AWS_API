@@ -1,15 +1,8 @@
 ﻿using AWSProjectAPI.Core.Client;
 using AWSProjectAPI.Core.Common;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualBasic.FileIO;
-using System.Security.AccessControl;
 using ResourceType = AWSProjectAPI.Core.Client.ResourceType;
 
 namespace AWSProjectAPI.DataAccess.ClientDetails
@@ -1477,7 +1470,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                                 FileName = resultToken["FileName"].ToString(),
                                 FileUrl = resultToken["FileUrl"].ToString(),
                                 FileType = resultToken["FileType"].ToString(),
-                                TotalRecords = Convert.ToInt32(resultToken["TotalRecords"].ToString())
+                                TotalRecords = Convert.ToInt32(resultToken["TotalRecords"].ToString()),
+                                LocalPath = resultToken["LocalPath"].ToString()
                             });
                         }
                     }
@@ -1564,7 +1558,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// fileType -> string
         /// companyId -> number
         /// </remarks>
-        public int SetGlobalFile(string fileName, string fileUrl, string fileType, int companyId)
+        public int SetGlobalFile(string fileName, string fileUrl, string fileType, int companyId, string localPath)
         {
             // Declare the value list
             int newId = 0;
@@ -1587,6 +1581,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         FileUrlParameter.Value = fileUrl;
                         SqlParameter FileTypeParameter = sqlCommandToken.Parameters.Add("@FileType", SqlDbType.VarChar);
                         FileTypeParameter.Value = fileType;
+                        SqlParameter LocalPathParameter = sqlCommandToken.Parameters.Add("@LocalPath", SqlDbType.VarChar);
+                        LocalPathParameter.Value = localPath;
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
                         UserParameter.Value = "SET$NEW";
@@ -1951,6 +1947,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         CustomerIdParameter.Value = customerId;
                         SqlParameter StaffIdParameter = sqlCommandToken.Parameters.Add("@StaffId", SqlDbType.VarChar);
                         StaffIdParameter.Value = staffId;
+                        SqlParameter LocalPathParameter = sqlCommandToken.Parameters.Add("@LocalPath", SqlDbType.VarChar);
+                        LocalPathParameter.Value = imageFiles.LocalPath;
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
                         UserParameter.Value = "SET$NEW";
@@ -2162,7 +2160,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                                 TotalRecords = Convert.ToInt32(resultToken["TotalRecords"].ToString()),
                                 RotateXY = Convert.ToInt32(resultToken["RotateXY"].ToString()),
                                 CreatedByFullName = resultToken["CreatedByName"].ToString(),
-                                AddedDate = Convert.ToDateTime(resultToken["AddedDate"].ToString())
+                                AddedDate = Convert.ToDateTime(resultToken["AddedDate"].ToString()),
+                                LocalPath = resultToken["LocalPath"].ToString()
                             });
                         }
                     }
@@ -2371,7 +2370,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// clientRequirementId -> number
         /// </remarks>
-        public int SetClientRequirementFile(string fileName, string fileUrl, string fileType, int clientRequirementId, int companyId)
+        public int SetClientRequirementFile(string fileName, string fileUrl, string fileType, int clientRequirementId, int companyId, string localPath)
         {
             // Declare the value list
             int newId = 0;
@@ -2396,6 +2395,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         FileUrlParameter.Value = fileUrl;
                         SqlParameter FileTypeParameter = sqlCommandToken.Parameters.Add("@FileType", SqlDbType.VarChar);
                         FileTypeParameter.Value = fileType;
+                        SqlParameter LocalPathParameter = sqlCommandToken.Parameters.Add("@LocalPath", SqlDbType.VarChar);
+                        LocalPathParameter.Value = localPath;
                         SqlParameter ClientRequirementIdParameter = sqlCommandToken.Parameters.Add("@ClientRequirementId", SqlDbType.Int);
                         ClientRequirementIdParameter.Value = clientRequirementId;
                         // Adding stored procedure parameters
@@ -2839,7 +2840,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                                 Id = Convert.ToInt32(resultToken["Id"].ToString()),
                                 FileName = resultToken["FileName"].ToString(),
                                 FileType = resultToken["FileType"].ToString(),
-                                FileUrl = resultToken["FileUrl"].ToString()
+                                FileUrl = resultToken["FileUrl"].ToString(),
+                                LocalPath = resultToken["LocalPath"].ToString()
                             });
                         }
                     }

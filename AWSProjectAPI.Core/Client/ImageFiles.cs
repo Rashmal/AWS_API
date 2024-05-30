@@ -17,6 +17,7 @@ namespace AWSProjectAPI.Core.Client
         public string CreatedByFullName { get; set; }
         public int RotateXY { get; set; }
         public DateTime AddedDate { get; set; }
+        public string LocalPath { get; set; }
 
         public ImageFiles()
         {

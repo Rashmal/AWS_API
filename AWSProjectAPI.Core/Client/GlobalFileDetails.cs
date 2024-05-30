@@ -13,5 +13,6 @@ namespace AWSProjectAPI.Core.Client
         public string FileUrl { get; set; }
         public string FileType { get; set; }
         public int TotalRecords { get; set; }
+        public string LocalPath { get; set; }
     }
 }

@@ -476,7 +476,7 @@ namespace AWSProjectAPI.Service.ClientDetails
                         // End of Upload the file
 
                         // Writing to the DB
-                        int newUploadedFileId = this.iClientDataAccess.SetGlobalFile(fileName, liveUrl, fileExt.Substring(1).ToUpper(), companyId);
+                        int newUploadedFileId = this.iClientDataAccess.SetGlobalFile(fileName, liveUrl, fileExt.Substring(1).ToUpper(), companyId, fullPath);
 
                         if (newUploadedFileId > 0)
                         {
@@ -667,7 +667,8 @@ namespace AWSProjectAPI.Service.ClientDetails
                                 Code = "",
                                 Name = "",
                                 TotalRecords = 0
-                            }
+                            },
+                            LocalPath = fullPath
                         };
 
                         int newUploadedFileId = this.iClientDataAccess.SetImageDocFile(imageFiles, customerId, companyId, staffId);
@@ -874,7 +875,7 @@ namespace AWSProjectAPI.Service.ClientDetails
                         // End of Upload the file
 
                         // Writing to the DB
-                        int newUploadedFileId = this.iClientDataAccess.SetClientRequirementFile(fileName, liveUrl, fileExt.Substring(1).ToUpper(), clientRequirementId, companyId);
+                        int newUploadedFileId = this.iClientDataAccess.SetClientRequirementFile(fileName, liveUrl, fileExt.Substring(1).ToUpper(), clientRequirementId, companyId, fullPath);
 
                         if (newUploadedFileId > 0)
                         {

@@ -326,7 +326,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// fileType -> string
         /// companyId -> number
         /// </remarks>
-        int SetGlobalFile(string fileName, string fileUrl, string fileType, int companyId);
+        int SetGlobalFile(string fileName, string fileUrl, string fileType, int companyId, string localPath);
 
         // GetAllResourceFiles
         /// <summary>
@@ -506,7 +506,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// clientRequirementId -> number
         /// </remarks>
-        int SetClientRequirementFile(string fileName, string fileUrl, string fileType, int clientRequirementId, int companyId);
+        int SetClientRequirementFile(string fileName, string fileUrl, string fileType, int clientRequirementId, int companyId, string localPath);
 
         // RemoveClientRequirementFile
         /// <summary>
