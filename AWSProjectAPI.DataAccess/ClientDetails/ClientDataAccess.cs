@@ -2494,7 +2494,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                     connection.Open();
 
                     // Check Token expired
-                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_ClientRequirementFiles_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_ClientRequirements_Set", connection) { CommandType = CommandType.StoredProcedure })
                     {
                         // Adding stored procedure parameters
                         SqlParameter IdParameter = sqlCommandToken.Parameters.Add("@Id", SqlDbType.Int);
@@ -3109,7 +3109,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                     connection.Open();
 
                     // Check Token expired
-                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_ClientRequirementFiles_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_ClientRequirementRoles_Get", connection) { CommandType = CommandType.StoredProcedure })
                     {
                         // Adding stored procedure parameters
                         SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.BigInt);
