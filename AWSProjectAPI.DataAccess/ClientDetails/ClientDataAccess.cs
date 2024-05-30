@@ -2565,7 +2565,10 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         // Executing the sql SP command
                         var resultToken = sqlCommandToken.ExecuteReader();
 
-                        newId = clientRequirement.Id;
+                        while (resultToken.Read())
+                        {
+                            newId = Convert.ToInt32(resultToken["NewId"].ToString());
+                        }
                     }
 
 
@@ -2810,7 +2813,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                     using (SqlCommand sqlCommandToken = new SqlCommand("CL_ClientRequirementFiles_Get", connection) { CommandType = CommandType.StoredProcedure })
                     {
                         // Adding stored procedure parameters
-                        SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.BigInt);
+                        SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@Id", SqlDbType.BigInt);
                         CustomerIdParameter.Value = clientRequirementId;
 
                         // Adding stored procedure parameters

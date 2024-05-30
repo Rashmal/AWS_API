@@ -471,7 +471,7 @@ namespace AWSProjectAPI.Service.ClientDetails
                         // End of Upload the file
 
                         // Writing to the DB
-                        int newUploadedFileId = this.iClientDataAccess.SetGlobalFile(fileName, fullPath, fileExt.ToUpper(), companyId);
+                        int newUploadedFileId = this.iClientDataAccess.SetGlobalFile(fileName, fullPath, fileExt.Substring(1).ToUpper(), companyId);
 
                         if (newUploadedFileId > 0)
                         {
@@ -863,7 +863,7 @@ namespace AWSProjectAPI.Service.ClientDetails
                         // End of Upload the file
 
                         // Writing to the DB
-                        int newUploadedFileId = this.iClientDataAccess.SetClientRequirementFile(fileName, fullPath, fileExt.ToUpper(), clientRequirementId, companyId);
+                        int newUploadedFileId = this.iClientDataAccess.SetClientRequirementFile(fileName, fullPath, fileExt.Substring(1).ToUpper(), clientRequirementId, companyId);
 
                         if (newUploadedFileId > 0)
                         {
