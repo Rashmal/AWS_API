@@ -458,7 +458,7 @@ namespace AWSProjectAPI.Service.ClientDetails
                         string fullPath = Path.Combine(pathToSave, fileName);
 
                         // Getting the live url
-                        string liveUrl = this.IMAGE_LIVE_URL + fullPath.Replace(this.GLOBAL_FILES_PATH, "").Replace("\\","//");
+                        string liveUrl = this.IMAGE_LIVE_URL + fullPath.Replace("D:\\iitcapi", "").Replace("\\","//");
 
                         // Check if file exists with its full path
                         if (File.Exists(fullPath))
@@ -636,7 +636,7 @@ namespace AWSProjectAPI.Service.ClientDetails
                         string fullPath = Path.Combine(pathToSave, fileName);
 
                         // Getting the live url
-                        string liveUrl = this.IMAGE_LIVE_URL + fullPath.Replace(this.IMAGE_DOC_FILES_PATH, "").Replace("\\", "//");
+                        string liveUrl = this.IMAGE_LIVE_URL + fullPath.Replace("D:\\iitcapi", "").Replace("\\", "//");
 
                         // Check if file exists with its full path
                         if (File.Exists(fullPath))
@@ -857,7 +857,7 @@ namespace AWSProjectAPI.Service.ClientDetails
                         string fullPath = Path.Combine(pathToSave, fileName);
 
                         // Getting the live url
-                        string liveUrl = this.IMAGE_LIVE_URL + fullPath.Replace(this.CLIENT_REQ_FILES_PATH, "").Replace("\\", "//");
+                        string liveUrl = this.IMAGE_LIVE_URL + fullPath.Replace("D:\\iitcapi", "").Replace("\\", "//");
 
                         // Check if file exists with its full path
                         if (File.Exists(fullPath))
