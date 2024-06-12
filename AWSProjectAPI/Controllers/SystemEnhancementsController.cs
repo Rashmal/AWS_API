@@ -29,15 +29,15 @@ namespace AWSProjectAPI.Controllers
         // Set System Enhancement Details
         [HttpPost]
         [Route("SetSystemEnhancementDetails")]
-        public IActionResult SetSystemEnhancementDetails([FromBody] SystemEnhancement systemEnhancement, string actionState, string userId)
+        public IActionResult SetSystemEnhancementDetails([FromBody] SystemEnhancement systemEnhancement, string actionState, string userId, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iSystemEnhancementsService.SetSystemEnhancementDetails(systemEnhancement, actionState);
+                var response = this.iSystemEnhancementsService.SetSystemEnhancementDetails(systemEnhancement, actionState, companyId);
                 // Set notification count
-                hubContext.Clients.All.NotificationCountGN(commonService.TotalGlobalNotes("TOTAL", userId));
-                hubContext.Clients.All.NotificationCountSE(commonService.TotalGlobalNotes("SE", userId));
+                hubContext.Clients.All.NotificationCountGN(commonService.TotalGlobalNotes("TOTAL", userId, companyId));
+                hubContext.Clients.All.NotificationCountSE(commonService.TotalGlobalNotes("SE", userId, companyId));
                 // Returning the result
                 return Json(response);
             }
@@ -51,12 +51,12 @@ namespace AWSProjectAPI.Controllers
         // Getting the system enhancements modules to display
         [HttpPost]
         [Route("GetSystemEnhancementDisplayModules")]
-        public IActionResult GetSystemEnhancementDisplayModules([FromBody] Filter filter)
+        public IActionResult GetSystemEnhancementDisplayModules([FromBody] Filter filter, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iSystemEnhancementsService.GetSystemEnhancementDisplayModules(filter);
+                var response = this.iSystemEnhancementsService.GetSystemEnhancementDisplayModules(filter, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -70,12 +70,12 @@ namespace AWSProjectAPI.Controllers
         // Getting the system enhancements display list
         [HttpPost]
         [Route("GetSystemEnhancementDisplayList")]
-        public IActionResult GetSystemEnhancementDisplayList([FromBody] Filter filter, string UserId)
+        public IActionResult GetSystemEnhancementDisplayList([FromBody] Filter filter, string UserId, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iSystemEnhancementsService.GetSystemEnhancementDisplayList(filter, UserId);
+                var response = this.iSystemEnhancementsService.GetSystemEnhancementDisplayList(filter, UserId, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -89,15 +89,15 @@ namespace AWSProjectAPI.Controllers
         // Getting the system enhancements details based on the Id
         [HttpGet]
         [Route("GetSystemEnhancementDetailsById")]
-        public IActionResult GetSystemEnhancementDetailsById(string systemEnhancementId, string userId)
+        public IActionResult GetSystemEnhancementDetailsById(string systemEnhancementId, string userId, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iSystemEnhancementsService.GetSystemEnhancementDetailsById(systemEnhancementId, userId);
+                var response = this.iSystemEnhancementsService.GetSystemEnhancementDetailsById(systemEnhancementId, userId, companyId);
                 // Set notification count
-                hubContext.Clients.All.NotificationCountGN(commonService.TotalGlobalNotes("TOTAL", userId));
-                hubContext.Clients.All.NotificationCountSE(commonService.TotalGlobalNotes("SE", userId));
+                hubContext.Clients.All.NotificationCountGN(commonService.TotalGlobalNotes("TOTAL", userId, companyId));
+                hubContext.Clients.All.NotificationCountSE(commonService.TotalGlobalNotes("SE", userId, companyId));
                 // Returning the result
                 return Json(response);
             }
@@ -111,12 +111,12 @@ namespace AWSProjectAPI.Controllers
         // Updating the status of the system enhancement
         [HttpGet]
         [Route("UpdateSystemEnhancementStatus")]
-        public IActionResult UpdateSystemEnhancementStatus(string systemEnhancementId, int statusId)
+        public IActionResult UpdateSystemEnhancementStatus(string systemEnhancementId, int statusId, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iSystemEnhancementsService.UpdateSystemEnhancementStatus(systemEnhancementId, statusId);
+                var response = this.iSystemEnhancementsService.UpdateSystemEnhancementStatus(systemEnhancementId, statusId, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -130,12 +130,12 @@ namespace AWSProjectAPI.Controllers
         // Set System Enhancement Change date history
         [HttpPost]
         [Route("SetSystemEhancementChangeDate")]
-        public IActionResult SetSystemEhancementChangeDate([FromBody] SystemEnhancementChangeDate systemEnhancementChangeDate, string actionState)
+        public IActionResult SetSystemEhancementChangeDate([FromBody] SystemEnhancementChangeDate systemEnhancementChangeDate, string actionState, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iSystemEnhancementsService.SetSystemEhancementChangeDate(systemEnhancementChangeDate, actionState);
+                var response = this.iSystemEnhancementsService.SetSystemEhancementChangeDate(systemEnhancementChangeDate, actionState, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -149,12 +149,12 @@ namespace AWSProjectAPI.Controllers
         // Get System Enhancement Change date history
         [HttpPost]
         [Route("GetSystemEhancementChangeDate")]
-        public IActionResult GetSystemEhancementChangeDate([FromBody] Filter filter, string systemEnhancementId)
+        public IActionResult GetSystemEhancementChangeDate([FromBody] Filter filter, string systemEnhancementId, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iSystemEnhancementsService.GetSystemEhancementChangeDate(filter, systemEnhancementId);
+                var response = this.iSystemEnhancementsService.GetSystemEhancementChangeDate(filter, systemEnhancementId, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -168,12 +168,12 @@ namespace AWSProjectAPI.Controllers
         // Set System Enhancement Comment
         [HttpPost]
         [Route("SetSystemEhancementComment")]
-        public IActionResult SetSystemEhancementComment([FromBody] SystemEnhancementComment systemEnhancementComment, string actionState)
+        public IActionResult SetSystemEhancementComment([FromBody] SystemEnhancementComment systemEnhancementComment, string actionState, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iSystemEnhancementsService.SetSystemEhancementComment(systemEnhancementComment, actionState);
+                var response = this.iSystemEnhancementsService.SetSystemEhancementComment(systemEnhancementComment, actionState, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -187,12 +187,12 @@ namespace AWSProjectAPI.Controllers
         // Get System Enhancement Comment
         [HttpPost]
         [Route("GetSystemEhancementComment")]
-        public IActionResult GetSystemEhancementComment([FromBody] Filter filter)
+        public IActionResult GetSystemEhancementComment([FromBody] Filter filter, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iSystemEnhancementsService.GetSystemEhancementComment(filter);
+                var response = this.iSystemEnhancementsService.GetSystemEhancementComment(filter, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -206,12 +206,12 @@ namespace AWSProjectAPI.Controllers
         // Getting the stat boxes
         [HttpGet]
         [Route("GetStatBoxes")]
-        public IActionResult GetStatBoxes()
+        public IActionResult GetStatBoxes(int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iSystemEnhancementsService.GetStatBoxes();
+                var response = this.iSystemEnhancementsService.GetStatBoxes(companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -225,12 +225,12 @@ namespace AWSProjectAPI.Controllers
         // Approval of change date history
         [HttpGet]
         [Route("ApprovalChangeDate")]
-        public IActionResult ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval)
+        public IActionResult ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iSystemEnhancementsService.ApprovalChangeDate(SystemEnhancementsChangeHistoryId, approval);
+                var response = this.iSystemEnhancementsService.ApprovalChangeDate(SystemEnhancementsChangeHistoryId, approval, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -244,12 +244,12 @@ namespace AWSProjectAPI.Controllers
         // Adding the view Id for the system enhancement
         [HttpGet]
         [Route("AddViewId")]
-        public IActionResult AddViewId(string itemId, string userId)
+        public IActionResult AddViewId(string itemId, string userId, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iSystemEnhancementsService.AddViewId(itemId, userId);
+                var response = this.iSystemEnhancementsService.AddViewId(itemId, userId, companyId);
                 // Returning the result
                 return Json(response);
             }

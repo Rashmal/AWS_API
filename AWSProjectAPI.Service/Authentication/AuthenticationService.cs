@@ -1,4 +1,5 @@
 ﻿using AWSProjectAPI.Core.Authentication;
+using AWSProjectAPI.Core.Common;
 using AWSProjectAPI.DataAccess.Authentication;
 using AWSProjectAPI.DataAccess.Common;
 using Microsoft.IdentityModel.Tokens;
@@ -16,12 +17,14 @@ namespace AWSProjectAPI.Service.Authentication
     {
         #region Private Properties
         private readonly IAuthenticationDataAccess iAuthenticationDataAccess;
+        private readonly ICommonDataAccess iCommonDataAccess;
         #endregion
 
         // Constructor
-        public AuthenticationService(IAuthenticationDataAccess iAuthenticationDataAccess)
+        public AuthenticationService(IAuthenticationDataAccess iAuthenticationDataAccess, ICommonDataAccess iCommonDataAccess)
         {
             this.iAuthenticationDataAccess = iAuthenticationDataAccess;
+            this.iCommonDataAccess = iCommonDataAccess;
         }
 
         // LoginAuthentication
@@ -49,11 +52,17 @@ namespace AWSProjectAPI.Service.Authentication
                 // Declare the user details object
                 UserDetails userDetails = new UserDetails();
 
+                // Getting the current parent group Ids for email
+                List<ParentGroup> parentGroups = iCommonDataAccess.GetAllParentGroupsDetailsByEmail(email);
+
+                // Getting the Connection string
+                ConnectionString connectionString = iCommonDataAccess.GetConnectionString(parentGroups[0].Id, "AWS");
+
                 // Getting the user details by email
-                userDetails = iAuthenticationDataAccess.GetUserDetailsByEmail(email);
+                userDetails = iAuthenticationDataAccess.GetUserDetailsByEmail(email, connectionString);
 
                 // Getting the token
-                token = GenerateJWTToken(userDetails, userDetails.UserId);
+                token = GenerateJWTToken(userDetails, userDetails.UserId, parentGroups[0].Id, connectionString);
             }
             else
             {
@@ -73,7 +82,7 @@ namespace AWSProjectAPI.Service.Authentication
         /// </return>
         /// <param name="userDetails"> UserDetails object value </param>
         /// <param name="newUserId"> string value </param>
-        public string GenerateJWTToken(UserDetails userDetails, string newUserId)
+        public string GenerateJWTToken(UserDetails userDetails, string newUserId, int parentGroupId, ConnectionString connectionString)
         {
             // Store the initial token
             string initialToken = string.Empty;
@@ -86,7 +95,7 @@ namespace AWSProjectAPI.Service.Authentication
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature);
 
                 // Getting the token
-                string currentToken = this.iAuthenticationDataAccess.GetUserJWTToken(newUserId);
+                string currentToken = this.iAuthenticationDataAccess.GetUserJWTToken(newUserId, connectionString);
 
                 // Check if the token exists
                 if (currentToken != "")
@@ -102,7 +111,7 @@ namespace AWSProjectAPI.Service.Authentication
                         new Claim(JwtRegisteredClaimNames.Acr, (userDetails.FirstName + " "+userDetails.LastName == null)?"": userDetails.FirstName + " "+userDetails.LastName),
                         new Claim(JwtRegisteredClaimNames.NameId, userDetails.UserId),
                         new Claim(JwtRegisteredClaimNames.Amr, userDetails.RoleCode),
-                        //new Claim(JwtRegisteredClaimNames.Azp, basicUserDetails.CompanyName),
+                        new Claim(JwtRegisteredClaimNames.Azp, parentGroupId.ToString()),
                         //new Claim(JwtRegisteredClaimNames.Iat, basicUserDetails.CompanyTypeCode),
                         //new Claim(JwtRegisteredClaimNames.Sub, basicUserDetails.UserTypeId.ToString())
                      };
@@ -117,7 +126,7 @@ namespace AWSProjectAPI.Service.Authentication
                     // End of Creating the new JWT token
 
                     // insert to the db
-                    this.iAuthenticationDataAccess.SetUserJWTToken(initialToken, newUserId);
+                    this.iAuthenticationDataAccess.SetUserJWTToken(initialToken, newUserId, connectionString);
                 }
                 // End of Check if the token exists
 
@@ -141,9 +150,11 @@ namespace AWSProjectAPI.Service.Authentication
         /// <remarks>
         /// email -> string value
         /// </remarks>
-        public bool LogoutUser(string email)
+        public bool LogoutUser(string email, int companyId)
         {
-            return iAuthenticationDataAccess.LogoutUser(email);
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+            return iAuthenticationDataAccess.LogoutUser(email, connectionString);
         }
 
         // GetUserAccessLevels
@@ -170,9 +181,12 @@ namespace AWSProjectAPI.Service.Authentication
         /// <remarks>
         /// email -> string
         /// </remarks>
-        public UserDetails GetUserDetailsByUserId(string userId)
+        public UserDetails GetUserDetailsByUserId(string userId, int companyId)
         {
-            return iAuthenticationDataAccess.GetUserDetailsByUserId(userId);
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            return iAuthenticationDataAccess.GetUserDetailsByUserId(userId, connectionString);
         }
     }
 }

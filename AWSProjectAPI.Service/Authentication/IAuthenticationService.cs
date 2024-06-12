@@ -32,7 +32,7 @@ namespace AWSProjectAPI.Service.Authentication
         /// <remarks>
         /// email -> string value
         /// </remarks>
-        bool LogoutUser(string email);
+        bool LogoutUser(string email, int companyId);
 
         // GetUserAccessLevels
         /// <summary>
@@ -55,6 +55,6 @@ namespace AWSProjectAPI.Service.Authentication
         /// <remarks>
         /// email -> string
         /// </remarks>
-        UserDetails GetUserDetailsByUserId(string userId);
+        UserDetails GetUserDetailsByUserId(string userId, int companyId);
     }
 }

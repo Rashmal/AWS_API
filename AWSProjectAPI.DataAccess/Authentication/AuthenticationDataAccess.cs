@@ -1,4 +1,5 @@
 ﻿using AWSProjectAPI.Core.Authentication;
+using AWSProjectAPI.Core.Common;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
     {
         #region Private Properties
         protected string AWSDBConnectionString { get; set; }
+        protected string AWS_ACCOUNT_DBConnectionString { get; set; }
         #endregion
 
         // Constructor
@@ -22,6 +24,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
         {
             // Intantiating the object
             this.AWSDBConnectionString = configurationString.GetConnectionString("AWSDBString");
+            this.AWS_ACCOUNT_DBConnectionString = configurationString.GetConnectionString("AWS_ACCOUNT_DBString");
         }
 
         // LoginAuthentication
@@ -43,7 +46,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_ACCOUNT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -92,7 +95,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
         /// <remarks>
         /// email -> string
         /// </remarks>
-        public UserDetails GetUserDetailsByEmail(string email)
+        public UserDetails GetUserDetailsByEmail(string email, ConnectionString connectionString = null)
         {
             // Declare return value
             UserDetails userDetails = new UserDetails();
@@ -100,7 +103,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -157,7 +160,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
         /// <remarks>
         /// <param name="basicUserDetails">A type of  BasicUserDetails.</param>
         /// </remarks>
-        public string GetUserJWTToken(string userID)
+        public string GetUserJWTToken(string userID, ConnectionString connectionString = null)
         {
             // Declare the token
             string token = "";
@@ -165,7 +168,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -213,7 +216,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
         /// <param name="jwtToken">string value.</param>
         /// <param name="userId">string value.</param>
         /// </remarks>
-        public bool SetUserJWTToken(string jwtToken, string userId)
+        public bool SetUserJWTToken(string jwtToken, string userId, ConnectionString connectionString = null)
         {
             // Declare the token
             bool status = false;
@@ -221,7 +224,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -268,7 +271,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
         /// <remarks>
         /// email -> string value
         /// </remarks>
-        public bool LogoutUser(string email)
+        public bool LogoutUser(string email, ConnectionString connectionString = null)
         {
             // Declare the token
             bool status = false;
@@ -276,7 +279,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -379,7 +382,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
         /// <remarks>
         /// email -> string
         /// </remarks>
-        public UserDetails GetUserDetailsByUserId(string userId)
+        public UserDetails GetUserDetailsByUserId(string userId, ConnectionString connectionString)
         {
             // Declare return value
             UserDetails userDetails = new UserDetails();
@@ -387,7 +390,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();

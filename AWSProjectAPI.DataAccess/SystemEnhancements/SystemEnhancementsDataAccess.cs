@@ -35,7 +35,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancement -> SystemEnhancement object
         /// </remarks>
-        public string AddSystemEnhancementDetails(SystemEnhancement systemEnhancement)
+        public string AddSystemEnhancementDetails(SystemEnhancement systemEnhancement, ConnectionString connectionString)
         {
             // Declare the return value
             string newIdValue = "";
@@ -43,7 +43,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -107,7 +107,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancement -> SystemEnhancement object
         /// </remarks>
-        public string UpdateSystemEnhancementDetails(SystemEnhancement systemEnhancement)
+        public string UpdateSystemEnhancementDetails(SystemEnhancement systemEnhancement, ConnectionString connectionString)
         {
             // Declare the return value
             string newIdValue = "";
@@ -115,7 +115,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -178,7 +178,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancement -> SystemEnhancement object
         /// </remarks>
-        public string DeleteSystemEnhancementDetails(string systemEnhancementId)
+        public string DeleteSystemEnhancementDetails(string systemEnhancementId, ConnectionString connectionString)
         {
             // Declare the return value
             string newIdValue = "";
@@ -186,7 +186,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -230,14 +230,14 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementId -> string value
         /// </remarks>
-        public string DeleteSystemEnhancementAssignedStaff(string systemEnhancementId)
+        public string DeleteSystemEnhancementAssignedStaff(string systemEnhancementId, ConnectionString connectionString)
         {
             // Declare the return value
             string newIdValue = "SUCCESS";
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -278,7 +278,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementId -> string value
         /// </remarks>
-        public string DeleteSystemEnhancementRequestedStaff(string systemEnhancementId)
+        public string DeleteSystemEnhancementRequestedStaff(string systemEnhancementId, ConnectionString connectionString)
         {
             // Declare the return value
             string newIdValue = "SUCCESS";
@@ -286,7 +286,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -328,7 +328,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// systemEnhancementId -> string value
         /// staffId -> string value
         /// </remarks>
-        public string AddSystemEnhancementAssignedStaff(string systemEnhancementId, string staffId)
+        public string AddSystemEnhancementAssignedStaff(string systemEnhancementId, string staffId, ConnectionString connectionString)
         {
             // Declare the return value
             string newIdValue = "SUCCESS";
@@ -336,7 +336,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -380,7 +380,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// systemEnhancementId -> string value
         /// staffId -> string value
         /// </remarks>
-        public string AddSystemEnhancementRequestedStaff(string systemEnhancementId, string staffId)
+        public string AddSystemEnhancementRequestedStaff(string systemEnhancementId, string staffId, ConnectionString connectionString)
         {
             // Declare the return value
             string newIdValue = "SUCCESS";
@@ -388,7 +388,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -431,7 +431,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        public List<DisplayModule> GetSystemEnhancementDisplayModules(Filter filter)
+        public List<DisplayModule> GetSystemEnhancementDisplayModules(Filter filter, ConnectionString connectionString)
         {
             // Declare the value list
             List<DisplayModule> displayModules = new List<DisplayModule>();
@@ -439,7 +439,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -508,7 +508,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        public List<ViewSystemEnhancement> GetSystemEnhancementDisplayList(Filter filter, string UserId)
+        public List<ViewSystemEnhancement> GetSystemEnhancementDisplayList(Filter filter, string UserId, ConnectionString connectionString)
         {
             // Declare the value list
             List<ViewSystemEnhancement> viewSystemEnhancementList = new List<ViewSystemEnhancement>();
@@ -516,7 +516,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -598,7 +598,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementId -> String value
         /// </remarks>
-        public SystemEnhancement GetSystemEnhancementDetailsById(string systemEnhancementId, string userId = "")
+        public SystemEnhancement GetSystemEnhancementDetailsById(string systemEnhancementId, ConnectionString connectionString, string userId = "")
         {
             // Declare the value list
             SystemEnhancement systemEnhancement = new SystemEnhancement();
@@ -606,7 +606,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -670,7 +670,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementId -> String value
         /// </remarks>
-        public List<BasicUserDetails> GetSystemEnhancementAssignedStaff(string systemEnhancementId)
+        public List<BasicUserDetails> GetSystemEnhancementAssignedStaff(string systemEnhancementId, ConnectionString connectionString)
         {
             // Declare the value list
             List<BasicUserDetails> basicUserDetaislList = new List<BasicUserDetails>();
@@ -678,7 +678,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -732,7 +732,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementId -> String value
         /// </remarks>
-        public List<BasicUserDetails> GetSystemEnhancementRequestedStaff(string systemEnhancementId)
+        public List<BasicUserDetails> GetSystemEnhancementRequestedStaff(string systemEnhancementId, ConnectionString connectionString)
         {
             // Declare the value list
             List<BasicUserDetails> basicUserDetaislList = new List<BasicUserDetails>();
@@ -740,7 +740,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -795,7 +795,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// systemEnhancementId -> String value
         /// statusId -> Int value
         /// </remarks>
-        public bool UpdateSystemEnhancementStatus(string systemEnhancementId, int statusId)
+        public bool UpdateSystemEnhancementStatus(string systemEnhancementId, int statusId, ConnectionString connectionString)
         {
             // Declare the value list
             bool resultStatus = false;
@@ -803,7 +803,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -849,7 +849,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementChangeDate -> SystemEnhancementChangeDate object value
         /// </remarks>
-        public string AddSystemEnhancementChangeDate(SystemEnhancementChangeDate systemEnhancementChangeDate)
+        public string AddSystemEnhancementChangeDate(SystemEnhancementChangeDate systemEnhancementChangeDate, ConnectionString connectionString)
         {
             // Declare the value list
             string resultStatus = "SUCCESS";
@@ -857,7 +857,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -917,7 +917,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementChangeDate -> SystemEnhancementChangeDate object value
         /// </remarks>
-        public string UpdateSystemEnhancementChangeDate(SystemEnhancementChangeDate systemEnhancementChangeDate)
+        public string UpdateSystemEnhancementChangeDate(SystemEnhancementChangeDate systemEnhancementChangeDate, ConnectionString connectionString)
         {
             // Declare the value list
             string resultStatus = "SUCCESS";
@@ -925,7 +925,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -971,7 +971,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementChangeDate -> SystemEnhancementChangeDate object value
         /// </remarks>
-        public string DeleteSystemEnhancementChangeDate(SystemEnhancementChangeDate systemEnhancementChangeDate)
+        public string DeleteSystemEnhancementChangeDate(SystemEnhancementChangeDate systemEnhancementChangeDate, ConnectionString connectionString)
         {
             // Declare the value list
             string resultStatus = "SUCCESS";
@@ -979,7 +979,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1024,7 +1024,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// systemEnhancementId -> String value
         /// filter -> Filter object value
         /// </remarks>
-        public List<ViewSystemEnhancementChangeDate> GetSystemEhancementChangeDate(Filter filter, string systemEnhancementId)
+        public List<ViewSystemEnhancementChangeDate> GetSystemEhancementChangeDate(Filter filter, string systemEnhancementId, ConnectionString connectionString)
         {
             // Declare the value list
             List<ViewSystemEnhancementChangeDate> viewSystemEnhancementChangeDateList = new List<ViewSystemEnhancementChangeDate>();
@@ -1032,7 +1032,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1094,7 +1094,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementComment -> SystemEnhancementComment object value
         /// </remarks>
-        public string AddSystemEhancementComment(SystemEnhancementComment systemEnhancementComment)
+        public string AddSystemEhancementComment(SystemEnhancementComment systemEnhancementComment, ConnectionString connectionString)
         {
             // Declare the value list
             string resultStatus = "false";
@@ -1102,7 +1102,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1153,7 +1153,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementComment -> SystemEnhancementComment object value
         /// </remarks>
-        public string UpdateSystemEhancementComment(SystemEnhancementComment systemEnhancementComment)
+        public string UpdateSystemEhancementComment(SystemEnhancementComment systemEnhancementComment, ConnectionString connectionString)
         {
             // Declare the value list
             string resultStatus = "false";
@@ -1161,7 +1161,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1206,7 +1206,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementComment -> SystemEnhancementComment object value
         /// </remarks>
-        public string DeleteSystemEhancementComment(SystemEnhancementComment systemEnhancementComment)
+        public string DeleteSystemEhancementComment(SystemEnhancementComment systemEnhancementComment, ConnectionString connectionString)
         {
             // Declare the value list
             string resultStatus = "false";
@@ -1214,7 +1214,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1259,7 +1259,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// filter -> Filter object value
         /// </remarks>
-        public List<ViewSystemEnhancementComment> GetSystemEhancementComment(Filter filter)
+        public List<ViewSystemEnhancementComment> GetSystemEhancementComment(Filter filter, ConnectionString connectionString)
         {
             // Declare the value list
             List<ViewSystemEnhancementComment> viewSystemEnhancementCommentList = new List<ViewSystemEnhancementComment>();
@@ -1267,7 +1267,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1326,7 +1326,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// -
         /// </remarks>
-        public List<StatisticsBoxData> GetStatBoxes()
+        public List<StatisticsBoxData> GetStatBoxes(ConnectionString connectionString)
         {
             // Declare the value list
             List<StatisticsBoxData> statisticsBoxDataList = new List<StatisticsBoxData>();
@@ -1334,7 +1334,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1384,7 +1384,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// -
         /// </remarks>
-        public bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval)
+        public bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval, ConnectionString connectionString)
         {
             // Declare the value list
             bool status = false;
@@ -1392,7 +1392,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1438,7 +1438,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// -
         /// </remarks>
-        public bool AddViewId(string itemId, string userId)
+        public bool AddViewId(string itemId, string userId, ConnectionString connectionString)
         {
             // Declare the value list
             bool status = false;
@@ -1446,7 +1446,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();

@@ -18,17 +18,19 @@ namespace AWSProjectAPI.Service.SystemEnhancements
     {
         #region Private Properties
         private readonly ISystemEnhancementsDataAccess iSystemEnhancementsDataAccess;
+        private readonly ICommonDataAccess iCommonDataAccess;
         private readonly IAuthenticationService iAuthenticationService;
         private readonly ICommonService iCommonService;
         #endregion
 
         // Constructor
         public SystemEnhancementsService(ISystemEnhancementsDataAccess iSystemEnhancementsDataAccess, IAuthenticationService iAuthenticationService,
-            ICommonService iCommonService)
+            ICommonService iCommonService, ICommonDataAccess iCommonDataAccess)
         {
             this.iSystemEnhancementsDataAccess = iSystemEnhancementsDataAccess;
             this.iAuthenticationService = iAuthenticationService;
             this.iCommonService = iCommonService;
+            this.iCommonDataAccess = iCommonDataAccess;
         }
 
         // SetSystemEnhancementDetails
@@ -42,17 +44,20 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// systemEnhancement -> SystemEnhancement object
         /// actionState -> string
         /// </remarks>
-        public string SetSystemEnhancementDetails(SystemEnhancement systemEnhancement, string actionState)
+        public string SetSystemEnhancementDetails(SystemEnhancement systemEnhancement, string actionState, int companyId)
         {
             // Declare the new ID
             string newId = "";
+
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
 
             // Check the action state
             switch (actionState)
             {
                 case "NEW":
                     // Adding the new system enhancement
-                    newId = this.iSystemEnhancementsDataAccess.AddSystemEnhancementDetails(systemEnhancement);
+                    newId = this.iSystemEnhancementsDataAccess.AddSystemEnhancementDetails(systemEnhancement, connectionString);
                     // Adding all the assigned and requested staff
                     Task taskAddAssignedStaff = Task.Factory.StartNew(() =>
                     {
@@ -60,7 +65,7 @@ namespace AWSProjectAPI.Service.SystemEnhancements
                         for (int i = 0; i < systemEnhancement.AssignedStaffList.Count; i++)
                         {
                             // Setting the staff details
-                            this.iSystemEnhancementsDataAccess.AddSystemEnhancementAssignedStaff(newId, systemEnhancement.AssignedStaffList[i].Id);
+                            this.iSystemEnhancementsDataAccess.AddSystemEnhancementAssignedStaff(newId, systemEnhancement.AssignedStaffList[i].Id, connectionString);
                         }
                         // End of Loop through the assigned staff
                     });
@@ -70,7 +75,7 @@ namespace AWSProjectAPI.Service.SystemEnhancements
                         for (int i = 0; i < systemEnhancement.RequestedStaffList.Count; i++)
                         {
                             // Setting the staff details
-                            this.iSystemEnhancementsDataAccess.AddSystemEnhancementRequestedStaff(newId, systemEnhancement.RequestedStaffList[i].Id);
+                            this.iSystemEnhancementsDataAccess.AddSystemEnhancementRequestedStaff(newId, systemEnhancement.RequestedStaffList[i].Id, connectionString);
                         }
                         // End of Loop through the assigned staff
                     });
@@ -78,16 +83,16 @@ namespace AWSProjectAPI.Service.SystemEnhancements
                     Task.WaitAll(taskAddAssignedStaff, taskAddRequestedStaff);
 
                     // Getting the user details
-                    UserDetails addedUserDetails = iAuthenticationService.GetUserDetailsByUserId(systemEnhancement.AddedUserId);
+                    UserDetails addedUserDetails = iAuthenticationService.GetUserDetailsByUserId(systemEnhancement.AddedUserId, companyId);
                     // Sending the emails
-                    sendAddedEmail(systemEnhancement, addedUserDetails, addedUserDetails);
+                    sendAddedEmail(systemEnhancement, addedUserDetails, addedUserDetails, companyId);
                     break;
                 case "UPDATE":
                     // Updating the new system enhancement
-                    newId = this.iSystemEnhancementsDataAccess.UpdateSystemEnhancementDetails(systemEnhancement);
+                    newId = this.iSystemEnhancementsDataAccess.UpdateSystemEnhancementDetails(systemEnhancement, connectionString);
                     // Remove all the assigned and requested staff
-                    Task taskRemoveAssignedStaffUpdate = Task.Factory.StartNew(() => this.iSystemEnhancementsDataAccess.DeleteSystemEnhancementAssignedStaff(newId));
-                    Task taskRemoveRequestedStaffUpdate = Task.Factory.StartNew(() => this.iSystemEnhancementsDataAccess.DeleteSystemEnhancementRequestedStaff(newId));
+                    Task taskRemoveAssignedStaffUpdate = Task.Factory.StartNew(() => this.iSystemEnhancementsDataAccess.DeleteSystemEnhancementAssignedStaff(newId, connectionString));
+                    Task taskRemoveRequestedStaffUpdate = Task.Factory.StartNew(() => this.iSystemEnhancementsDataAccess.DeleteSystemEnhancementRequestedStaff(newId, connectionString));
                     // Wait untill all the tasks are completed
                     Task.WaitAll(taskRemoveAssignedStaffUpdate, taskRemoveRequestedStaffUpdate);
                     // Adding all the assigned and requested staff
@@ -97,7 +102,7 @@ namespace AWSProjectAPI.Service.SystemEnhancements
                         for (int i = 0; i < systemEnhancement.AssignedStaffList.Count; i++)
                         {
                             // Setting the staff details
-                            this.iSystemEnhancementsDataAccess.AddSystemEnhancementAssignedStaff(newId, systemEnhancement.AssignedStaffList[i].Id);
+                            this.iSystemEnhancementsDataAccess.AddSystemEnhancementAssignedStaff(newId, systemEnhancement.AssignedStaffList[i].Id, connectionString);
                         }
                         // End of Loop through the assigned staff
                     });
@@ -107,7 +112,7 @@ namespace AWSProjectAPI.Service.SystemEnhancements
                         for (int i = 0; i < systemEnhancement.RequestedStaffList.Count; i++)
                         {
                             // Setting the staff details
-                            this.iSystemEnhancementsDataAccess.AddSystemEnhancementRequestedStaff(newId, systemEnhancement.RequestedStaffList[i].Id);
+                            this.iSystemEnhancementsDataAccess.AddSystemEnhancementRequestedStaff(newId, systemEnhancement.RequestedStaffList[i].Id, connectionString);
                         }
                         // End of Loop through the assigned staff
                     });
@@ -116,7 +121,7 @@ namespace AWSProjectAPI.Service.SystemEnhancements
                     break;
                 case "DELETE":
                     // Deleting the new system enhancement
-                    newId = this.iSystemEnhancementsDataAccess.DeleteSystemEnhancementDetails(systemEnhancement.Id);
+                    newId = this.iSystemEnhancementsDataAccess.DeleteSystemEnhancementDetails(systemEnhancement.Id, connectionString);
                     break;
             }
             // End of Check the action state
@@ -135,9 +140,12 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        public List<DisplayModule> GetSystemEnhancementDisplayModules(Filter filter)
+        public List<DisplayModule> GetSystemEnhancementDisplayModules(Filter filter, int companyId)
         {
-            return this.iSystemEnhancementsDataAccess.GetSystemEnhancementDisplayModules(filter);
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            return this.iSystemEnhancementsDataAccess.GetSystemEnhancementDisplayModules(filter, connectionString);
         }
 
         // GetSystemEnhancementDisplayList
@@ -150,17 +158,20 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        public List<ViewSystemEnhancement> GetSystemEnhancementDisplayList(Filter filter, string UserId)
+        public List<ViewSystemEnhancement> GetSystemEnhancementDisplayList(Filter filter, string UserId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
             // Declare the object
             List<ViewSystemEnhancement> systemEnhancementList = new List<ViewSystemEnhancement>();
             // Getting the list
-            systemEnhancementList = this.iSystemEnhancementsDataAccess.GetSystemEnhancementDisplayList(filter, UserId);
+            systemEnhancementList = this.iSystemEnhancementsDataAccess.GetSystemEnhancementDisplayList(filter, UserId, connectionString);
             // Loop through the list
             for (int i = 0; i < systemEnhancementList.Count; i++)
             {
                 // Setting the requested staff list
-                systemEnhancementList[i].RequestedStaffList = this.iSystemEnhancementsDataAccess.GetSystemEnhancementRequestedStaff(systemEnhancementList[i].Id);
+                systemEnhancementList[i].RequestedStaffList = this.iSystemEnhancementsDataAccess.GetSystemEnhancementRequestedStaff(systemEnhancementList[i].Id, connectionString);
             }
             // End of Loop through the list
 
@@ -178,16 +189,18 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// <remarks>
         /// systemEnhancementId -> String value
         /// </remarks>
-        public SystemEnhancement GetSystemEnhancementDetailsById(string systemEnhancementId, string userId)
+        public SystemEnhancement GetSystemEnhancementDetailsById(string systemEnhancementId, string userId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
             // Declare the object
             SystemEnhancement systemEnhancement = new SystemEnhancement();
             // Getting the basic details
-            systemEnhancement = this.iSystemEnhancementsDataAccess.GetSystemEnhancementDetailsById(systemEnhancementId, userId);
+            systemEnhancement = this.iSystemEnhancementsDataAccess.GetSystemEnhancementDetailsById(systemEnhancementId, connectionString, userId);
             // Getting the assigned staff details
-            systemEnhancement.AssignedStaffList = this.iSystemEnhancementsDataAccess.GetSystemEnhancementAssignedStaff(systemEnhancementId);
+            systemEnhancement.AssignedStaffList = this.iSystemEnhancementsDataAccess.GetSystemEnhancementAssignedStaff(systemEnhancementId, connectionString);
             // Getting the requested staff details
-            systemEnhancement.RequestedStaffList = this.iSystemEnhancementsDataAccess.GetSystemEnhancementRequestedStaff(systemEnhancementId);
+            systemEnhancement.RequestedStaffList = this.iSystemEnhancementsDataAccess.GetSystemEnhancementRequestedStaff(systemEnhancementId, connectionString);
             // return the value
             return systemEnhancement;
         }
@@ -203,9 +216,12 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// systemEnhancementId -> String value
         /// statusId -> Int value
         /// </remarks>
-        public bool UpdateSystemEnhancementStatus(string systemEnhancementId, int statusId)
+        public bool UpdateSystemEnhancementStatus(string systemEnhancementId, int statusId, int companyId)
         {
-            return this.iSystemEnhancementsDataAccess.UpdateSystemEnhancementStatus(systemEnhancementId, statusId);
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            return this.iSystemEnhancementsDataAccess.UpdateSystemEnhancementStatus(systemEnhancementId, statusId, connectionString);
         }
 
         // SetSystemEhancementChangeDate
@@ -219,25 +235,28 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// actionState -> String value
         /// systemEnhancementChangeDate -> SystemEnhancementChangeDate object value
         /// </remarks>
-        public string SetSystemEhancementChangeDate(SystemEnhancementChangeDate systemEnhancementChangeDate, string actionState)
+        public string SetSystemEhancementChangeDate(SystemEnhancementChangeDate systemEnhancementChangeDate, string actionState, int companyId)
         {
             // Declare the variable
             string status = "false";
+
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
 
             // Check the action state
             switch (actionState)
             {
                 case "NEW":
                     // Adding the system ehancement change date history
-                    status = this.iSystemEnhancementsDataAccess.AddSystemEnhancementChangeDate(systemEnhancementChangeDate);
+                    status = this.iSystemEnhancementsDataAccess.AddSystemEnhancementChangeDate(systemEnhancementChangeDate, connectionString);
                     break;
                 case "UPDATE":
                     // Updating the system ehancement change date history
-                    status = this.iSystemEnhancementsDataAccess.UpdateSystemEnhancementChangeDate(systemEnhancementChangeDate);
+                    status = this.iSystemEnhancementsDataAccess.UpdateSystemEnhancementChangeDate(systemEnhancementChangeDate, connectionString);
                     break;
                 case "DELETE":
                     // Deleting the history record
-                    status = this.iSystemEnhancementsDataAccess.DeleteSystemEnhancementChangeDate(systemEnhancementChangeDate);
+                    status = this.iSystemEnhancementsDataAccess.DeleteSystemEnhancementChangeDate(systemEnhancementChangeDate, connectionString);
                     break;
             }
             // End of Check the action state
@@ -257,9 +276,12 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// systemEnhancementId -> String value
         /// filter -> Filter object value
         /// </remarks>
-        public List<ViewSystemEnhancementChangeDate> GetSystemEhancementChangeDate(Filter filter, string systemEnhancementId)
+        public List<ViewSystemEnhancementChangeDate> GetSystemEhancementChangeDate(Filter filter, string systemEnhancementId, int companyId)
         {
-            return this.iSystemEnhancementsDataAccess.GetSystemEhancementChangeDate(filter, systemEnhancementId);
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            return this.iSystemEnhancementsDataAccess.GetSystemEhancementChangeDate(filter, systemEnhancementId, connectionString);
         }
 
         // SetSystemEhancementComment
@@ -273,25 +295,28 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// systemEnhancementComment -> SystemEnhancementComment object value
         /// actionState -> string value
         /// </remarks>
-        public string SetSystemEhancementComment(SystemEnhancementComment systemEnhancementComment, string actionState)
+        public string SetSystemEhancementComment(SystemEnhancementComment systemEnhancementComment, string actionState, int companyId)
         {
             // Declare the variable
             string status = "false";
+
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
 
             // Check the action state
             switch (actionState)
             {
                 case "NEW":
                     // Adding the system ehancement comment
-                    status = this.iSystemEnhancementsDataAccess.AddSystemEhancementComment(systemEnhancementComment);
+                    status = this.iSystemEnhancementsDataAccess.AddSystemEhancementComment(systemEnhancementComment, connectionString);
                     break;
                 case "UPDATE":
                     // Updating the system ehancement comment
-                    status = this.iSystemEnhancementsDataAccess.UpdateSystemEhancementComment(systemEnhancementComment);
+                    status = this.iSystemEnhancementsDataAccess.UpdateSystemEhancementComment(systemEnhancementComment, connectionString);
                     break;
                 case "DELETE":
                     // Deleting the comment
-                    status = this.iSystemEnhancementsDataAccess.DeleteSystemEhancementComment(systemEnhancementComment);
+                    status = this.iSystemEnhancementsDataAccess.DeleteSystemEhancementComment(systemEnhancementComment, connectionString);
                     break;
             }
             // End of Check the action state
@@ -310,9 +335,12 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// <remarks>
         /// filter -> Filter object value
         /// </remarks>
-        public List<ViewSystemEnhancementComment> GetSystemEhancementComment(Filter filter)
+        public List<ViewSystemEnhancementComment> GetSystemEhancementComment(Filter filter, int companyId)
         {
-            return this.iSystemEnhancementsDataAccess.GetSystemEhancementComment(filter);
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            return this.iSystemEnhancementsDataAccess.GetSystemEhancementComment(filter, connectionString);
         }
 
         // GetStatBoxes
@@ -325,9 +353,12 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// <remarks>
         /// -
         /// </remarks>
-        public List<StatisticsBoxData> GetStatBoxes()
+        public List<StatisticsBoxData> GetStatBoxes(int companyId)
         {
-            return this.iSystemEnhancementsDataAccess.GetStatBoxes();
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            return this.iSystemEnhancementsDataAccess.GetStatBoxes(connectionString);
         }
 
         // ApprovalChangeDate
@@ -341,9 +372,12 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// <remarks>
         /// -
         /// </remarks>
-        public bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval)
+        public bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval, int companyId)
         {
-            return this.iSystemEnhancementsDataAccess.ApprovalChangeDate(SystemEnhancementsChangeHistoryId, approval);
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            return this.iSystemEnhancementsDataAccess.ApprovalChangeDate(SystemEnhancementsChangeHistoryId, approval, connectionString);
         }
 
         // AddViewId
@@ -357,24 +391,27 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// <remarks>
         /// -
         /// </remarks>
-        public bool AddViewId(string itemId, string userId)
+        public bool AddViewId(string itemId, string userId, int companyId)
         {
             // Status
             bool status = false;
 
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
             // Getting the system enhancement ID details
-            SystemEnhancement systemEnhancement = this.iSystemEnhancementsDataAccess.GetSystemEnhancementDetailsById(itemId, userId);
+            SystemEnhancement systemEnhancement = this.iSystemEnhancementsDataAccess.GetSystemEnhancementDetailsById(itemId, connectionString, userId);
 
             // Check if the ID is added
             if (systemEnhancement.IsNew == true)
             {
-                status = this.iSystemEnhancementsDataAccess.AddViewId(itemId, userId);
+                status = this.iSystemEnhancementsDataAccess.AddViewId(itemId, userId, connectionString);
                 // Getting the user details
-                UserDetails userDetails = iAuthenticationService.GetUserDetailsByUserId(userId);
+                UserDetails userDetails = iAuthenticationService.GetUserDetailsByUserId(userId, companyId);
                 // Getting the user details
-                UserDetails addedUserDetails = iAuthenticationService.GetUserDetailsByUserId(systemEnhancement.AddedUserId);
+                UserDetails addedUserDetails = iAuthenticationService.GetUserDetailsByUserId(systemEnhancement.AddedUserId, companyId);
                 // Sending the emails
-                sendViewedEmail(systemEnhancement, userDetails, addedUserDetails);
+                sendViewedEmail(systemEnhancement, userDetails, addedUserDetails, companyId);
             }
             else
             {
@@ -385,19 +422,19 @@ namespace AWSProjectAPI.Service.SystemEnhancements
             return status;
         }
 
-        public void sendAddedEmail(SystemEnhancement systemEnhancement, UserDetails userDetails, UserDetails addedUserDetails)
+        public void sendAddedEmail(SystemEnhancement systemEnhancement, UserDetails userDetails, UserDetails addedUserDetails, int companyId)
         {
             // Getting the company details by company domain
             //CompanyDetails companyDetails = i_Service.GetCompanyDetailsByDomain(companyDomain);
 
             // Getting all the modules list
-            List<Module> modulesList = this.iCommonService.GetModuleList();
+            List<Module> modulesList = this.iCommonService.GetModuleList(companyId);
             // Getting the module index
             int moduleIndex = modulesList.FindIndex(obj => obj.Id == systemEnhancement.ModuleId);
             // Getting the module name
             string moduleName = (moduleIndex == -1) ? "None" : modulesList[moduleIndex].Name;
             // Getting all the priority list
-            List<Priority> priorityList = this.iCommonService.GetPriorityList();
+            List<Priority> priorityList = this.iCommonService.GetPriorityList(companyId);
             // Getting the priority index
             int priorityIndex = priorityList.FindIndex(obj => obj.Id == systemEnhancement.PriorityId);
             // Getting the priority name
@@ -465,18 +502,18 @@ namespace AWSProjectAPI.Service.SystemEnhancements
             string emailResponse = iCommonService.SendEmailLocally(internelEmailObject);
         }
 
-        public void sendViewedEmail(SystemEnhancement systemEnhancement, UserDetails userDetails, UserDetails addedUserDetails)
+        public void sendViewedEmail(SystemEnhancement systemEnhancement, UserDetails userDetails, UserDetails addedUserDetails, int companyId)
         {
             // Getting the company details by company domain
             //CompanyDetails companyDetails = i_Service.GetCompanyDetailsByDomain(companyDomain);
             // Getting all the modules list
-            List<Module> modulesList = this.iCommonService.GetModuleList();
+            List<Module> modulesList = this.iCommonService.GetModuleList(companyId);
             // Getting the module index
             int moduleIndex = modulesList.FindIndex(obj => obj.Id == systemEnhancement.ModuleId);
             // Getting the module name
             string moduleName = (moduleIndex == -1) ? "None" : modulesList[moduleIndex].Name;
             // Getting all the priority list
-            List<Priority> priorityList = this.iCommonService.GetPriorityList();
+            List<Priority> priorityList = this.iCommonService.GetPriorityList(companyId);
             // Getting the priority index
             int priorityIndex = priorityList.FindIndex(obj => obj.Id == systemEnhancement.PriorityId);
             // Getting the priority name

@@ -21,7 +21,7 @@ namespace AWSProjectAPI.Service.BugFixes
         /// BugFix -> BugFix object
         /// actionState -> string
         /// </remarks>
-        string SetBugFixesDetails(BugFix bugFix, string actionState);
+        string SetBugFixesDetails(BugFix bugFix, string actionState, int companyId);
 
         // GetBugFixDisplayModules
         /// <summary>
@@ -33,7 +33,7 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        List<DisplayModule> GetBugFixesDisplayModules(Filter filter);
+        List<DisplayModule> GetBugFixesDisplayModules(Filter filter, int companyId);
 
         // GetBugFixDisplayList
         /// <summary>
@@ -45,7 +45,7 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        List<ViewBugFix> GetBugFixesDisplayList(Filter filter, string UserId);
+        List<ViewBugFix> GetBugFixesDisplayList(Filter filter, string UserId, int companyId);
 
         // GetBugFixDetailsById
         /// <summary>
@@ -57,7 +57,7 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// BugFixId -> String value
         /// </remarks>
-        BugFix GetBugFixesDetailsById(string bugFixId, string userId);
+        BugFix GetBugFixesDetailsById(string bugFixId, string userId, int companyId);
 
         // UpdateBugFixStatus
         /// <summary>
@@ -70,7 +70,7 @@ namespace AWSProjectAPI.Service.BugFixes
         /// BugFixId -> String value
         /// statusId -> Int value
         /// </remarks>
-        bool UpdateBugFixesStatus(string bugFixId, int statusId);
+        bool UpdateBugFixesStatus(string bugFixId, int statusId, int companyId);
 
         // SetBugFixesChangeDate
         /// <summary>
@@ -83,7 +83,7 @@ namespace AWSProjectAPI.Service.BugFixes
         /// actionState -> String value
         /// BugFixChangeDate -> BugFixChangeDate object value
         /// </remarks>
-        string SetBugFixesChangeDate(BugFixChangeDate bugFixChangeDate, string actionState);
+        string SetBugFixesChangeDate(BugFixChangeDate bugFixChangeDate, string actionState, int companyId);
 
         // GetBugFixesChangeDate
         /// <summary>
@@ -96,7 +96,7 @@ namespace AWSProjectAPI.Service.BugFixes
         /// BugFixId -> String value
         /// filter -> Filter object value
         /// </remarks>
-        List<ViewBugFixChangeDate> GetBugFixesChangeDate(Filter filter, string bugFixId);
+        List<ViewBugFixChangeDate> GetBugFixesChangeDate(Filter filter, string bugFixId, int companyId);
 
         // SetBugFixesComment
         /// <summary>
@@ -109,7 +109,7 @@ namespace AWSProjectAPI.Service.BugFixes
         /// BugFixComment -> BugFixComment object value
         /// actionState -> string value
         /// </remarks>
-        string SetBugFixesComment(BugFixComment bugFixComment, string actionState);
+        string SetBugFixesComment(BugFixComment bugFixComment, string actionState, int companyId);
 
         // GetBugFixesComment
         /// <summary>
@@ -121,7 +121,7 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// filter -> Filter object value
         /// </remarks>
-        List<ViewBugFixComment> GetBugFixesComment(Filter filter);
+        List<ViewBugFixComment> GetBugFixesComment(Filter filter, int companyId);
 
         // GetStatBoxes
         /// <summary>
@@ -133,7 +133,7 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// -
         /// </remarks>
-        List<StatisticsBoxData> GetStatBoxes();
+        List<StatisticsBoxData> GetStatBoxes(int companyId);
 
         // ApprovalChangeDate
         /// <summary>
@@ -146,7 +146,7 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// -
         /// </remarks>
-        bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval);
+        bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval, int companyId);
 
         // AddViewId
         /// <summary>
@@ -159,6 +159,6 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// -
         /// </remarks>
-        bool AddViewId(string itemId, string userId);
+        bool AddViewId(string itemId, string userId, int companyId);
     }
 }

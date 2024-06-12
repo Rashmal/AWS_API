@@ -3,6 +3,7 @@ using AWSProjectAPI.Core.BugFixes;
 using AWSProjectAPI.Core.Common;
 using AWSProjectAPI.Core.SystemEnhancements;
 using AWSProjectAPI.DataAccess.BugFixes;
+using AWSProjectAPI.DataAccess.Common;
 using AWSProjectAPI.Service.Authentication;
 using AWSProjectAPI.Service.Common;
 using System;
@@ -17,16 +18,18 @@ namespace AWSProjectAPI.Service.BugFixes
     {
         #region Private Properties
         private readonly IBugFixesDataAccess iBugFixesDataAccess;
+        private readonly ICommonDataAccess iCommonDataAccess;
         private readonly ICommonService iCommonService;
         private readonly IAuthenticationService iAuthenticationService;
         #endregion
 
         // Constructor
-        public BugFixesService(IBugFixesDataAccess iBugFixesDataAccess, ICommonService iCommonService, IAuthenticationService iAuthenticationService)
+        public BugFixesService(IBugFixesDataAccess iBugFixesDataAccess, ICommonService iCommonService, IAuthenticationService iAuthenticationService, ICommonDataAccess iCommonDataAccess)
         {
             this.iBugFixesDataAccess = iBugFixesDataAccess;
             this.iCommonService = iCommonService;
             this.iAuthenticationService = iAuthenticationService;
+            this.iCommonDataAccess = iCommonDataAccess;
         }
 
         // SetBugFixesDetails
@@ -40,17 +43,20 @@ namespace AWSProjectAPI.Service.BugFixes
         /// BugFixes -> BugFixes object
         /// actionState -> string
         /// </remarks>
-        public string SetBugFixesDetails(BugFix bugFix, string actionState)
+        public string SetBugFixesDetails(BugFix bugFix, string actionState, int companyId)
         {
             // Declare the new ID
             string newId = "";
+
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
 
             // Check the action state
             switch (actionState)
             {
                 case "NEW":
                     // Adding the new Bug Fixes
-                    newId = this.iBugFixesDataAccess.AddBugFixesDetails(bugFix);
+                    newId = this.iBugFixesDataAccess.AddBugFixesDetails(bugFix, connectionString);
                     // Adding all the assigned and requested staff
                     Task taskAddAssignedStaff = Task.Factory.StartNew(() =>
                     {
@@ -58,7 +64,7 @@ namespace AWSProjectAPI.Service.BugFixes
                         for (int i = 0; i < bugFix.AssignedStaffList.Count; i++)
                         {
                             // Setting the staff details
-                            this.iBugFixesDataAccess.AddBugFixesAssignedStaff(newId, bugFix.AssignedStaffList[i].Id);
+                            this.iBugFixesDataAccess.AddBugFixesAssignedStaff(newId, bugFix.AssignedStaffList[i].Id, connectionString);
                         }
                         // End of Loop through the assigned staff
                     });
@@ -68,23 +74,23 @@ namespace AWSProjectAPI.Service.BugFixes
                         for (int i = 0; i < bugFix.RequestedStaffList.Count; i++)
                         {
                             // Setting the staff details
-                            this.iBugFixesDataAccess.AddBugFixesRequestedStaff(newId, bugFix.RequestedStaffList[i].Id);
+                            this.iBugFixesDataAccess.AddBugFixesRequestedStaff(newId, bugFix.RequestedStaffList[i].Id, connectionString);
                         }
                         // End of Loop through the assigned staff
                     });
                     // Wait untill all the tasks are completed
                     Task.WaitAll(taskAddAssignedStaff, taskAddRequestedStaff);
                     // Getting the user details
-                    UserDetails addedUserDetails = iAuthenticationService.GetUserDetailsByUserId(bugFix.AddedUserId);
+                    UserDetails addedUserDetails = iAuthenticationService.GetUserDetailsByUserId(bugFix.AddedUserId, companyId);
                     // Sending the emails
-                    sendAddedEmail(bugFix, addedUserDetails, addedUserDetails);
+                    sendAddedEmail(bugFix, addedUserDetails, addedUserDetails, companyId);
                     break;
                 case "UPDATE":
                     // Updating the new Bug Fixes
-                    newId = this.iBugFixesDataAccess.UpdateBugFixesDetails(bugFix);
+                    newId = this.iBugFixesDataAccess.UpdateBugFixesDetails(bugFix, connectionString);
                     // Remove all the assigned and requested staff
-                    Task taskRemoveAssignedStaffUpdate = Task.Factory.StartNew(() => this.iBugFixesDataAccess.DeleteBugFixesAssignedStaff(newId));
-                    Task taskRemoveRequestedStaffUpdate = Task.Factory.StartNew(() => this.iBugFixesDataAccess.DeleteBugFixesRequestedStaff(newId));
+                    Task taskRemoveAssignedStaffUpdate = Task.Factory.StartNew(() => this.iBugFixesDataAccess.DeleteBugFixesAssignedStaff(newId, connectionString));
+                    Task taskRemoveRequestedStaffUpdate = Task.Factory.StartNew(() => this.iBugFixesDataAccess.DeleteBugFixesRequestedStaff(newId, connectionString));
                     // Wait untill all the tasks are completed
                     Task.WaitAll(taskRemoveAssignedStaffUpdate, taskRemoveRequestedStaffUpdate);
                     // Adding all the assigned and requested staff
@@ -94,7 +100,7 @@ namespace AWSProjectAPI.Service.BugFixes
                         for (int i = 0; i < bugFix.AssignedStaffList.Count; i++)
                         {
                             // Setting the staff details
-                            this.iBugFixesDataAccess.AddBugFixesAssignedStaff(newId, bugFix.AssignedStaffList[i].Id);
+                            this.iBugFixesDataAccess.AddBugFixesAssignedStaff(newId, bugFix.AssignedStaffList[i].Id, connectionString);
                         }
                         // End of Loop through the assigned staff
                     });
@@ -104,7 +110,7 @@ namespace AWSProjectAPI.Service.BugFixes
                         for (int i = 0; i < bugFix.RequestedStaffList.Count; i++)
                         {
                             // Setting the staff details
-                            this.iBugFixesDataAccess.AddBugFixesRequestedStaff(newId, bugFix.RequestedStaffList[i].Id);
+                            this.iBugFixesDataAccess.AddBugFixesRequestedStaff(newId, bugFix.RequestedStaffList[i].Id, connectionString);
                         }
                         // End of Loop through the assigned staff
                     });
@@ -113,7 +119,7 @@ namespace AWSProjectAPI.Service.BugFixes
                     break;
                 case "DELETE":
                     // Deleting the new Bug Fixes
-                    newId = this.iBugFixesDataAccess.DeleteBugFixesDetails(bugFix.Id);
+                    newId = this.iBugFixesDataAccess.DeleteBugFixesDetails(bugFix.Id, connectionString);
                     break;
             }
             // End of Check the action state
@@ -132,9 +138,11 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        public List<DisplayModule> GetBugFixesDisplayModules(Filter filter)
+        public List<DisplayModule> GetBugFixesDisplayModules(Filter filter, int companyId)
         {
-            return this.iBugFixesDataAccess.GetBugFixesDisplayModules(filter);
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+            return this.iBugFixesDataAccess.GetBugFixesDisplayModules(filter, connectionString);
         }
 
         // GetBugFixesDisplayList
@@ -147,17 +155,20 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        public List<ViewBugFix> GetBugFixesDisplayList(Filter filter, string UserId)
+        public List<ViewBugFix> GetBugFixesDisplayList(Filter filter, string UserId, int companyId)
         {
             // Declare the object
             List<ViewBugFix> bugFixesList = new List<ViewBugFix>();
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
             // Getting the list
-            bugFixesList = this.iBugFixesDataAccess.GetBugFixesDisplayList(filter, UserId);
+            bugFixesList = this.iBugFixesDataAccess.GetBugFixesDisplayList(filter, UserId, connectionString);
             // Loop through the list
             for (int i = 0; i < bugFixesList.Count; i++)
             {
                 // Setting the requested staff list
-                bugFixesList[i].RequestedStaffList = this.iBugFixesDataAccess.GetBugFixesRequestedStaff(bugFixesList[i].Id);
+                bugFixesList[i].RequestedStaffList = this.iBugFixesDataAccess.GetBugFixesRequestedStaff(bugFixesList[i].Id, connectionString);
             }
             // End of Loop through the list
 
@@ -175,16 +186,18 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// BugFixesId -> String value
         /// </remarks>
-        public BugFix GetBugFixesDetailsById(string bugFixesId, string userId)
+        public BugFix GetBugFixesDetailsById(string bugFixesId, string userId, int companyId)
         {
             // Declare the object
             BugFix BugFixes = new BugFix();
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
             // Getting the basic details
-            BugFixes = this.iBugFixesDataAccess.GetBugFixesDetailsById(bugFixesId, userId);
+            BugFixes = this.iBugFixesDataAccess.GetBugFixesDetailsById(bugFixesId, connectionString, userId);
             // Getting the assigned staff details
-            BugFixes.AssignedStaffList = this.iBugFixesDataAccess.GetBugFixesAssignedStaff(bugFixesId);
+            BugFixes.AssignedStaffList = this.iBugFixesDataAccess.GetBugFixesAssignedStaff(bugFixesId, connectionString);
             // Getting the requested staff details
-            BugFixes.RequestedStaffList = this.iBugFixesDataAccess.GetBugFixesRequestedStaff(bugFixesId);
+            BugFixes.RequestedStaffList = this.iBugFixesDataAccess.GetBugFixesRequestedStaff(bugFixesId, connectionString);
             // return the value
             return BugFixes;
         }
@@ -200,9 +213,11 @@ namespace AWSProjectAPI.Service.BugFixes
         /// BugFixesId -> String value
         /// statusId -> Int value
         /// </remarks>
-        public bool UpdateBugFixesStatus(string bugFixesId, int statusId)
+        public bool UpdateBugFixesStatus(string bugFixesId, int statusId, int companyId)
         {
-            return this.iBugFixesDataAccess.UpdateBugFixesStatus(bugFixesId, statusId);
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+            return this.iBugFixesDataAccess.UpdateBugFixesStatus(bugFixesId, statusId, connectionString);
         }
 
         // SetBugFixesChangeDate
@@ -216,25 +231,27 @@ namespace AWSProjectAPI.Service.BugFixes
         /// actionState -> String value
         /// BugFixesChangeDate -> BugFixesChangeDate object value
         /// </remarks>
-        public string SetBugFixesChangeDate(BugFixChangeDate bugFixesChangeDate, string actionState)
+        public string SetBugFixesChangeDate(BugFixChangeDate bugFixesChangeDate, string actionState, int companyId)
         {
             // Declare the variable
             string status = "ERROR";
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
 
             // Check the action state
             switch (actionState)
             {
                 case "NEW":
                     // Adding the system ehancement change date history
-                    status = this.iBugFixesDataAccess.AddBugFixesChangeDate(bugFixesChangeDate);
+                    status = this.iBugFixesDataAccess.AddBugFixesChangeDate(bugFixesChangeDate, connectionString);
                     break;
                 case "UPDATE":
                     // Updating the system ehancement change date history
-                    status = this.iBugFixesDataAccess.UpdateBugFixesChangeDate(bugFixesChangeDate);
+                    status = this.iBugFixesDataAccess.UpdateBugFixesChangeDate(bugFixesChangeDate, connectionString);
                     break;
                 case "DELETE":
                     // Deleting the history record
-                    status = this.iBugFixesDataAccess.DeleteBugFixesChangeDate(bugFixesChangeDate);
+                    status = this.iBugFixesDataAccess.DeleteBugFixesChangeDate(bugFixesChangeDate, connectionString);
                     break;
             }
             // End of Check the action state
@@ -254,9 +271,11 @@ namespace AWSProjectAPI.Service.BugFixes
         /// BugFixesId -> String value
         /// filter -> Filter object value
         /// </remarks>
-        public List<ViewBugFixChangeDate> GetBugFixesChangeDate(Filter filter, string bugFixesId)
+        public List<ViewBugFixChangeDate> GetBugFixesChangeDate(Filter filter, string bugFixesId, int companyId)
         {
-            return this.iBugFixesDataAccess.GetBugFixesChangeDate(filter, bugFixesId);
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+            return this.iBugFixesDataAccess.GetBugFixesChangeDate(filter, bugFixesId, connectionString);
         }
 
         // SetBugFixesComment
@@ -270,25 +289,27 @@ namespace AWSProjectAPI.Service.BugFixes
         /// BugFixesComment -> BugFixesComment object value
         /// actionState -> string value
         /// </remarks>
-        public string SetBugFixesComment(BugFixComment bugFixesComment, string actionState)
+        public string SetBugFixesComment(BugFixComment bugFixesComment, string actionState, int companyId)
         {
             // Declare the variable
             string status = "false";
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
 
             // Check the action state
             switch (actionState)
             {
                 case "NEW":
                     // Adding the system ehancement comment
-                    status = this.iBugFixesDataAccess.AddBugFixesComment(bugFixesComment);
+                    status = this.iBugFixesDataAccess.AddBugFixesComment(bugFixesComment, connectionString);
                     break;
                 case "UPDATE":
                     // Updating the system ehancement comment
-                    status = this.iBugFixesDataAccess.UpdateBugFixesComment(bugFixesComment);
+                    status = this.iBugFixesDataAccess.UpdateBugFixesComment(bugFixesComment, connectionString);
                     break;
                 case "DELETE":
                     // Deleting the comment
-                    status = this.iBugFixesDataAccess.DeleteBugFixesComment(bugFixesComment);
+                    status = this.iBugFixesDataAccess.DeleteBugFixesComment(bugFixesComment, connectionString);
                     break;
             }
             // End of Check the action state
@@ -307,9 +328,11 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// filter -> Filter object value
         /// </remarks>
-        public List<ViewBugFixComment> GetBugFixesComment(Filter filter)
+        public List<ViewBugFixComment> GetBugFixesComment(Filter filter, int companyId)
         {
-            return this.iBugFixesDataAccess.GetBugFixesComment(filter);
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+            return this.iBugFixesDataAccess.GetBugFixesComment(filter, connectionString);
         }
 
         // GetStatBoxes
@@ -322,9 +345,11 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// -
         /// </remarks>
-        public List<StatisticsBoxData> GetStatBoxes()
+        public List<StatisticsBoxData> GetStatBoxes(int companyId)
         {
-            return this.iBugFixesDataAccess.GetStatBoxes();
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+            return this.iBugFixesDataAccess.GetStatBoxes(connectionString);
         }
 
         // ApprovalChangeDate
@@ -338,9 +363,11 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// -
         /// </remarks>
-        public bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval)
+        public bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval, int companyId)
         {
-            return this.iBugFixesDataAccess.ApprovalChangeDate(SystemEnhancementsChangeHistoryId, approval);
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+            return this.iBugFixesDataAccess.ApprovalChangeDate(SystemEnhancementsChangeHistoryId, approval, connectionString);
         }
 
         // AddViewId
@@ -354,24 +381,25 @@ namespace AWSProjectAPI.Service.BugFixes
         /// <remarks>
         /// -
         /// </remarks>
-        public bool AddViewId(string itemId, string userId)
+        public bool AddViewId(string itemId, string userId, int companyId)
         {
             // Status
             bool status = false;
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
 
             // Getting the system enhancement ID details
-            BugFix bugFix = this.iBugFixesDataAccess.GetBugFixesDetailsById(itemId, userId);
+            BugFix bugFix = this.iBugFixesDataAccess.GetBugFixesDetailsById(itemId, connectionString, userId);
 
             // Check if the ID is added
             if (bugFix.IsNew == true)
             {
-                status = this.iBugFixesDataAccess.AddViewId(itemId, userId);
+                status = this.iBugFixesDataAccess.AddViewId(itemId, userId, connectionString);
                 // Getting the user details
-                UserDetails userDetails = iAuthenticationService.GetUserDetailsByUserId(userId);
+                UserDetails userDetails = iAuthenticationService.GetUserDetailsByUserId(userId, companyId);
                 // Getting the user details
-                UserDetails addedUserDetails = iAuthenticationService.GetUserDetailsByUserId(bugFix.AddedUserId);
+                UserDetails addedUserDetails = iAuthenticationService.GetUserDetailsByUserId(bugFix.AddedUserId, companyId);
                 // Sending the emails
-                sendViewedEmail(bugFix, userDetails, addedUserDetails);
+                sendViewedEmail(bugFix, userDetails, addedUserDetails, companyId);
             }
             else
             {
@@ -382,19 +410,19 @@ namespace AWSProjectAPI.Service.BugFixes
             return status;
         }
 
-        public void sendAddedEmail(BugFix bugFix, UserDetails userDetails, UserDetails addedUserDetails)
+        public void sendAddedEmail(BugFix bugFix, UserDetails userDetails, UserDetails addedUserDetails, int companyId)
         {
             // Getting the company details by company domain
             //CompanyDetails companyDetails = i_Service.GetCompanyDetailsByDomain(companyDomain);
 
             // Getting all the modules list
-            List<Module> modulesList = this.iCommonService.GetModuleList();
+            List<Module> modulesList = this.iCommonService.GetModuleList(companyId);
             // Getting the module index
             int moduleIndex = modulesList.FindIndex(obj => obj.Id == bugFix.ModuleId);
             // Getting the module name
             string moduleName = (moduleIndex == -1) ? "None" : modulesList[moduleIndex].Name;
             // Getting all the priority list
-            List<Priority> priorityList = this.iCommonService.GetPriorityList();
+            List<Priority> priorityList = this.iCommonService.GetPriorityList(companyId);
             // Getting the priority index
             int priorityIndex = priorityList.FindIndex(obj => obj.Id == bugFix.PriorityId);
             // Getting the priority name
@@ -462,19 +490,19 @@ namespace AWSProjectAPI.Service.BugFixes
             string emailResponse = iCommonService.SendEmailLocally(internelEmailObject);
         }
 
-        public void sendViewedEmail(BugFix bugFix, UserDetails userDetails, UserDetails addedUserDetails)
+        public void sendViewedEmail(BugFix bugFix, UserDetails userDetails, UserDetails addedUserDetails, int companyId)
         {
             // Getting the company details by company domain
             //CompanyDetails companyDetails = i_Service.GetCompanyDetailsByDomain(companyDomain);
 
             // Getting all the modules list
-            List<Module> modulesList = this.iCommonService.GetModuleList();
+            List<Module> modulesList = this.iCommonService.GetModuleList(companyId);
             // Getting the module index
             int moduleIndex = modulesList.FindIndex(obj => obj.Id == bugFix.ModuleId);
             // Getting the module name
             string moduleName = (moduleIndex == -1) ? "None" : modulesList[moduleIndex].Name;
             // Getting all the priority list
-            List<Priority> priorityList = this.iCommonService.GetPriorityList();
+            List<Priority> priorityList = this.iCommonService.GetPriorityList(companyId);
             // Getting the priority index
             int priorityIndex = priorityList.FindIndex(obj => obj.Id == bugFix.PriorityId);
             // Getting the priority name

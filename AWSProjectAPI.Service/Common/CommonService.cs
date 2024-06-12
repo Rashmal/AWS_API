@@ -50,9 +50,11 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public List<Priority> GetPriorityList()
+        public List<Priority> GetPriorityList(int companyId)
         {
-            return iCommonDataAccess.GetPriorityList();
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+            return iCommonDataAccess.GetPriorityList(connectionString);
         }
 
         // GetStatusList
@@ -65,9 +67,11 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// moduleCode -> string value
         /// </remarks>
-        public List<Status> GetStatusList(string moduleCode)
+        public List<Status> GetStatusList(string moduleCode, int companyId)
         {
-            return iCommonDataAccess.GetStatusList(moduleCode);
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+            return iCommonDataAccess.GetStatusList(moduleCode, connectionString);
         }
 
         // GetModuleList
@@ -80,9 +84,11 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public List<Module> GetModuleList()
+        public List<Module> GetModuleList(int companyId)
         {
-            return iCommonDataAccess.GetModuleList();
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+            return iCommonDataAccess.GetModuleList(connectionString);
         }
 
         // GetAllStaffList
@@ -95,9 +101,12 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public List<BasicUserDetails> GetAllStaffList()
+        public List<BasicUserDetails> GetAllStaffList(int companyId)
         {
-            return iCommonDataAccess.GetAllStaffList();
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            return iCommonDataAccess.GetAllStaffList(connectionString);
         }
 
         // TotalGlobalNotes
@@ -110,22 +119,25 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public int TotalGlobalNotes(string tabSection, string userId)
+        public int TotalGlobalNotes(string tabSection, string userId, int companyId)
         {
             // Declare the count
             int totalCount = 0;
+
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
 
             // Check the tab section
             switch (tabSection.ToUpper())
             {
                 case "TOTAL":
-                    totalCount = iCommonDataAccess.TotalGlobalNotes(userId);
+                    totalCount = iCommonDataAccess.TotalGlobalNotes(userId, connectionString);
                     break;
                 case "SE":
-                    totalCount = iCommonDataAccess.TotalSE(userId);
+                    totalCount = iCommonDataAccess.TotalSE(userId, connectionString);
                     break;
                 case "BGF":
-                    totalCount = iCommonDataAccess.TotalBG(userId);
+                    totalCount = iCommonDataAccess.TotalBG(userId, connectionString);
                     break;
             }
             // End of Check the tab section
@@ -319,9 +331,32 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public List<Module> GetModuleListBasedUserRole(string userRole, bool isStatic)
+        public List<Module> GetModuleListBasedUserRole(string userRole, bool isStatic, int companyId, string userId)
         {
-            return iCommonDataAccess.GetModuleListBasedUserRole(userRole, isStatic);
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+            // Getting the module list based on the role code
+            List<Module> modulesList = iCommonDataAccess.GetModuleListBasedUserRole(userRole, isStatic, connectionString);
+            // Getting the module for the user ID
+            List<Module> modulesListByUser = iCommonDataAccess.GetAllModulesByUserId(userId, connectionString);
+            // Declaring the list
+            List<Module> returnignList = new List<Module>();
+            // Loop through the modules list
+            for (int i = 0; i < modulesList.Count; i++)
+            {
+                // Check if the module exists
+                int moduleIndex = modulesListByUser.FindIndex(obj => obj.ModuleCode.ToUpper() == modulesList[i].ModuleCode.ToUpper());
+                // Check if the index is not -1
+                if (moduleIndex != -1)
+                {
+                    returnignList.Add(modulesList[i]);
+                }
+                // End of Check if the index is not -1
+            }
+            // End of Loop through the modules list
+
+            // Return the list
+            return returnignList;
         }
 
         // GetAccessListBasedUserRole
@@ -334,9 +369,11 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public List<UserRoleAccessDetail> GetAccessListBasedUserRole(string userRole)
+        public List<UserRoleAccessDetail> GetAccessListBasedUserRole(string userRole, int companyId)
         {
-            return iCommonDataAccess.GetAccessListBasedUserRole(userRole);
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+            return iCommonDataAccess.GetAccessListBasedUserRole(userRole, connectionString);
         }
 
         // Getting all the access list based on the user role for view
@@ -349,9 +386,32 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public List<Module> GetViewAccessListBasedUserRole(string userRole)
+        public List<Module> GetViewAccessListBasedUserRole(string userRole, int companyId, string userId)
         {
-            return iCommonDataAccess.GetViewAccessListBasedUserRole(userRole);
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+            // Getting the module list based on the role code
+            List<Module> modulesList = iCommonDataAccess.GetViewAccessListBasedUserRole(userRole, connectionString);
+            // Getting the module for the user ID
+            List<Module> modulesListByUser = iCommonDataAccess.GetAllModulesByUserId(userId, connectionString);
+            // Declaring the list
+            List<Module> returnignList = new List<Module>();
+            // Loop through the modules list
+            for (int i = 0; i < modulesList.Count; i++)
+            {
+                // Check if the module exists
+                int moduleIndex = modulesListByUser.FindIndex(obj => obj.ModuleCode.ToUpper() == modulesList[i].ModuleCode.ToUpper());
+                // Check if the index is not -1
+                if (moduleIndex != -1)
+                {
+                    returnignList.Add(modulesList[i]);
+                }
+                // End of Check if the index is not -1
+            }
+            // End of Loop through the modules list
+
+            // Return the list
+            return returnignList;
         }
 
         // GetAccountDetails
@@ -517,6 +577,51 @@ namespace AWSProjectAPI.Service.Common
         public List<RoleDetails> GetAllRoleDetails()
         {
             return iCommonDataAccess.GetAllRoleDetails();
+        }
+
+        // GetConnectionString
+        /// <summary>
+        /// Getting all the connection details
+        /// </summary>
+        /// <returns>
+        /// ConnectionString object value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public ConnectionString GetConnectionString(int parentGroupId, string moduleCode)
+        {
+            return iCommonDataAccess.GetConnectionString(parentGroupId, moduleCode);
+        }
+
+        // GetAllParentGroupsDetailsByEmail
+        /// <summary>
+        /// Getting all the parent groups by email
+        /// </summary>
+        /// <returns>
+        /// ParentGroup object list value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<ParentGroup> GetAllParentGroupsDetailsByEmail(string email)
+        {
+            return iCommonDataAccess.GetAllParentGroupsDetailsByEmail(email);
+        }
+
+        // GetAllParentGroupsDetailsById
+        /// <summary>
+        /// Getting all the parent groups by id
+        /// </summary>
+        /// <returns>
+        /// ParentGroup object list value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<ParentGroup> GetAllParentGroupsDetailsById(string userId)
+        {
+            return iCommonDataAccess.GetAllParentGroupsDetailsById(userId);
         }
     }
 }

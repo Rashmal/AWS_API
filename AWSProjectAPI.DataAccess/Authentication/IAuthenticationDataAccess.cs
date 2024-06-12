@@ -1,4 +1,5 @@
 ﻿using AWSProjectAPI.Core.Authentication;
+using AWSProjectAPI.Core.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
         /// <remarks>
         /// email -> string
         /// </remarks>
-        UserDetails GetUserDetailsByEmail(string email);
+        UserDetails GetUserDetailsByEmail(string email, ConnectionString connectionString = null);
 
         // GetUserJWTToken
         /// <summary>
@@ -44,7 +45,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
         /// <remarks>
         /// <param name="userID">string value.</param>
         /// </remarks>
-        string GetUserJWTToken(string userID);
+        string GetUserJWTToken(string userID, ConnectionString connectionString = null);
 
         // SetUserJWTToken
         /// <summary>
@@ -57,7 +58,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
         /// <param name="jwtToken">string value.</param>
         /// <param name="userId">string value.</param>
         /// </remarks>
-        bool SetUserJWTToken(string jwtToken, string userId);
+        bool SetUserJWTToken(string jwtToken, string userId, ConnectionString connectionString = null);
 
         // LogoutUser
         /// <summary>
@@ -69,7 +70,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
         /// <remarks>
         /// email -> string value
         /// </remarks>
-        bool LogoutUser(string email);
+        bool LogoutUser(string email, ConnectionString connectionString = null);
 
         // GetUserAccessLevels
         /// <summary>
@@ -92,6 +93,6 @@ namespace AWSProjectAPI.DataAccess.Authentication
         /// <remarks>
         /// email -> string
         /// </remarks>
-        UserDetails GetUserDetailsByUserId(string userId);
+        UserDetails GetUserDetailsByUserId(string userId, ConnectionString connectionString);
     }
 }

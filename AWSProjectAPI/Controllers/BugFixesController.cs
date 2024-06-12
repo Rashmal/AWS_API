@@ -31,15 +31,15 @@ namespace AWSProjectAPI.Controllers
         // Set System Enhancement Details
         [HttpPost]
         [Route("SetBugFixesDetails")]
-        public IActionResult SetBugFixesDetails([FromBody] BugFix bugFixes, string actionState, string userId)
+        public IActionResult SetBugFixesDetails([FromBody] BugFix bugFixes, string actionState, string userId, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iBugFixesService.SetBugFixesDetails(bugFixes, actionState);
+                var response = this.iBugFixesService.SetBugFixesDetails(bugFixes, actionState, companyId);
                 // Set notification count
-                hubContext.Clients.All.NotificationCountGN(commonService.TotalGlobalNotes("TOTAL", userId));
-                hubContext.Clients.All.NotificationCountBF(commonService.TotalGlobalNotes("BGF", userId));
+                hubContext.Clients.All.NotificationCountGN(commonService.TotalGlobalNotes("TOTAL", userId, companyId));
+                hubContext.Clients.All.NotificationCountBF(commonService.TotalGlobalNotes("BGF", userId, companyId));
                 // Returning the result
                 return Json(response);
             }
@@ -53,12 +53,12 @@ namespace AWSProjectAPI.Controllers
         // Getting the system enhancements modules to display
         [HttpPost]
         [Route("GetBugFixesDisplayModules")]
-        public IActionResult GetBugFixesDisplayModules([FromBody] Filter filter)
+        public IActionResult GetBugFixesDisplayModules([FromBody] Filter filter, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iBugFixesService.GetBugFixesDisplayModules(filter);
+                var response = this.iBugFixesService.GetBugFixesDisplayModules(filter, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -72,12 +72,12 @@ namespace AWSProjectAPI.Controllers
         // Getting the system enhancements display list
         [HttpPost]
         [Route("GetBugFixesDisplayList")]
-        public IActionResult GetBugFixesDisplayList([FromBody] Filter filter, string UserId)
+        public IActionResult GetBugFixesDisplayList([FromBody] Filter filter, string UserId, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iBugFixesService.GetBugFixesDisplayList(filter, UserId);
+                var response = this.iBugFixesService.GetBugFixesDisplayList(filter, UserId, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -92,15 +92,15 @@ namespace AWSProjectAPI.Controllers
         // Getting the system enhancements details based on the Id
         [HttpGet]
         [Route("GetBugFixesDetailsById")]
-        public IActionResult GetBugFixesDetailsById(string bugFixesId, string userId)
+        public IActionResult GetBugFixesDetailsById(string bugFixesId, string userId, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iBugFixesService.GetBugFixesDetailsById(bugFixesId, userId);
+                var response = this.iBugFixesService.GetBugFixesDetailsById(bugFixesId, userId, companyId);
                 // Set notification count
-                hubContext.Clients.All.NotificationCountGN(commonService.TotalGlobalNotes("TOTAL", userId));
-                hubContext.Clients.All.NotificationCountBF(commonService.TotalGlobalNotes("BGF", userId));
+                hubContext.Clients.All.NotificationCountGN(commonService.TotalGlobalNotes("TOTAL", userId, companyId));
+                hubContext.Clients.All.NotificationCountBF(commonService.TotalGlobalNotes("BGF", userId, companyId));
                 // Returning the result
                 return Json(response);
             }
@@ -114,12 +114,12 @@ namespace AWSProjectAPI.Controllers
         // Updating the status of the system enhancement
         [HttpGet]
         [Route("UpdateBugFixesStatus")]
-        public IActionResult UpdateBugFixesStatus(string bugFixesId, int statusId)
+        public IActionResult UpdateBugFixesStatus(string bugFixesId, int statusId, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iBugFixesService.UpdateBugFixesStatus(bugFixesId, statusId);
+                var response = this.iBugFixesService.UpdateBugFixesStatus(bugFixesId, statusId, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -133,12 +133,12 @@ namespace AWSProjectAPI.Controllers
         // Set System Enhancement Change date history
         [HttpPost]
         [Route("SetBugFixesChangeDate")]
-        public IActionResult SetBugFixesChangeDate([FromBody] BugFixChangeDate bugFixesChangeDate, string actionState)
+        public IActionResult SetBugFixesChangeDate([FromBody] BugFixChangeDate bugFixesChangeDate, string actionState, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iBugFixesService.SetBugFixesChangeDate(bugFixesChangeDate, actionState);
+                var response = this.iBugFixesService.SetBugFixesChangeDate(bugFixesChangeDate, actionState, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -152,12 +152,12 @@ namespace AWSProjectAPI.Controllers
         // Get System Enhancement Change date history
         [HttpPost]
         [Route("GetBugFixesChangeDate")]
-        public IActionResult GetBugFixesChangeDate([FromBody] Filter filter, string bugFixesId)
+        public IActionResult GetBugFixesChangeDate([FromBody] Filter filter, string bugFixesId, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iBugFixesService.GetBugFixesChangeDate(filter, bugFixesId);
+                var response = this.iBugFixesService.GetBugFixesChangeDate(filter, bugFixesId, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -171,12 +171,12 @@ namespace AWSProjectAPI.Controllers
         // Set System Enhancement Comment
         [HttpPost]
         [Route("SetBugFixesComment")]
-        public IActionResult SetBugFixesComment([FromBody] BugFixComment bugFixComment, string actionState)
+        public IActionResult SetBugFixesComment([FromBody] BugFixComment bugFixComment, string actionState, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iBugFixesService.SetBugFixesComment(bugFixComment, actionState);
+                var response = this.iBugFixesService.SetBugFixesComment(bugFixComment, actionState, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -190,12 +190,12 @@ namespace AWSProjectAPI.Controllers
         // Get System Enhancement Comment
         [HttpPost]
         [Route("GetBugFixesComment")]
-        public IActionResult GetBugFixesComment([FromBody] Filter filter)
+        public IActionResult GetBugFixesComment([FromBody] Filter filter, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iBugFixesService.GetBugFixesComment(filter);
+                var response = this.iBugFixesService.GetBugFixesComment(filter, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -209,12 +209,12 @@ namespace AWSProjectAPI.Controllers
         // Getting the stat boxes
         [HttpGet]
         [Route("GetStatBoxes")]
-        public IActionResult GetStatBoxes()
+        public IActionResult GetStatBoxes(int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iBugFixesService.GetStatBoxes();
+                var response = this.iBugFixesService.GetStatBoxes(companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -228,12 +228,12 @@ namespace AWSProjectAPI.Controllers
         // Approval of change date history
         [HttpGet]
         [Route("ApprovalChangeDate")]
-        public IActionResult ApprovalChangeDate(int BugFixChangeHistoryId, string approval)
+        public IActionResult ApprovalChangeDate(int BugFixChangeHistoryId, string approval, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iBugFixesService.ApprovalChangeDate(BugFixChangeHistoryId, approval);
+                var response = this.iBugFixesService.ApprovalChangeDate(BugFixChangeHistoryId, approval, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -247,12 +247,12 @@ namespace AWSProjectAPI.Controllers
         // Adding the view Id for the bug fixes
         [HttpGet]
         [Route("AddViewId")]
-        public IActionResult AddViewId(string itemId, string userId)
+        public IActionResult AddViewId(string itemId, string userId, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iBugFixesService.AddViewId(itemId, userId);
+                var response = this.iBugFixesService.AddViewId(itemId, userId, companyId);
                 // Returning the result
                 return Json(response);
             }

@@ -22,7 +22,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixes -> BugFixes object
         /// </remarks>
-        string AddBugFixesDetails(BugFix bugFixes);
+        string AddBugFixesDetails(BugFix bugFixes, ConnectionString connectionString);
 
         // UpdateBugFixesDetails
         /// <summary>
@@ -34,7 +34,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixes -> BugFixes object
         /// </remarks>
-        string UpdateBugFixesDetails(BugFix bugFixes);
+        string UpdateBugFixesDetails(BugFix bugFixes, ConnectionString connectionString);
 
         // DeleteBugFixesDetails
         /// <summary>
@@ -46,7 +46,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixes -> BugFixes object
         /// </remarks>
-        string DeleteBugFixesDetails(string bugFixesId);
+        string DeleteBugFixesDetails(string bugFixesId, ConnectionString connectionString);
 
         // DeleteBugFixesAssignedStaff
         /// <summary>
@@ -58,7 +58,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesId -> string value
         /// </remarks>
-        string DeleteBugFixesAssignedStaff(string bugFixesId);
+        string DeleteBugFixesAssignedStaff(string bugFixesId, ConnectionString connectionString);
 
         // DeleteBugFixesRequestedStaff
         /// <summary>
@@ -70,7 +70,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesId -> string value
         /// </remarks>
-        string DeleteBugFixesRequestedStaff(string bugFixesId);
+        string DeleteBugFixesRequestedStaff(string bugFixesId, ConnectionString connectionString);
 
         // AddBugFixesAssignedStaff
         /// <summary>
@@ -83,7 +83,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// BugFixesId -> string value
         /// staffId -> string value
         /// </remarks>
-        string AddBugFixesAssignedStaff(string bugFixesId, string staffId);
+        string AddBugFixesAssignedStaff(string bugFixesId, string staffId, ConnectionString connectionString);
 
         // AddBugFixesRequestedStaff
         /// <summary>
@@ -96,7 +96,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// BugFixesId -> string value
         /// staffId -> string value
         /// </remarks>
-        string AddBugFixesRequestedStaff(string bugFixesId, string staffId);
+        string AddBugFixesRequestedStaff(string bugFixesId, string staffId, ConnectionString connectionString);
 
         // GetBugFixesDisplayModules
         /// <summary>
@@ -108,7 +108,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        List<DisplayModule> GetBugFixesDisplayModules(Filter filter);
+        List<DisplayModule> GetBugFixesDisplayModules(Filter filter, ConnectionString connectionString);
 
         // GetBugFixesDisplayList
         /// <summary>
@@ -120,7 +120,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        List<ViewBugFix> GetBugFixesDisplayList(Filter filter, string UserId);
+        List<ViewBugFix> GetBugFixesDisplayList(Filter filter, string UserId, ConnectionString connectionString);
 
         // GetBugFixesDetailsById
         /// <summary>
@@ -132,7 +132,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesId -> String value
         /// </remarks>
-        BugFix GetBugFixesDetailsById(string bugFixesId, string userId = "");
+        BugFix GetBugFixesDetailsById(string bugFixesId, ConnectionString connectionString, string userId = "");
 
         // GetBugFixesAssignedStaff
         /// <summary>
@@ -144,7 +144,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesId -> String value
         /// </remarks>
-        List<BasicUserDetails> GetBugFixesAssignedStaff(string bugFixesId);
+        List<BasicUserDetails> GetBugFixesAssignedStaff(string bugFixesId, ConnectionString connectionString);
 
         // GetBugFixesRequestedStaff
         /// <summary>
@@ -156,7 +156,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesId -> String value
         /// </remarks>
-        List<BasicUserDetails> GetBugFixesRequestedStaff(string bugFixesId);
+        List<BasicUserDetails> GetBugFixesRequestedStaff(string bugFixesId, ConnectionString connectionString);
 
         // UpdateBugFixesStatus
         /// <summary>
@@ -169,7 +169,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// BugFixesId -> String value
         /// statusId -> Int value
         /// </remarks>
-        bool UpdateBugFixesStatus(string bugFixesId, int statusId);
+        bool UpdateBugFixesStatus(string bugFixesId, int statusId, ConnectionString connectionString);
 
         // AddBugFixesChangeDate
         /// <summary>
@@ -181,7 +181,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesChangeDate -> BugFixesChangeDate object value
         /// </remarks>
-        string AddBugFixesChangeDate(BugFixChangeDate bugFixesChangeDate);
+        string AddBugFixesChangeDate(BugFixChangeDate bugFixesChangeDate, ConnectionString connectionString);
 
         // UpdateBugFixesChangeDate
         /// <summary>
@@ -193,7 +193,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesChangeDate -> BugFixesChangeDate object value
         /// </remarks>
-        string UpdateBugFixesChangeDate(BugFixChangeDate bugFixesChangeDate);
+        string UpdateBugFixesChangeDate(BugFixChangeDate bugFixesChangeDate, ConnectionString connectionString);
 
         // DeleteBugFixesChangeDate
         /// <summary>
@@ -205,7 +205,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesChangeDate -> BugFixesChangeDate object value
         /// </remarks>
-        string DeleteBugFixesChangeDate(BugFixChangeDate bugFixesChangeDate);
+        string DeleteBugFixesChangeDate(BugFixChangeDate bugFixesChangeDate, ConnectionString connectionString);
 
         // GetBugFixesChangeDate
         /// <summary>
@@ -218,7 +218,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// BugFixesId -> String value
         /// filter -> Filter object value
         /// </remarks>
-        List<ViewBugFixChangeDate> GetBugFixesChangeDate(Filter filter, string bugFixesId);
+        List<ViewBugFixChangeDate> GetBugFixesChangeDate(Filter filter, string bugFixesId, ConnectionString connectionString);
 
         // AddBugFixesComment
         /// <summary>
@@ -230,7 +230,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesComment -> BugFixesComment object value
         /// </remarks>
-        string AddBugFixesComment(BugFixComment bugFixesComment);
+        string AddBugFixesComment(BugFixComment bugFixesComment, ConnectionString connectionString);
 
         // UpdateBugFixesComment
         /// <summary>
@@ -242,7 +242,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesComment -> BugFixesComment object value
         /// </remarks>
-        string UpdateBugFixesComment(BugFixComment bugFixesComment);
+        string UpdateBugFixesComment(BugFixComment bugFixesComment, ConnectionString connectionString);
 
         // DeleteBugFixesComment
         /// <summary>
@@ -254,7 +254,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesComment -> BugFixesComment object value
         /// </remarks>
-        string DeleteBugFixesComment(BugFixComment bugFixesComment);
+        string DeleteBugFixesComment(BugFixComment bugFixesComment, ConnectionString connectionString);
 
         // GetBugFixesComment
         /// <summary>
@@ -266,7 +266,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// filter -> Filter object value
         /// </remarks>
-        List<ViewBugFixComment> GetBugFixesComment(Filter filter);
+        List<ViewBugFixComment> GetBugFixesComment(Filter filter, ConnectionString connectionString);
 
         // GetStatBoxes
         /// <summary>
@@ -278,7 +278,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// -
         /// </remarks>
-        List<StatisticsBoxData> GetStatBoxes();
+        List<StatisticsBoxData> GetStatBoxes(ConnectionString connectionString);
 
         // ApprovalChangeDate
         /// <summary>
@@ -291,7 +291,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// -
         /// </remarks>
-        bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval);
+        bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval, ConnectionString connectionString);
 
         // AddViewId
         /// <summary>
@@ -304,6 +304,6 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// -
         /// </remarks>
-        bool AddViewId(string itemId, string userId);
+        bool AddViewId(string itemId, string userId, ConnectionString connectionString);
     }
 }

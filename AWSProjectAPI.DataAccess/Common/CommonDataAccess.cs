@@ -17,6 +17,7 @@ namespace AWSProjectAPI.DataAccess.Common
         #region Private Properties
         protected string AWSDBConnectionString { get; set; }
         protected string AWS_COMMON_DBConnectionString { get; set; }
+        protected string AWS_ACCOUNT_DBConnectionString { get; set; }
         #endregion
 
         // Constructor
@@ -25,10 +26,12 @@ namespace AWSProjectAPI.DataAccess.Common
             // Intantiating the object
             this.AWSDBConnectionString = configurationString.GetConnectionString("AWSDBString");
             this.AWS_COMMON_DBConnectionString = configurationString.GetConnectionString("AWS_COMMON_DBString");
+            this.AWS_ACCOUNT_DBConnectionString = configurationString.GetConnectionString("AWS_ACCOUNT_DBString");
         }
 
         // CheckEmailExists
         /// <summary>
+        /// 
         /// Check if the email exists
         /// </summary>
         /// <returns>
@@ -45,7 +48,7 @@ namespace AWSProjectAPI.DataAccess.Common
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(this.AWS_ACCOUNT_DBConnectionString))
                 {
                     // Openning the connection
                     connection.Open();
@@ -92,7 +95,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public List<Priority> GetPriorityList()
+        public List<Priority> GetPriorityList(ConnectionString connectionString)
         {
             // Declare the return value
             List<Priority> priorities = new List<Priority>();
@@ -100,7 +103,7 @@ namespace AWSProjectAPI.DataAccess.Common
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -149,7 +152,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// moduleCode -> string value
         /// </remarks>
-        public List<Status> GetStatusList(string moduleCode)
+        public List<Status> GetStatusList(string moduleCode, ConnectionString connectionString)
         {
             // Declare the return value
             List<Status> statusList = new List<Status>();
@@ -157,7 +160,7 @@ namespace AWSProjectAPI.DataAccess.Common
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -209,7 +212,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public List<Module> GetModuleList()
+        public List<Module> GetModuleList(ConnectionString connectionString)
         {
             // Declare the return value
             List<Module> moduleList = new List<Module>();
@@ -217,7 +220,7 @@ namespace AWSProjectAPI.DataAccess.Common
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -269,7 +272,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public List<BasicUserDetails> GetAllStaffList()
+        public List<BasicUserDetails> GetAllStaffList(ConnectionString connectionString)
         {
             // Declare the return value
             List<BasicUserDetails> staffList = new List<BasicUserDetails>();
@@ -277,7 +280,7 @@ namespace AWSProjectAPI.DataAccess.Common
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -329,7 +332,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public int TotalGlobalNotes(string userId)
+        public int TotalGlobalNotes(string userId, ConnectionString connectionString)
         {
             // Declare the return value
             int totalCount = 0;
@@ -337,7 +340,7 @@ namespace AWSProjectAPI.DataAccess.Common
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -381,7 +384,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public int TotalSE(string userId)
+        public int TotalSE(string userId, ConnectionString connectionString)
         {
             // Declare the return value
             int totalCount = 0;
@@ -389,7 +392,7 @@ namespace AWSProjectAPI.DataAccess.Common
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -433,7 +436,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public int TotalBG(string userId)
+        public int TotalBG(string userId, ConnectionString connectionString)
         {
             // Declare the return value
             int totalCount = 0;
@@ -441,7 +444,7 @@ namespace AWSProjectAPI.DataAccess.Common
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -485,7 +488,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public List<Module> GetModuleListBasedUserRole(string userRole, bool isStatic)
+        public List<Module> GetModuleListBasedUserRole(string userRole, bool isStatic, ConnectionString connectionString)
         {
             // Declare the return value
             List<Module> moduleList = new List<Module>();
@@ -493,7 +496,7 @@ namespace AWSProjectAPI.DataAccess.Common
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -549,7 +552,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public List<UserRoleAccessDetail> GetAccessListBasedUserRole(string userRole)
+        public List<UserRoleAccessDetail> GetAccessListBasedUserRole(string userRole, ConnectionString connectionString)
         {
             // Declare the return value
             List<UserRoleAccessDetail> userRoleAccessDetailList = new List<UserRoleAccessDetail>();
@@ -557,7 +560,7 @@ namespace AWSProjectAPI.DataAccess.Common
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -609,7 +612,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        public List<Module> GetViewAccessListBasedUserRole(string userRole)
+        public List<Module> GetViewAccessListBasedUserRole(string userRole, ConnectionString connectionString)
         {
             // Declare the return value
             List<Module> moduleList = new List<Module>();
@@ -617,7 +620,7 @@ namespace AWSProjectAPI.DataAccess.Common
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1291,6 +1294,243 @@ namespace AWSProjectAPI.DataAccess.Common
 
             // Return the values
             return roleDetailsList;
+        }
+
+        // GetConnectionString
+        /// <summary>
+        /// Getting all the connection details
+        /// </summary>
+        /// <returns>
+        /// ConnectionString object value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public ConnectionString GetConnectionString(int parentGroupId, string moduleCode)
+        {
+            // Declare the return value
+            List<ConnectionString> ConnectionStringList = new List<ConnectionString>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_ACCOUNT_DBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("GroupConnectionString_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET$BU";
+                        SqlParameter ParentGroupIdParameter = sqlCommandToken.Parameters.Add("@ParentGroupId", SqlDbType.Int);
+                        ParentGroupIdParameter.Value = parentGroupId;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            ConnectionStringList.Add(new ConnectionString()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["DatabaseName"].ToString(),
+                                DatabaseConfig = resultToken["ConnectionString"].ToString().Replace("\\\\","\\")
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetConnectionString ! :" + ex);
+            }
+
+            // Return the values
+            return ConnectionStringList.Find(obj => obj.Name.ToUpper() == moduleCode.ToUpper());
+        }
+
+        // GetAllParentGroupsDetailsByEmail
+        /// <summary>
+        /// Getting all the parent groups by email
+        /// </summary>
+        /// <returns>
+        /// ParentGroup object list value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<ParentGroup> GetAllParentGroupsDetailsByEmail(string email)
+        {
+            // Declare the return value
+            List<ParentGroup> parentGroupList = new List<ParentGroup>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_ACCOUNT_DBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("ParentGroupNames_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "PR$GR$EM";
+                        SqlParameter EmailParameter = sqlCommandToken.Parameters.Add("@Email", SqlDbType.VarChar);
+                        EmailParameter.Value = email;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            parentGroupList.Add(new ParentGroup()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["Name"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetAllParentGroupsDetailsByEmail ! :" + ex);
+            }
+
+            // Return the values
+            return parentGroupList;
+        }
+
+        // GetAllParentGroupsDetailsById
+        /// <summary>
+        /// Getting all the parent groups by id
+        /// </summary>
+        /// <returns>
+        /// ParentGroup object list value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<ParentGroup> GetAllParentGroupsDetailsById(string userId)
+        {
+            // Declare the return value
+            List<ParentGroup> parentGroupList = new List<ParentGroup>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_ACCOUNT_DBConnectionString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("ParentGroupNames_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "PR$GR$ID";
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = userId;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            parentGroupList.Add(new ParentGroup()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["Name"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetAllParentGroupsDetailsById ! :" + ex);
+            }
+
+            // Return the values
+            return parentGroupList;
+        }
+
+        // GetAllModulesByUserId
+        /// <summary>
+        /// Getting all the modules by user id
+        /// </summary>
+        /// <returns>
+        /// Module object list value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<Module> GetAllModulesByUserId(string userId, ConnectionString connectionString = null)
+        {
+            // Declare the return value
+            List<Module> moduleList = new List<Module>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("User_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET$ACL";
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = userId;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            moduleList.Add(new Module()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["Name"].ToString(),
+                                ModuleCode = resultToken["ModuleCode"].ToString(),
+                                ModuleIcon = resultToken["ModuleIcon"].ToString(),
+                                RedirectUrl = resultToken["RedirectUrl"].ToString(),
+                                IsDisable = Convert.ToBoolean(resultToken["IsDisabled"].ToString())
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetAllModulesByUserId ! :" + ex);
+            }
+
+            // Return the values
+            return moduleList;
         }
     }
 }

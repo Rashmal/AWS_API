@@ -21,7 +21,7 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// systemEnhancement -> SystemEnhancement object
         /// actionState -> string
         /// </remarks>
-        string SetSystemEnhancementDetails(SystemEnhancement systemEnhancement, string actionState);
+        string SetSystemEnhancementDetails(SystemEnhancement systemEnhancement, string actionState, int companyId);
 
         // GetSystemEnhancementDisplayModules
         /// <summary>
@@ -33,7 +33,7 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        List<DisplayModule> GetSystemEnhancementDisplayModules(Filter filter);
+        List<DisplayModule> GetSystemEnhancementDisplayModules(Filter filter, int companyId);
 
         // GetSystemEnhancementDisplayList
         /// <summary>
@@ -45,7 +45,7 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        List<ViewSystemEnhancement> GetSystemEnhancementDisplayList(Filter filter, string UserId);
+        List<ViewSystemEnhancement> GetSystemEnhancementDisplayList(Filter filter, string UserId, int companyId);
 
         // GetSystemEnhancementDetailsById
         /// <summary>
@@ -57,7 +57,7 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// <remarks>
         /// systemEnhancementId -> String value
         /// </remarks>
-        SystemEnhancement GetSystemEnhancementDetailsById(string systemEnhancementId,string userId);
+        SystemEnhancement GetSystemEnhancementDetailsById(string systemEnhancementId,string userId, int companyId);
 
         // UpdateSystemEnhancementStatus
         /// <summary>
@@ -70,7 +70,7 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// systemEnhancementId -> String value
         /// statusId -> Int value
         /// </remarks>
-        bool UpdateSystemEnhancementStatus(string systemEnhancementId, int statusId);
+        bool UpdateSystemEnhancementStatus(string systemEnhancementId, int statusId, int companyId);
 
         // SetSystemEhancementChangeDate
         /// <summary>
@@ -83,7 +83,7 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// actionState -> String value
         /// systemEnhancementChangeDate -> SystemEnhancementChangeDate object value
         /// </remarks>
-        string SetSystemEhancementChangeDate(SystemEnhancementChangeDate systemEnhancementChangeDate, string actionState);
+        string SetSystemEhancementChangeDate(SystemEnhancementChangeDate systemEnhancementChangeDate, string actionState, int companyId);
 
         // GetSystemEhancementChangeDate
         /// <summary>
@@ -96,7 +96,7 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// systemEnhancementId -> String value
         /// filter -> Filter object value
         /// </remarks>
-        List<ViewSystemEnhancementChangeDate> GetSystemEhancementChangeDate(Filter filter, string systemEnhancementId);
+        List<ViewSystemEnhancementChangeDate> GetSystemEhancementChangeDate(Filter filter, string systemEnhancementId, int companyId);
 
         // SetSystemEhancementComment
         /// <summary>
@@ -109,7 +109,7 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// systemEnhancementComment -> SystemEnhancementComment object value
         /// actionState -> string value
         /// </remarks>
-        string SetSystemEhancementComment(SystemEnhancementComment systemEnhancementComment, string actionState);
+        string SetSystemEhancementComment(SystemEnhancementComment systemEnhancementComment, string actionState, int companyId);
 
         // GetSystemEhancementComment
         /// <summary>
@@ -121,7 +121,7 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// <remarks>
         /// filter -> Filter object value
         /// </remarks>
-        List<ViewSystemEnhancementComment> GetSystemEhancementComment(Filter filter);
+        List<ViewSystemEnhancementComment> GetSystemEhancementComment(Filter filter, int companyId);
 
         // GetStatBoxes
         /// <summary>
@@ -133,7 +133,7 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// <remarks>
         /// -
         /// </remarks>
-        List<StatisticsBoxData> GetStatBoxes();
+        List<StatisticsBoxData> GetStatBoxes(int companyId);
 
         // ApprovalChangeDate
         /// <summary>
@@ -146,7 +146,7 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// <remarks>
         /// -
         /// </remarks>
-        bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval);
+        bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval, int companyId);
 
         // AddViewId
         /// <summary>
@@ -159,6 +159,6 @@ namespace AWSProjectAPI.Service.SystemEnhancements
         /// <remarks>
         /// -
         /// </remarks>
-        bool AddViewId(string itemId, string userId);
+        bool AddViewId(string itemId, string userId, int companyId);
     }
 }

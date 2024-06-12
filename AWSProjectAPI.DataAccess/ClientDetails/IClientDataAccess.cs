@@ -21,7 +21,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// filter -> Filter object
         /// companyId -> number
         /// </remarks>
-        List<DisplayClientDetails> GetDisplayClientDetails(Filter filter, int companyId);
+        List<DisplayClientDetails> GetDisplayClientDetails(Filter filter, ConnectionString connectionString);
 
         // GetAllContactList
         /// <summary>
@@ -34,7 +34,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// clientId -> number
         /// companyId -> number
         /// </remarks>
-        List<Contact> GetAllContactList(Filter filter, int clientId, int companyId);
+        List<Contact> GetAllContactList(Filter filter, int clientId, ConnectionString connectionString);
 
         // SetClientCustomer
         /// <summary>
@@ -47,7 +47,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// clientCustomer -> ClientCustomer object
         /// companyId -> number
         /// </remarks>
-        int SetClientCustomer(ClientCustomer clientCustomer, string staffId, string actionType, int companyId);
+        int SetClientCustomer(ClientCustomer clientCustomer, string staffId, string actionType, ConnectionString connectionString);
 
          // GetClientCustomer
         /// <summary>
@@ -60,7 +60,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// clientId -> number
         /// companyId -> number
         /// </remarks>
-        ClientCustomer GetClientCustomer(int clientId, int companyId);
+        ClientCustomer GetClientCustomer(int clientId, ConnectionString connectionString);
 
         // SetBillingAddress
         /// <summary>
@@ -74,7 +74,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// companyId -> number
         /// </remarks>
-        int SetBillingAddress(BusinessAddress businessAddress, string actionType, int customerId, int companyId);
+        int SetBillingAddress(BusinessAddress businessAddress, string actionType, int customerId, ConnectionString connectionString);
 
         // GetBillingAddress
         /// <summary>
@@ -87,7 +87,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// clientId -> number
         /// companyId -> number
         /// </remarks>
-        BusinessAddress GetBillingAddress(int clientId, int companyId);
+        BusinessAddress GetBillingAddress(int clientId, ConnectionString connectionString);
 
         // SetNewContactDetails
         /// <summary>
@@ -101,7 +101,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// contact -> Contact object
         /// </remarks>
-        int SetNewContactDetails(Contact contact, int customerId, int companyId);
+        int SetNewContactDetails(Contact contact, int customerId, ConnectionString connectionString);
 
         // SetUpdateContactDetails
         /// <summary>
@@ -115,7 +115,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// contact -> Contact object
         /// </remarks>
-        int SetUpdateContactDetails(Contact contact, int customerId, int companyId);
+        int SetUpdateContactDetails(Contact contact, int customerId, ConnectionString connectionString);
 
         // SetRemoveContactDetails
         /// <summary>
@@ -129,7 +129,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// contactId -> number
         /// </remarks>
-        int SetRemoveContactDetails(int contactId, int customerId, int companyId);
+        int SetRemoveContactDetails(int contactId, int customerId, ConnectionString connectionString);
 
         // GetContactListDetails
         /// <summary>
@@ -143,7 +143,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// filter -> Filter object
         /// </remarks>
-        List<Contact> GetContactListDetails(Filter filter, int customerId, int companyId);
+        List<Contact> GetContactListDetails(Filter filter, int customerId, ConnectionString connectionString);
 
         // SetNewSocialMediaDetails
         /// <summary>
@@ -157,7 +157,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// contact -> Contact object
         /// </remarks>
-        int SetNewSocialMediaDetails(SocialMedia socialMedia, int customerId, int companyId);
+        int SetNewSocialMediaDetails(SocialMedia socialMedia, int customerId, ConnectionString connectionString);
 
         // SetUpdateSocialMediaDetails
         /// <summary>
@@ -171,7 +171,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// contact -> Contact object
         /// </remarks>
-        int SetUpdateSocialMediaDetails(SocialMedia socialMedia, int customerId, int companyId);
+        int SetUpdateSocialMediaDetails(SocialMedia socialMedia, int customerId, ConnectionString connectionString);
 
         // SetRemoveSocialMediaDetails
         /// <summary>
@@ -185,7 +185,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// sociamMediaId -> number
         /// </remarks>
-        int SetRemoveSocialMediaDetails(int sociamMediaId, int customerId, int companyId);
+        int SetRemoveSocialMediaDetails(int sociamMediaId, int customerId, ConnectionString connectionString);
 
         // GetSocialMediaListDetails
         /// <summary>
@@ -199,7 +199,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// filter -> Filter object
         /// </remarks>
-        List<SocialMedia> GetSocialMediaListDetails(Filter filter, int customerId, int companyId);
+        List<SocialMedia> GetSocialMediaListDetails(Filter filter, int customerId, ConnectionString connectionString);
 
         // SetRelationshipDetails
         /// <summary>
@@ -214,7 +214,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// relationshipDetails -> RelationshipDetails object
         /// </remarks>
-        int SetRelationshipDetails(RelationshipDetails relationshipDetails, string actionType, int customerId, int companyId);
+        int SetRelationshipDetails(RelationshipDetails relationshipDetails, string actionType, int customerId, ConnectionString connectionString);
 
         // GetRelationshipDetails
         /// <summary>
@@ -227,7 +227,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// customerId -> number
         /// companyId -> number
         /// </remarks>
-        RelationshipDetails GetRelationshipDetails(int customerId, int companyId);
+        RelationshipDetails GetRelationshipDetails(int customerId, ConnectionString connectionString);
 
         // SetNewHourlyOtherRatesDetails
         /// <summary>
@@ -241,7 +241,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// hourlyOtherRates -> HourlyOtherRates object
         /// </remarks>
-        int SetNewHourlyOtherRatesDetails(HourlyOtherRates hourlyOtherRates, int customerId, int companyId);
+        int SetNewHourlyOtherRatesDetails(HourlyOtherRates hourlyOtherRates, int customerId, ConnectionString connectionString);
 
         // SetUpdateHourlyOtherRatesDetails
         /// <summary>
@@ -255,7 +255,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// hourlyOtherRates -> HourlyOtherRates object
         /// </remarks>
-        int SetUpdateHourlyOtherRatesDetails(HourlyOtherRates hourlyOtherRates, int customerId, int companyId);
+        int SetUpdateHourlyOtherRatesDetails(HourlyOtherRates hourlyOtherRates, int customerId, ConnectionString connectionString);
 
         // SetRemoveHourlyOtherRatesDetails
         /// <summary>
@@ -269,7 +269,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// sociamMediaId -> number
         /// </remarks>
-        int SetRemoveHourlyOtherRatesDetails(int hourlyOtherRatesId, int customerId, int companyId);
+        int SetRemoveHourlyOtherRatesDetails(int hourlyOtherRatesId, int customerId, ConnectionString connectionString);
 
         // GetHourlyOtherRateListDetails
         /// <summary>
@@ -283,7 +283,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// filter -> Filter object
         /// </remarks>
-        List<HourlyOtherRates> GetHourlyOtherRateListDetails(Filter filter, int customerId, int companyId);
+        List<HourlyOtherRates> GetHourlyOtherRateListDetails(Filter filter, int customerId, ConnectionString connectionString);
 
         // GetAllFilesList
         /// <summary>
@@ -297,7 +297,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// filter -> Filter object
         /// </remarks>
-        List<GlobalFileDetails> GetAllFilesList(Filter filter, int customerId, int companyId);
+        List<GlobalFileDetails> GetAllFilesList(Filter filter, int customerId, ConnectionString connectionString);
 
         // RemoveGlobalFile
         /// <summary>
@@ -311,7 +311,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// globalFileId -> number
         /// </remarks>
-        int RemoveGlobalFile(int globalFileId, int customerId, int companyId);
+        int RemoveGlobalFile(int globalFileId, int customerId, ConnectionString connectionString);
 
         // SetGlobalFile
         /// <summary>
@@ -326,7 +326,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// fileType -> string
         /// companyId -> number
         /// </remarks>
-        int SetGlobalFile(string fileName, string fileUrl, string fileType, int companyId, string localPath);
+        int SetGlobalFile(string fileName, string fileUrl, string fileType, ConnectionString connectionString, string localPath);
 
         // GetAllResourceFiles
         /// <summary>
@@ -339,7 +339,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// customerId -> number
         /// companyId -> number
         /// </remarks>
-        List<ResourceType> GetAllResourceFiles(int customerId, int companyId);
+        List<ResourceType> GetAllResourceFiles(int customerId, ConnectionString connectionString);
 
         // GetAllResourceFilesWithPagination
         /// <summary>
@@ -352,7 +352,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// customerId -> number
         /// companyId -> number
         /// </remarks>
-        List<ResourceType> GetAllResourceFilesWithPagination(Filter filter, int customerId, int companyId);
+        List<ResourceType> GetAllResourceFilesWithPagination(Filter filter, int customerId, ConnectionString connectionString);
 
         // SetNewResourceDetails
         /// <summary>
@@ -366,7 +366,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// resourceType -> ResourceType object
         /// </remarks>
-        int SetNewResourceDetails(ResourceType resourceType, int customerId, int companyId);
+        int SetNewResourceDetails(ResourceType resourceType, int customerId, ConnectionString connectionString);
 
         // SetUpdateResourceDetails
         /// <summary>
@@ -380,7 +380,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// resourceType -> ResourceType object
         /// </remarks>
-        int SetUpdateResourceDetails(ResourceType resourceType, int customerId, int companyId);
+        int SetUpdateResourceDetails(ResourceType resourceType, int customerId, ConnectionString connectionString);
 
         // SetRemoveResourceDetails
         /// <summary>
@@ -394,7 +394,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// sociamMediaId -> number
         /// </remarks>
-        int SetRemoveResourceDetails(int resourceId, int customerId, int companyId);
+        int SetRemoveResourceDetails(int resourceId, int customerId, ConnectionString connectionString);
 
         // SetImageDocFile
         /// <summary>
@@ -408,7 +408,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> string
         /// imageFiles -> ImageFiles Object
         /// </remarks>
-        int SetImageDocFile(ImageFiles imageFiles, int customerId, int companyId, string staffId);
+        int SetImageDocFile(ImageFiles imageFiles, int customerId, ConnectionString connectionString, string staffId);
 
         // SetUpdateImageDocFile
         /// <summary>
@@ -422,7 +422,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> string
         /// imageFiles -> ImageFiles Object
         /// </remarks>
-        int SetUpdateImageDocFile(ImageFiles imageFiles, int customerId, int companyId, string staffId);
+        int SetUpdateImageDocFile(ImageFiles imageFiles, int customerId, ConnectionString connectionString, string staffId);
 
         // RemoveImageDocFile
         /// <summary>
@@ -436,7 +436,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> string
         /// imageFiles -> ImageFiles Object
         /// </remarks>
-        int RemoveImageDocFile(int imageFilesId, int customerId, int companyId);
+        int RemoveImageDocFile(int imageFilesId, int customerId, ConnectionString connectionString);
 
         // GetAllImageDocFiles
         /// <summary>
@@ -450,7 +450,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// filter -> Filter
         /// </remarks>
-        List<ImageFiles> GetAllImageDocFiles(Filter filter, int customerId, int companyId);
+        List<ImageFiles> GetAllImageDocFiles(Filter filter, int customerId, ConnectionString connectionString);
 
         // SetNewClientRequirement
         /// <summary>
@@ -464,7 +464,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// resourceType -> ResourceType object
         /// </remarks>
-        int SetNewClientRequirement(ClientRequirement clientRequirement, int customerId, int companyId);
+        int SetNewClientRequirement(ClientRequirement clientRequirement, int customerId, ConnectionString connectionString);
 
         // SetUpdateClientRequirement
         /// <summary>
@@ -478,7 +478,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// resourceType -> ResourceType object
         /// </remarks>
-        int SetUpdateClientRequirement(ClientRequirement clientRequirement, int customerId, int companyId);
+        int SetUpdateClientRequirement(ClientRequirement clientRequirement, int customerId, ConnectionString connectionString);
 
         // SetRemoveClientRequirement
         /// <summary>
@@ -492,7 +492,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// clientRequirementId -> number
         /// </remarks>
-        int SetRemoveClientRequirement(int clientRequirementId, int customerId, int companyId);
+        int SetRemoveClientRequirement(int clientRequirementId, int customerId, ConnectionString connectionString);
 
         // SetClientRequirementFile
         /// <summary>
@@ -506,7 +506,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// clientRequirementId -> number
         /// </remarks>
-        int SetClientRequirementFile(string fileName, string fileUrl, string fileType, int clientRequirementId, int companyId, string localPath);
+        int SetClientRequirementFile(string fileName, string fileUrl, string fileType, int clientRequirementId, ConnectionString connectionString, string localPath);
 
         // RemoveClientRequirementFile
         /// <summary>
@@ -521,7 +521,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        int RemoveClientRequirementFile(int clientRequirementFileId, int customerId, int companyId);
+        int RemoveClientRequirementFile(int clientRequirementFileId, int customerId, ConnectionString connectionString);
 
         // UpdateClientRequirementRanking
         /// <summary>
@@ -536,7 +536,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        int UpdateClientRequirementRanking(int clientRequirementId, string moveDirection, int customerId, int companyId);
+        int UpdateClientRequirementRanking(int clientRequirementId, string moveDirection, int customerId, ConnectionString connectionString);
 
         // SetNewGlobalClientRequirement
         /// <summary>
@@ -550,7 +550,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// resourceType -> ResourceType object
         /// </remarks>
-        int SetNewGlobalClientRequirement(ClientRequirement clientRequirement, int customerId, int companyId);
+        int SetNewGlobalClientRequirement(ClientRequirement clientRequirement, int customerId, ConnectionString connectionString);
 
         // SetRemoveGlobalClientRequirement
         /// <summary>
@@ -564,7 +564,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// clientRequirementId -> number
         /// </remarks>
-        int SetRemoveGlobalClientRequirement(int clientRequirementId, int customerId, int companyId);
+        int SetRemoveGlobalClientRequirement(int clientRequirementId, int customerId, ConnectionString connectionString);
 
         // GetGlobalClientRequirement
         /// <summary>
@@ -579,7 +579,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        List<ClientRequirement> GetGlobalClientRequirement(Filter filter, int customerId, int companyId);
+        List<ClientRequirement> GetGlobalClientRequirement(Filter filter, int customerId, ConnectionString connectionString);
 
         // GetClientRequirement
         /// <summary>
@@ -594,7 +594,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        List<ClientRequirement> GetClientRequirement(Filter filter, int customerId, int companyId);
+        List<ClientRequirement> GetClientRequirement(Filter filter, int customerId, ConnectionString connectionString);
 
         // GetClientRequirement
         /// <summary>
@@ -609,7 +609,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        List<ClientRequirementFile> GetClientRequirementFiles(int clientRequirementId, int companyId);
+        List<ClientRequirementFile> GetClientRequirementFiles(int clientRequirementId, ConnectionString connectionString);
 
         // SetClientRequirementRole
         /// <summary>
@@ -624,7 +624,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        int SetClientRequirementRole(int roleId, int clientRequirementId, int customerId, int companyId);
+        int SetClientRequirementRole(int roleId, int clientRequirementId, int customerId, ConnectionString connectionString);
 
         // RemoveClientRequirementRole
         /// <summary>
@@ -639,7 +639,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        int RemoveClientRequirementRole(int clientRequirementId, int customerId, int companyId);
+        int RemoveClientRequirementRole(int clientRequirementId, int customerId, ConnectionString connectionString);
 
         // SetGlobalClientRequirementRole
         /// <summary>
@@ -654,7 +654,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        int SetGlobalClientRequirementRole(int roleId, int clientRequirementId, int customerId, int companyId);
+        int SetGlobalClientRequirementRole(int roleId, int clientRequirementId, int customerId, ConnectionString connectionString);
 
         // RemoveGlobalClientRequirementRole
         /// <summary>
@@ -669,7 +669,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        int RemoveGlobalClientRequirementRole(int clientRequirementId, int customerId, int companyId);
+        int RemoveGlobalClientRequirementRole(int clientRequirementId, int customerId, ConnectionString connectionString);
 
         // GetClientRequirementRole
         /// <summary>
@@ -683,7 +683,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// clientRequirementId -> number
         /// </remarks>
-        List<RoleDetails> GetClientRequirementRole(int clientRequirementId, int customerId, int companyId);
+        List<RoleDetails> GetClientRequirementRole(int clientRequirementId, int customerId, ConnectionString connectionString);
 
         // GetGlobalClientRequirementRole
         /// <summary>
@@ -697,7 +697,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// clientRequirementId -> number
         /// </remarks>
-        List<RoleDetails> GetGlobalClientRequirementRole(int clientRequirementId, int customerId, int companyId);
+        List<RoleDetails> GetGlobalClientRequirementRole(int clientRequirementId, int customerId, ConnectionString connectionString);
 
         // GetAllSocialMediaList
         /// <summary>
@@ -710,7 +710,46 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// clientId -> number
         /// companyId -> number
         /// </remarks>
-        List<SocialMedia> GetAllSocialMediaList(Filter filter, int clientId, int companyId);
+        List<SocialMedia> GetAllSocialMediaList(Filter filter, int clientId, ConnectionString connectionString);
 
+        // GetAllUserRoles
+        /// <summary>
+        /// Getting all the user roles
+        /// </summary>
+        /// <returns>
+        /// UserRole object list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// </remarks>
+        List<UserRole> GetAllUserRoles(ConnectionString connectionString);
+
+        // SetModuleAccess
+        /// <summary>
+        /// Setting the module access
+        /// </summary>
+        /// <returns>
+        /// boolean
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        bool SetModuleAccess(int moduleId, bool moduleAccess,int userRoleId, ConnectionString connectionString);
+
+        // GetAccessibleModules
+        /// <summary>
+        /// Getting all the accessible modules
+        /// </summary>
+        /// <returns>
+        /// Module list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        List<Module> GetAccessibleModules(int userRoleId, ConnectionString connectionString);
     }
 }

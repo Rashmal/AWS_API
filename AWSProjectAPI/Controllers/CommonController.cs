@@ -40,12 +40,12 @@ namespace AWSProjectAPI.Controllers
         // Getting the priority list
         [HttpGet]
         [Route("GetPriorityList")]
-        public IActionResult GetPriorityList()
+        public IActionResult GetPriorityList(int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iCommonService.GetPriorityList();
+                var response = this.iCommonService.GetPriorityList(companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -59,12 +59,12 @@ namespace AWSProjectAPI.Controllers
         // Getting the status list
         [HttpGet]
         [Route("GetStatusList")]
-        public IActionResult GetStatusList(string moduleCode)
+        public IActionResult GetStatusList(string moduleCode, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iCommonService.GetStatusList(moduleCode);
+                var response = this.iCommonService.GetStatusList(moduleCode, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -78,12 +78,12 @@ namespace AWSProjectAPI.Controllers
         // Getting the module list
         [HttpGet]
         [Route("GetModuleList")]
-        public IActionResult GetModuleList()
+        public IActionResult GetModuleList(int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iCommonService.GetModuleList();
+                var response = this.iCommonService.GetModuleList(companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -97,12 +97,12 @@ namespace AWSProjectAPI.Controllers
         // Getting all the staff list
         [HttpGet]
         [Route("GetAllStaffList")]
-        public IActionResult GetAllStaffList()
+        public IActionResult GetAllStaffList(int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iCommonService.GetAllStaffList();
+                var response = this.iCommonService.GetAllStaffList(companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -116,12 +116,12 @@ namespace AWSProjectAPI.Controllers
         // Getting the total of global notes
         [HttpGet]
         [Route("TotalGlobalNotes")]
-        public IActionResult TotalGlobalNotes(string tabSection, string userId)
+        public IActionResult TotalGlobalNotes(string tabSection, string userId, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iCommonService.TotalGlobalNotes(tabSection, userId);
+                var response = this.iCommonService.TotalGlobalNotes(tabSection, userId, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -135,12 +135,12 @@ namespace AWSProjectAPI.Controllers
         // Getting the module list based on user role
         [HttpGet]
         [Route("GetModuleListBasedUserRole")]
-        public IActionResult GetModuleListBasedUserRole(string userRole, bool isStatic)
+        public IActionResult GetModuleListBasedUserRole(string userRole, bool isStatic, int companyId, string userId)
         {
             try
             {
                 // Declare response
-                var response = this.iCommonService.GetModuleListBasedUserRole(userRole, isStatic);
+                var response = this.iCommonService.GetModuleListBasedUserRole(userRole, isStatic, companyId, userId);
                 // Returning the result
                 return Json(response);
             }
@@ -154,12 +154,12 @@ namespace AWSProjectAPI.Controllers
         // Getting all the access list based on the user role
         [HttpGet]
         [Route("GetAccessListBasedUserRole")]
-        public IActionResult GetAccessListBasedUserRole(string userRole)
+        public IActionResult GetAccessListBasedUserRole(string userRole, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iCommonService.GetAccessListBasedUserRole(userRole);
+                var response = this.iCommonService.GetAccessListBasedUserRole(userRole, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -173,12 +173,12 @@ namespace AWSProjectAPI.Controllers
         // Getting all the access list based on the user role for view
         [HttpGet]
         [Route("GetViewAccessListBasedUserRole")]
-        public IActionResult GetViewAccessListBasedUserRole(string userRole)
+        public IActionResult GetViewAccessListBasedUserRole(string userRole, string userId, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iCommonService.GetViewAccessListBasedUserRole(userRole);
+                var response = this.iCommonService.GetViewAccessListBasedUserRole(userRole, companyId, userId);
                 // Returning the result
                 return Json(response);
             }
@@ -440,6 +440,44 @@ namespace AWSProjectAPI.Controllers
 
             var ext = Path.GetExtension(path).ToLowerInvariant();
             return types.ContainsKey(ext) ? types[ext] : "application/octet-stream";
+        }
+
+        // Getting all the parent groups by email
+        [HttpGet]
+        [Route("GetAllParentGroupsDetailsByEmail")]
+        public IActionResult GetAllParentGroupsDetailsByEmail(string email)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iCommonService.GetAllParentGroupsDetailsByEmail(email);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Getting all the parent groups by id
+        [HttpGet]
+        [Route("GetAllParentGroupsDetailsById")]
+        public IActionResult GetAllParentGroupsDetailsById(string userId)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iCommonService.GetAllParentGroupsDetailsById(userId);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
         }
     }
 }

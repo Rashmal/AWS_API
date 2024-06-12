@@ -39,12 +39,12 @@ namespace AWSProjectAPI.Controllers
         // Logout user
         [HttpGet]
         [Route("LogoutUser")]
-        public IActionResult LogoutUser(string email)
+        public IActionResult LogoutUser(string email, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iAuthenticationService.LogoutUser(email);
+                var response = this.iAuthenticationService.LogoutUser(email, companyId);
                 // Returning the result
                 return Json(response);
             }

@@ -32,7 +32,7 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// -
         /// </remarks>
-        List<Priority> GetPriorityList();
+        List<Priority> GetPriorityList(int companyId);
 
         // GetStatusList
         /// <summary>
@@ -44,7 +44,7 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// moduleCode -> string value
         /// </remarks>
-        List<Status> GetStatusList(string moduleCode);
+        List<Status> GetStatusList(string moduleCode, int companyId);
 
         // GetModuleList
         /// <summary>
@@ -56,7 +56,7 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// -
         /// </remarks>
-        List<Module> GetModuleList();
+        List<Module> GetModuleList(int companyId);
 
         // GetAllStaffList
         /// <summary>
@@ -68,7 +68,7 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// -
         /// </remarks>
-        List<BasicUserDetails> GetAllStaffList();
+        List<BasicUserDetails> GetAllStaffList(int companyId);
 
         // TotalGlobalNotes
         /// <summary>
@@ -80,7 +80,7 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// -
         /// </remarks>
-        int TotalGlobalNotes(string tabSection, string userId);
+        int TotalGlobalNotes(string tabSection, string userId, int companyId);
 
         // SendEmail
         /// <summary>
@@ -116,7 +116,7 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// -
         /// </remarks>
-        List<Module> GetModuleListBasedUserRole(string userRole, bool isStatic);
+        List<Module> GetModuleListBasedUserRole(string userRole, bool isStatic, int companyId, string userId);
 
         // GetAccessListBasedUserRole
         /// <summary>
@@ -128,7 +128,7 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// -
         /// </remarks>
-        List<UserRoleAccessDetail> GetAccessListBasedUserRole(string userRole);
+        List<UserRoleAccessDetail> GetAccessListBasedUserRole(string userRole, int companyId);
 
         // Getting all the access list based on the user role for view
         /// <summary>
@@ -140,7 +140,7 @@ namespace AWSProjectAPI.Service.Common
         /// <remarks>
         /// -
         /// </remarks>
-        List<Module> GetViewAccessListBasedUserRole(string userRole);
+        List<Module> GetViewAccessListBasedUserRole(string userRole, int companyId, string userId);
 
         // GetAccountDetails
         /// <summary>
@@ -273,5 +273,41 @@ namespace AWSProjectAPI.Service.Common
         /// -
         /// </remarks>
         List<RoleDetails> GetAllRoleDetails();
+
+        // GetConnectionString
+        /// <summary>
+        /// Getting all the connection details
+        /// </summary>
+        /// <returns>
+        /// ConnectionString object value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        ConnectionString GetConnectionString(int parentGroupId, string moduleCode);
+
+        // GetAllParentGroupsDetailsByEmail
+        /// <summary>
+        /// Getting all the parent groups by email
+        /// </summary>
+        /// <returns>
+        /// ParentGroup object list value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<ParentGroup> GetAllParentGroupsDetailsByEmail(string email);
+
+        // GetAllParentGroupsDetailsById
+        /// <summary>
+        /// Getting all the parent groups by id
+        /// </summary>
+        /// <returns>
+        /// ParentGroup object list value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<ParentGroup> GetAllParentGroupsDetailsById(string userId);
     }
 }

@@ -52,7 +52,7 @@ namespace AWSProjectAPI.Controllers
             try
             {
                 // Declare response
-                var response = this.iClientService.GetAllContactList(filter,clientId, companyId);
+                var response = this.iClientService.GetAllContactList(filter, clientId, companyId);
                 // Returning the result
                 return Json(response);
             }
@@ -400,7 +400,7 @@ namespace AWSProjectAPI.Controllers
         // Updating the image doc files
         [HttpPost]
         [Route("UpdateImageDocFile")]
-        public IActionResult UpdateImageDocFile([FromBody]ImageFiles imageFiles, int customerId, int companyId, string staffId)
+        public IActionResult UpdateImageDocFile([FromBody] ImageFiles imageFiles, int customerId, int companyId, string staffId)
         {
 
             // Declare response
@@ -586,6 +586,63 @@ namespace AWSProjectAPI.Controllers
             {
                 // Declare response
                 var response = this.iClientService.GetAllSocialMediaList(filter, customerId, companyId);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Getting all the user roles
+        [HttpGet]
+        [Route("GetAllUserRoles")]
+        public IActionResult GetAllUserRoles(int companyId)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iClientService.GetAllUserRoles(companyId);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Setting the module access
+        [HttpGet]
+        [Route("SetModuleAccess")]
+        public IActionResult SetModuleAccess(int moduleId, bool moduleAccess, int userRoleId, int companyId)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iClientService.SetModuleAccess(moduleId, moduleAccess, userRoleId, companyId);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Getting all the accessible modules
+        [HttpGet]
+        [Route("GetAccessibleModules")]
+        public IActionResult GetAccessibleModules(int userRoleId, int companyId)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iClientService.GetAccessibleModules(userRoleId, companyId);
                 // Returning the result
                 return Json(response);
             }

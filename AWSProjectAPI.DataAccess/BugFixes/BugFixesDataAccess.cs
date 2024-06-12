@@ -36,7 +36,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixes -> BugFixes object
         /// </remarks>
-        public string AddBugFixesDetails(BugFix bugFixes)
+        public string AddBugFixesDetails(BugFix bugFixes, ConnectionString connectionString)
         {
             // Declare the return value
             string newIdValue = "";
@@ -44,7 +44,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -107,7 +107,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixes -> BugFixes object
         /// </remarks>
-        public string UpdateBugFixesDetails(BugFix bugFixes)
+        public string UpdateBugFixesDetails(BugFix bugFixes, ConnectionString connectionString)
         {
             // Declare the return value
             string newIdValue = "";
@@ -115,7 +115,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -177,7 +177,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixes -> BugFixes object
         /// </remarks>
-        public string DeleteBugFixesDetails(string bugFixesId)
+        public string DeleteBugFixesDetails(string bugFixesId, ConnectionString connectionString)
         {
             // Declare the return value
             string newIdValue = "";
@@ -185,7 +185,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -228,7 +228,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesId -> string value
         /// </remarks>
-        public string DeleteBugFixesAssignedStaff(string bugFixesId)
+        public string DeleteBugFixesAssignedStaff(string bugFixesId, ConnectionString connectionString)
         {
             // Declare the return value
             string newIdValue = "SUCCESS";
@@ -236,7 +236,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -277,7 +277,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesId -> string value
         /// </remarks>
-        public string DeleteBugFixesRequestedStaff(string bugFixesId)
+        public string DeleteBugFixesRequestedStaff(string bugFixesId, ConnectionString connectionString)
         {
             // Declare the return value
             string newIdValue = "SUCCESS";
@@ -285,7 +285,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -327,7 +327,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// BugFixesId -> string value
         /// staffId -> string value
         /// </remarks>
-        public string AddBugFixesAssignedStaff(string bugFixesId, string staffId)
+        public string AddBugFixesAssignedStaff(string bugFixesId, string staffId, ConnectionString connectionString)
         {
             // Declare the return value
             string newIdValue = "SUCCESS";
@@ -335,7 +335,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -379,7 +379,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// BugFixesId -> string value
         /// staffId -> string value
         /// </remarks>
-        public string AddBugFixesRequestedStaff(string bugFixesId, string staffId)
+        public string AddBugFixesRequestedStaff(string bugFixesId, string staffId, ConnectionString connectionString)
         {
             // Declare the return value
             string newIdValue = "SUCCESS";
@@ -387,7 +387,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -430,7 +430,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        public List<DisplayModule> GetBugFixesDisplayModules(Filter filter)
+        public List<DisplayModule> GetBugFixesDisplayModules(Filter filter, ConnectionString connectionString)
         {
             // Declare the value list
             List<DisplayModule> displayModules = new List<DisplayModule>();
@@ -438,7 +438,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -507,7 +507,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        public List<ViewBugFix> GetBugFixesDisplayList(Filter filter, string UserId)
+        public List<ViewBugFix> GetBugFixesDisplayList(Filter filter, string UserId, ConnectionString connectionString)
         {
             // Declare the value list
             List<ViewBugFix> viewBugFixesList = new List<ViewBugFix>();
@@ -515,7 +515,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -597,7 +597,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesId -> String value
         /// </remarks>
-        public BugFix GetBugFixesDetailsById(string BugFixesId, string userId = "")
+        public BugFix GetBugFixesDetailsById(string BugFixesId, ConnectionString connectionString, string userId = "")
         {
             // Declare the value list
             BugFix bugFixes = new BugFix();
@@ -605,7 +605,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -669,7 +669,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesId -> String value
         /// </remarks>
-        public List<BasicUserDetails> GetBugFixesAssignedStaff(string bugFixesId)
+        public List<BasicUserDetails> GetBugFixesAssignedStaff(string bugFixesId, ConnectionString connectionString)
         {
             // Declare the value list
             List<BasicUserDetails> basicUserDetaislList = new List<BasicUserDetails>();
@@ -677,7 +677,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -731,7 +731,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesId -> String value
         /// </remarks>
-        public List<BasicUserDetails> GetBugFixesRequestedStaff(string bugFixesId)
+        public List<BasicUserDetails> GetBugFixesRequestedStaff(string bugFixesId, ConnectionString connectionString)
         {
             // Declare the value list
             List<BasicUserDetails> basicUserDetaislList = new List<BasicUserDetails>();
@@ -739,7 +739,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -794,7 +794,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// BugFixesId -> String value
         /// statusId -> Int value
         /// </remarks>
-        public bool UpdateBugFixesStatus(string bugFixesId, int statusId)
+        public bool UpdateBugFixesStatus(string bugFixesId, int statusId, ConnectionString connectionString)
         {
             // Declare the value list
             bool resultStatus = false;
@@ -802,7 +802,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -848,7 +848,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesChangeDate -> BugFixesChangeDate object value
         /// </remarks>
-        public string AddBugFixesChangeDate(BugFixChangeDate bugFixesChangeDate)
+        public string AddBugFixesChangeDate(BugFixChangeDate bugFixesChangeDate, ConnectionString connectionString)
         {
             // Declare the value list
             string resultStatus = "SUCCESS";
@@ -856,7 +856,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -916,7 +916,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesChangeDate -> BugFixesChangeDate object value
         /// </remarks>
-        public string UpdateBugFixesChangeDate(BugFixChangeDate bugFixesChangeDate)
+        public string UpdateBugFixesChangeDate(BugFixChangeDate bugFixesChangeDate, ConnectionString connectionString)
         {
             // Declare the value list
             string resultStatus = "SUCCESS";
@@ -924,7 +924,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -970,7 +970,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesChangeDate -> BugFixesChangeDate object value
         /// </remarks>
-        public string DeleteBugFixesChangeDate(BugFixChangeDate bugFixesChangeDate)
+        public string DeleteBugFixesChangeDate(BugFixChangeDate bugFixesChangeDate, ConnectionString connectionString)
         {
             // Declare the value list
             string resultStatus = "SUCCESS";
@@ -978,7 +978,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1023,7 +1023,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// BugFixesId -> String value
         /// filter -> Filter object value
         /// </remarks>
-        public List<ViewBugFixChangeDate> GetBugFixesChangeDate(Filter filter, string BugFixesId)
+        public List<ViewBugFixChangeDate> GetBugFixesChangeDate(Filter filter, string BugFixesId, ConnectionString connectionString)
         {
             // Declare the value list
             List<ViewBugFixChangeDate> viewBugFixesChangeDateList = new List<ViewBugFixChangeDate>();
@@ -1031,7 +1031,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1093,7 +1093,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesComment -> BugFixesComment object value
         /// </remarks>
-        public string AddBugFixesComment(BugFixComment bugFixesComment)
+        public string AddBugFixesComment(BugFixComment bugFixesComment, ConnectionString connectionString)
         {
             // Declare the value list
             string resultStatus = "false";
@@ -1101,7 +1101,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1152,7 +1152,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesComment -> BugFixesComment object value
         /// </remarks>
-        public string UpdateBugFixesComment(BugFixComment bugFixesComment)
+        public string UpdateBugFixesComment(BugFixComment bugFixesComment, ConnectionString connectionString)
         {
             // Declare the value list
             string resultStatus = "false";
@@ -1160,7 +1160,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1205,7 +1205,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// BugFixesComment -> BugFixesComment object value
         /// </remarks>
-        public string DeleteBugFixesComment(BugFixComment bugFixesComment)
+        public string DeleteBugFixesComment(BugFixComment bugFixesComment, ConnectionString connectionString)
         {
             // Declare the value list
             string resultStatus = "false";
@@ -1213,7 +1213,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1258,7 +1258,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// filter -> Filter object value
         /// </remarks>
-        public List<ViewBugFixComment> GetBugFixesComment(Filter filter)
+        public List<ViewBugFixComment> GetBugFixesComment(Filter filter, ConnectionString connectionString)
         {
             // Declare the value list
             List<ViewBugFixComment> viewBugFixesCommentList = new List<ViewBugFixComment>();
@@ -1266,7 +1266,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1325,7 +1325,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// -
         /// </remarks>
-        public List<StatisticsBoxData> GetStatBoxes()
+        public List<StatisticsBoxData> GetStatBoxes(ConnectionString connectionString)
         {
             // Declare the value list
             List<StatisticsBoxData> statisticsBoxDataList = new List<StatisticsBoxData>();
@@ -1333,7 +1333,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1383,7 +1383,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// -
         /// </remarks>
-        public bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval)
+        public bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval, ConnectionString connectionString)
         {
             // Declare the value list
             bool status = false;
@@ -1391,7 +1391,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1437,7 +1437,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
         /// <remarks>
         /// -
         /// </remarks>
-        public bool AddViewId(string itemId, string userId)
+        public bool AddViewId(string itemId, string userId, ConnectionString connectionString)
         {
             // Declare the value list
             bool status = false;
@@ -1445,7 +1445,7 @@ namespace AWSProjectAPI.DataAccess.BugFixes
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWSDBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();

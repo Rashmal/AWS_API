@@ -21,7 +21,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancement -> SystemEnhancement object
         /// </remarks>
-        string AddSystemEnhancementDetails(SystemEnhancement systemEnhancement);
+        string AddSystemEnhancementDetails(SystemEnhancement systemEnhancement, ConnectionString connectionString);
 
         // UpdateSystemEnhancementDetails
         /// <summary>
@@ -33,7 +33,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancement -> SystemEnhancement object
         /// </remarks>
-        string UpdateSystemEnhancementDetails(SystemEnhancement systemEnhancement);
+        string UpdateSystemEnhancementDetails(SystemEnhancement systemEnhancement, ConnectionString connectionString);
 
         // DeleteSystemEnhancementDetails
         /// <summary>
@@ -45,7 +45,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancement -> SystemEnhancement object
         /// </remarks>
-        string DeleteSystemEnhancementDetails(string systemEnhancementId);
+        string DeleteSystemEnhancementDetails(string systemEnhancementId, ConnectionString connectionString);
 
         // DeleteSystemEnhancementAssignedStaff
         /// <summary>
@@ -57,7 +57,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementId -> string value
         /// </remarks>
-        string DeleteSystemEnhancementAssignedStaff(string systemEnhancementId);
+        string DeleteSystemEnhancementAssignedStaff(string systemEnhancementId, ConnectionString connectionString);
 
         // DeleteSystemEnhancementRequestedStaff
         /// <summary>
@@ -69,7 +69,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementId -> string value
         /// </remarks>
-        string DeleteSystemEnhancementRequestedStaff(string systemEnhancementId);
+        string DeleteSystemEnhancementRequestedStaff(string systemEnhancementId, ConnectionString connectionString);
 
         // AddSystemEnhancementAssignedStaff
         /// <summary>
@@ -82,7 +82,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// systemEnhancementId -> string value
         /// staffId -> string value
         /// </remarks>
-        string AddSystemEnhancementAssignedStaff(string systemEnhancementId, string staffId);
+        string AddSystemEnhancementAssignedStaff(string systemEnhancementId, string staffId, ConnectionString connectionString);
 
         // AddSystemEnhancementRequestedStaff
         /// <summary>
@@ -95,7 +95,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// systemEnhancementId -> string value
         /// staffId -> string value
         /// </remarks>
-        string AddSystemEnhancementRequestedStaff(string systemEnhancementId, string staffId);
+        string AddSystemEnhancementRequestedStaff(string systemEnhancementId, string staffId, ConnectionString connectionString);
 
         // GetSystemEnhancementDisplayModules
         /// <summary>
@@ -107,7 +107,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        List<DisplayModule> GetSystemEnhancementDisplayModules(Filter filter);
+        List<DisplayModule> GetSystemEnhancementDisplayModules(Filter filter, ConnectionString connectionString);
 
         // GetSystemEnhancementDisplayList
         /// <summary>
@@ -119,7 +119,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// filter -> Filter object
         /// </remarks>
-        List<ViewSystemEnhancement> GetSystemEnhancementDisplayList(Filter filter, string UserId);
+        List<ViewSystemEnhancement> GetSystemEnhancementDisplayList(Filter filter, string UserId, ConnectionString connectionString);
 
         // GetSystemEnhancementDetailsById
         /// <summary>
@@ -131,7 +131,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementId -> String value
         /// </remarks>
-        SystemEnhancement GetSystemEnhancementDetailsById(string systemEnhancementId, string userId = "");
+        SystemEnhancement GetSystemEnhancementDetailsById(string systemEnhancementId, ConnectionString connectionString, string userId = "");
 
         // GetSystemEnhancementAssignedStaff
         /// <summary>
@@ -143,7 +143,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementId -> String value
         /// </remarks>
-        List<BasicUserDetails> GetSystemEnhancementAssignedStaff(string systemEnhancementId);
+        List<BasicUserDetails> GetSystemEnhancementAssignedStaff(string systemEnhancementId, ConnectionString connectionString);
 
         // GetSystemEnhancementRequestedStaff
         /// <summary>
@@ -155,7 +155,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementId -> String value
         /// </remarks>
-        List<BasicUserDetails> GetSystemEnhancementRequestedStaff(string systemEnhancementId);
+        List<BasicUserDetails> GetSystemEnhancementRequestedStaff(string systemEnhancementId, ConnectionString connectionString);
 
         // UpdateSystemEnhancementStatus
         /// <summary>
@@ -168,7 +168,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// systemEnhancementId -> String value
         /// statusId -> Int value
         /// </remarks>
-        bool UpdateSystemEnhancementStatus(string systemEnhancementId, int statusId);
+        bool UpdateSystemEnhancementStatus(string systemEnhancementId, int statusId, ConnectionString connectionString);
 
         // AddSystemEnhancementChangeDate
         /// <summary>
@@ -180,7 +180,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementChangeDate -> SystemEnhancementChangeDate object value
         /// </remarks>
-        string AddSystemEnhancementChangeDate(SystemEnhancementChangeDate systemEnhancementChangeDate);
+        string AddSystemEnhancementChangeDate(SystemEnhancementChangeDate systemEnhancementChangeDate, ConnectionString connectionString);
 
         // UpdateSystemEnhancementChangeDate
         /// <summary>
@@ -192,7 +192,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementChangeDate -> SystemEnhancementChangeDate object value
         /// </remarks>
-        string UpdateSystemEnhancementChangeDate(SystemEnhancementChangeDate systemEnhancementChangeDate);
+        string UpdateSystemEnhancementChangeDate(SystemEnhancementChangeDate systemEnhancementChangeDate, ConnectionString connectionString);
 
         // DeleteSystemEnhancementChangeDate
         /// <summary>
@@ -204,7 +204,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementChangeDate -> SystemEnhancementChangeDate object value
         /// </remarks>
-        string DeleteSystemEnhancementChangeDate(SystemEnhancementChangeDate systemEnhancementChangeDate);
+        string DeleteSystemEnhancementChangeDate(SystemEnhancementChangeDate systemEnhancementChangeDate, ConnectionString connectionString);
 
         // GetSystemEhancementChangeDate
         /// <summary>
@@ -217,7 +217,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// systemEnhancementId -> String value
         /// filter -> Filter object value
         /// </remarks>
-        List<ViewSystemEnhancementChangeDate> GetSystemEhancementChangeDate(Filter filter, string systemEnhancementId);
+        List<ViewSystemEnhancementChangeDate> GetSystemEhancementChangeDate(Filter filter, string systemEnhancementId, ConnectionString connectionString);
 
         // AddSystemEhancementComment
         /// <summary>
@@ -229,7 +229,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementComment -> SystemEnhancementComment object value
         /// </remarks>
-        string AddSystemEhancementComment(SystemEnhancementComment systemEnhancementComment);
+        string AddSystemEhancementComment(SystemEnhancementComment systemEnhancementComment, ConnectionString connectionString);
 
         // UpdateSystemEhancementComment
         /// <summary>
@@ -241,7 +241,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementComment -> SystemEnhancementComment object value
         /// </remarks>
-        string UpdateSystemEhancementComment(SystemEnhancementComment systemEnhancementComment);
+        string UpdateSystemEhancementComment(SystemEnhancementComment systemEnhancementComment, ConnectionString connectionString);
 
         // DeleteSystemEhancementComment
         /// <summary>
@@ -253,7 +253,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// systemEnhancementComment -> SystemEnhancementComment object value
         /// </remarks>
-        string DeleteSystemEhancementComment(SystemEnhancementComment systemEnhancementComment);
+        string DeleteSystemEhancementComment(SystemEnhancementComment systemEnhancementComment, ConnectionString connectionString);
 
         // GetSystemEhancementComment
         /// <summary>
@@ -265,7 +265,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// filter -> Filter object value
         /// </remarks>
-        List<ViewSystemEnhancementComment> GetSystemEhancementComment(Filter filter);
+        List<ViewSystemEnhancementComment> GetSystemEhancementComment(Filter filter, ConnectionString connectionString);
 
         // GetStatBoxes
         /// <summary>
@@ -277,7 +277,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// -
         /// </remarks>
-        List<StatisticsBoxData> GetStatBoxes();
+        List<StatisticsBoxData> GetStatBoxes(ConnectionString connectionString);
 
         // ApprovalChangeDate
         /// <summary>
@@ -290,7 +290,7 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// -
         /// </remarks>
-        bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval);
+        bool ApprovalChangeDate(int SystemEnhancementsChangeHistoryId, string approval, ConnectionString connectionString);
 
         // AddViewId
         /// <summary>
@@ -303,6 +303,6 @@ namespace AWSProjectAPI.DataAccess.SystemEnhancements
         /// <remarks>
         /// -
         /// </remarks>
-        bool AddViewId(string itemId, string userId);
+        bool AddViewId(string itemId, string userId, ConnectionString connectionString);
     }
 }

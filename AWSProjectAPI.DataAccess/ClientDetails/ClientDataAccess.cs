@@ -18,8 +18,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         public ClientDataAccess(IConfiguration configurationString)
         {
             // Intantiating the object
-            this.AWS_CLIENT_DBConnectionString = configurationString.GetConnectionString("AWSDBString");
-            this.AWS_CLIENT_DBConnectionString = configurationString.GetConnectionString("AWS_CLIENT_DBString");
+            AWSDBConnectionString = configurationString.GetConnectionString("AWSDBString");
+            AWS_CLIENT_DBConnectionString = configurationString.GetConnectionString("AWS_CLIENT_DBString");
         }
 
         // GetDisplayClientDetails
@@ -33,7 +33,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// filter -> Filter object
         /// companyId -> number
         /// </remarks>
-        public List<DisplayClientDetails> GetDisplayClientDetails(Filter filter, int companyId)
+        public List<DisplayClientDetails> GetDisplayClientDetails(Filter filter, ConnectionString connectionString)
         {
             // Declare the value list
             List<DisplayClientDetails> displayClients = new List<DisplayClientDetails>();
@@ -41,7 +41,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -107,7 +107,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// clientId -> number
         /// companyId -> number
         /// </remarks>
-        public List<Contact> GetAllContactList(Filter filter, int clientId, int companyId)
+        public List<Contact> GetAllContactList(Filter filter, int clientId, ConnectionString connectionString)
         {
             // Declare the value list
             List<Contact> contactList = new List<Contact>();
@@ -115,7 +115,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -179,7 +179,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// clientCustomer -> ClientCustomer object
         /// companyId -> number
         /// </remarks>
-        public int SetClientCustomer(ClientCustomer clientCustomer, string staffId, string actionType, int companyId)
+        public int SetClientCustomer(ClientCustomer clientCustomer, string staffId, string actionType, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -187,7 +187,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -212,7 +212,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         IdParameter.Value = clientCustomer.Id;
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
-                        UserParameter.Value = (actionType == "NEW") ? "SET$NEW" : "SET$UPD";
+                        UserParameter.Value = (actionType == "NEW") ? "SET$NEW" : (actionType == "RMV") ? "RMV" : "SET$UPD";
 
                         // Executing the sql SP command
                         var resultToken = sqlCommandToken.ExecuteReader();
@@ -247,7 +247,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// clientId -> number
         /// companyId -> number
         /// </remarks>
-        public ClientCustomer GetClientCustomer(int clientId, int companyId)
+        public ClientCustomer GetClientCustomer(int clientId, ConnectionString connectionString)
         {
             // Declare the value list
             ClientCustomer clientCustomer = new ClientCustomer();
@@ -255,7 +255,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -317,7 +317,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// companyId -> number
         /// </remarks>
-        public int SetBillingAddress(BusinessAddress businessAddress, string actionType, int customerId, int companyId)
+        public int SetBillingAddress(BusinessAddress businessAddress, string actionType, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -325,7 +325,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -387,7 +387,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// clientId -> number
         /// companyId -> number
         /// </remarks>
-        public BusinessAddress GetBillingAddress(int clientId, int companyId)
+        public BusinessAddress GetBillingAddress(int clientId, ConnectionString connectionString)
         {
             // Declare the value list
             BusinessAddress businessAddress = new BusinessAddress();
@@ -395,7 +395,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -459,7 +459,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// contact -> Contact object
         /// </remarks>
-        public int SetNewContactDetails(Contact contact, int customerId, int companyId)
+        public int SetNewContactDetails(Contact contact, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -467,7 +467,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -524,7 +524,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// contact -> Contact object
         /// </remarks>
-        public int SetUpdateContactDetails(Contact contact, int customerId, int companyId)
+        public int SetUpdateContactDetails(Contact contact, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -532,7 +532,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -586,7 +586,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// contactId -> number
         /// </remarks>
-        public int SetRemoveContactDetails(int contactId, int customerId, int companyId)
+        public int SetRemoveContactDetails(int contactId, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -594,7 +594,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -642,7 +642,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// filter -> Filter object
         /// </remarks>
-        public List<Contact> GetContactListDetails(Filter filter, int customerId, int companyId)
+        public List<Contact> GetContactListDetails(Filter filter, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             List<Contact> contacts = new List<Contact>();
@@ -650,7 +650,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -716,7 +716,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// contact -> Contact object
         /// </remarks>
-        public int SetNewSocialMediaDetails(SocialMedia socialMedia, int customerId, int companyId)
+        public int SetNewSocialMediaDetails(SocialMedia socialMedia, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -724,7 +724,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -779,7 +779,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// contact -> Contact object
         /// </remarks>
-        public int SetUpdateSocialMediaDetails(SocialMedia socialMedia, int customerId, int companyId)
+        public int SetUpdateSocialMediaDetails(SocialMedia socialMedia, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -787,7 +787,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -839,7 +839,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// sociamMediaId -> number
         /// </remarks>
-        public int SetRemoveSocialMediaDetails(int sociamMediaId, int customerId, int companyId)
+        public int SetRemoveSocialMediaDetails(int sociamMediaId, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -847,7 +847,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -895,7 +895,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// filter -> Filter object
         /// </remarks>
-        public List<SocialMedia> GetSocialMediaListDetails(Filter filter, int customerId, int companyId)
+        public List<SocialMedia> GetSocialMediaListDetails(Filter filter, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             List<SocialMedia> socialMediaList = new List<SocialMedia>();
@@ -903,7 +903,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -969,7 +969,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// relationshipDetails -> RelationshipDetails object
         /// </remarks>
-        public int SetRelationshipDetails(RelationshipDetails relationshipDetails, string actionType, int customerId, int companyId)
+        public int SetRelationshipDetails(RelationshipDetails relationshipDetails, string actionType, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -977,7 +977,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1065,7 +1065,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// customerId -> number
         /// companyId -> number
         /// </remarks>
-        public RelationshipDetails GetRelationshipDetails(int customerId, int companyId)
+        public RelationshipDetails GetRelationshipDetails(int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             RelationshipDetails relationshipDetails = new RelationshipDetails();
@@ -1073,7 +1073,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1179,7 +1179,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// hourlyOtherRates -> HourlyOtherRates object
         /// </remarks>
-        public int SetNewHourlyOtherRatesDetails(HourlyOtherRates hourlyOtherRates, int customerId, int companyId)
+        public int SetNewHourlyOtherRatesDetails(HourlyOtherRates hourlyOtherRates, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -1187,7 +1187,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1244,7 +1244,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// hourlyOtherRates -> HourlyOtherRates object
         /// </remarks>
-        public int SetUpdateHourlyOtherRatesDetails(HourlyOtherRates hourlyOtherRates, int customerId, int companyId)
+        public int SetUpdateHourlyOtherRatesDetails(HourlyOtherRates hourlyOtherRates, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -1252,7 +1252,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1306,7 +1306,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// sociamMediaId -> number
         /// </remarks>
-        public int SetRemoveHourlyOtherRatesDetails(int hourlyOtherRatesId, int customerId, int companyId)
+        public int SetRemoveHourlyOtherRatesDetails(int hourlyOtherRatesId, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -1314,7 +1314,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1362,7 +1362,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// filter -> Filter object
         /// </remarks>
-        public List<HourlyOtherRates> GetHourlyOtherRateListDetails(Filter filter, int customerId, int companyId)
+        public List<HourlyOtherRates> GetHourlyOtherRateListDetails(Filter filter, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             List<HourlyOtherRates> hourlyOtherRatesList = new List<HourlyOtherRates>();
@@ -1370,7 +1370,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1431,7 +1431,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// filter -> Filter object
         /// </remarks>
-        public List<GlobalFileDetails> GetAllFilesList(Filter filter, int customerId, int companyId)
+        public List<GlobalFileDetails> GetAllFilesList(Filter filter, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             List<GlobalFileDetails> globalFileDetailsList = new List<GlobalFileDetails>();
@@ -1439,7 +1439,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1501,7 +1501,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// globalFileId -> number
         /// </remarks>
-        public int RemoveGlobalFile(int globalFileId, int customerId, int companyId)
+        public int RemoveGlobalFile(int globalFileId, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -1509,7 +1509,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1558,7 +1558,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// fileType -> string
         /// companyId -> number
         /// </remarks>
-        public int SetGlobalFile(string fileName, string fileUrl, string fileType, int companyId, string localPath)
+        public int SetGlobalFile(string fileName, string fileUrl, string fileType, ConnectionString connectionString, string localPath)
         {
             // Declare the value list
             int newId = 0;
@@ -1566,7 +1566,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1620,7 +1620,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// customerId -> number
         /// companyId -> number
         /// </remarks>
-        public List<ResourceType> GetAllResourceFiles(int customerId, int companyId)
+        public List<ResourceType> GetAllResourceFiles(int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             List<ResourceType> resourceTypeList = new List<ResourceType>();
@@ -1628,7 +1628,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1683,7 +1683,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// customerId -> number
         /// companyId -> number
         /// </remarks>
-        public List<ResourceType> GetAllResourceFilesWithPagination(Filter filter, int customerId, int companyId)
+        public List<ResourceType> GetAllResourceFilesWithPagination(Filter filter, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             List<ResourceType> resourceTypeList = new List<ResourceType>();
@@ -1691,7 +1691,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1751,7 +1751,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// resourceType -> ResourceType object
         /// </remarks>
-        public int SetNewResourceDetails(ResourceType resourceType, int customerId, int companyId)
+        public int SetNewResourceDetails(ResourceType resourceType, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -1759,7 +1759,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1808,7 +1808,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// resourceType -> ResourceType object
         /// </remarks>
-        public int SetUpdateResourceDetails(ResourceType resourceType, int customerId, int companyId)
+        public int SetUpdateResourceDetails(ResourceType resourceType, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -1816,7 +1816,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1864,7 +1864,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// sociamMediaId -> number
         /// </remarks>
-        public int SetRemoveResourceDetails(int resourceId, int customerId, int companyId)
+        public int SetRemoveResourceDetails(int resourceId, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -1872,7 +1872,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1918,7 +1918,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> string
         /// imageFiles -> ImageFiles Object
         /// </remarks>
-        public int SetImageDocFile(ImageFiles imageFiles, int customerId, int companyId, string staffId)
+        public int SetImageDocFile(ImageFiles imageFiles, int customerId, ConnectionString connectionString, string staffId)
         {
             // Declare the value list
             int newId = 0;
@@ -1926,7 +1926,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -1987,7 +1987,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> string
         /// imageFiles -> ImageFiles Object
         /// </remarks>
-        public int SetUpdateImageDocFile(ImageFiles imageFiles, int customerId, int companyId, string staffId)
+        public int SetUpdateImageDocFile(ImageFiles imageFiles, int customerId, ConnectionString connectionString, string staffId)
         {
             // Declare the value list
             int newId = 0;
@@ -1995,7 +1995,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2055,7 +2055,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> string
         /// imageFiles -> ImageFiles Object
         /// </remarks>
-        public int RemoveImageDocFile(int imageFilesId, int customerId, int companyId)
+        public int RemoveImageDocFile(int imageFilesId, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -2063,7 +2063,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2111,7 +2111,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// filter -> Filter
         /// </remarks>
-        public List<ImageFiles> GetAllImageDocFiles(Filter filter, int customerId, int companyId)
+        public List<ImageFiles> GetAllImageDocFiles(Filter filter, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             List<ImageFiles> imageFilesList = new List<ImageFiles>();
@@ -2119,7 +2119,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2193,7 +2193,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// resourceType -> ResourceType object
         /// </remarks>
-        public int SetNewClientRequirement(ClientRequirement clientRequirement, int customerId, int companyId)
+        public int SetNewClientRequirement(ClientRequirement clientRequirement, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -2201,7 +2201,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2256,7 +2256,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// resourceType -> ResourceType object
         /// </remarks>
-        public int SetUpdateClientRequirement(ClientRequirement clientRequirement, int customerId, int companyId)
+        public int SetUpdateClientRequirement(ClientRequirement clientRequirement, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -2264,7 +2264,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2316,7 +2316,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// clientRequirementId -> number
         /// </remarks>
-        public int SetRemoveClientRequirement(int clientRequirementId, int customerId, int companyId)
+        public int SetRemoveClientRequirement(int clientRequirementId, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -2324,7 +2324,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2372,7 +2372,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// clientRequirementId -> number
         /// </remarks>
-        public int SetClientRequirementFile(string fileName, string fileUrl, string fileType, int clientRequirementId, int companyId, string localPath)
+        public int SetClientRequirementFile(string fileName, string fileUrl, string fileType, int clientRequirementId, ConnectionString connectionString, string localPath)
         {
             // Declare the value list
             int newId = 0;
@@ -2380,7 +2380,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2437,7 +2437,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        public int RemoveClientRequirementFile(int clientRequirementFileId, int customerId, int companyId)
+        public int RemoveClientRequirementFile(int clientRequirementFileId, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -2445,7 +2445,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2492,7 +2492,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        public int UpdateClientRequirementRanking(int clientRequirementId, string moveDirection, int customerId, int companyId)
+        public int UpdateClientRequirementRanking(int clientRequirementId, string moveDirection, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -2500,7 +2500,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2549,7 +2549,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// resourceType -> ResourceType object
         /// </remarks>
-        public int SetNewGlobalClientRequirement(ClientRequirement clientRequirement, int customerId, int companyId)
+        public int SetNewGlobalClientRequirement(ClientRequirement clientRequirement, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -2557,7 +2557,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2609,7 +2609,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// clientRequirementId -> number
         /// </remarks>
-        public int SetRemoveGlobalClientRequirement(int clientRequirementId, int customerId, int companyId)
+        public int SetRemoveGlobalClientRequirement(int clientRequirementId, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -2617,7 +2617,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2666,7 +2666,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        public List<ClientRequirement> GetGlobalClientRequirement(Filter filter, int customerId, int companyId)
+        public List<ClientRequirement> GetGlobalClientRequirement(Filter filter, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             List<ClientRequirement> clientRequirementList = new List<ClientRequirement>();
@@ -2674,7 +2674,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2737,7 +2737,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        public List<ClientRequirement> GetClientRequirement(Filter filter, int customerId, int companyId)
+        public List<ClientRequirement> GetClientRequirement(Filter filter, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             List<ClientRequirement> clientRequirementList = new List<ClientRequirement>();
@@ -2745,7 +2745,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2808,7 +2808,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        public List<ClientRequirementFile> GetClientRequirementFiles(int clientRequirementId, int companyId)
+        public List<ClientRequirementFile> GetClientRequirementFiles(int clientRequirementId, ConnectionString connectionString)
         {
             // Declare the value list
             List<ClientRequirementFile> clientRequirementFileList = new List<ClientRequirementFile>();
@@ -2816,7 +2816,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2874,7 +2874,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        public int SetClientRequirementRole(int roleId, int clientRequirementId, int customerId, int companyId)
+        public int SetClientRequirementRole(int roleId, int clientRequirementId, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -2882,7 +2882,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2936,7 +2936,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        public int SetGlobalClientRequirementRole(int roleId, int clientRequirementId, int customerId, int companyId)
+        public int SetGlobalClientRequirementRole(int roleId, int clientRequirementId, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -2944,7 +2944,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -2998,7 +2998,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        public int RemoveClientRequirementRole(int clientRequirementId, int customerId, int companyId)
+        public int RemoveClientRequirementRole(int clientRequirementId, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -3006,7 +3006,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -3055,7 +3055,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// actionType -> string
         /// clientRequirement -> ClientRequirement
         /// </remarks>
-        public int RemoveGlobalClientRequirementRole(int clientRequirementId, int customerId, int companyId)
+        public int RemoveGlobalClientRequirementRole(int clientRequirementId, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -3063,7 +3063,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -3111,7 +3111,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// clientRequirementId -> number
         /// </remarks>
-        public List<RoleDetails> GetClientRequirementRole(int clientRequirementId, int customerId, int companyId)
+        public List<RoleDetails> GetClientRequirementRole(int clientRequirementId, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             List<RoleDetails> roleDetailsList = new List<RoleDetails>();
@@ -3119,7 +3119,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -3176,7 +3176,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// clientRequirementId -> number
         /// </remarks>
-        public List<RoleDetails> GetGlobalClientRequirementRole(int clientRequirementId, int customerId, int companyId)
+        public List<RoleDetails> GetGlobalClientRequirementRole(int clientRequirementId, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             List<RoleDetails> roleDetailsList = new List<RoleDetails>();
@@ -3184,7 +3184,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -3240,7 +3240,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// clientId -> number
         /// companyId -> number
         /// </remarks>
-        public List<SocialMedia> GetAllSocialMediaList(Filter filter, int clientId, int companyId)
+        public List<SocialMedia> GetAllSocialMediaList(Filter filter, int clientId, ConnectionString connectionString)
         {
             // Declare the value list
             List<SocialMedia> socialMediaList = new List<SocialMedia>();
@@ -3248,7 +3248,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_CLIENT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();
@@ -3298,6 +3298,183 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
 
             // Return the values
             return socialMediaList;
+        }
+
+        // GetAllUserRoles
+        /// <summary>
+        /// Getting all the user roles
+        /// </summary>
+        /// <returns>
+        /// UserRole object list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// </remarks>
+        public List<UserRole> GetAllUserRoles(ConnectionString connectionString)
+        {
+            // Declare the value list
+            List<UserRole> userRoleList = new List<UserRole>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("UserRoleAccessDetails_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET$UR";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            userRoleList.Add(new UserRole()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["RoleName"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_GetAllUserRoles ! :" + ex);
+            }
+
+            // Return the values
+            return userRoleList;
+        }
+
+        // SetModuleAccess
+        /// <summary>
+        /// Setting the module access
+        /// </summary>
+        /// <returns>
+        /// boolean
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public bool SetModuleAccess(int moduleId, bool moduleAccess,int userRoleId, ConnectionString connectionString)
+        {
+            // Declare the value list
+            bool status = false;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("UserRoles_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "SET$ACC";
+                        SqlParameter UserRoleIdParameter = sqlCommandToken.Parameters.Add("@UserRoleId", SqlDbType.Int);
+                        UserRoleIdParameter.Value = userRoleId;
+                        SqlParameter ModuleIdParameter = sqlCommandToken.Parameters.Add("@ModuleId", SqlDbType.Int);
+                        ModuleIdParameter.Value = moduleId;
+                        SqlParameter ModuleAccessParameter = sqlCommandToken.Parameters.Add("@ModuleAccess", SqlDbType.Bit);
+                        ModuleAccessParameter.Value = moduleAccess;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        status = true;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_SetModuleAccess ! :" + ex);
+            }
+
+            // Return the values
+            return status;
+        }
+
+        // GetAccessibleModules
+        /// <summary>
+        /// Getting all the accessible modules
+        /// </summary>
+        /// <returns>
+        /// Module list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public List<Module> GetAccessibleModules(int userRoleId, ConnectionString connectionString)
+        {
+            // Declare the value list
+            List<Module> moduleList = new List<Module>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("UserRoleAccessDetails_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET$UID";
+                        SqlParameter UserRoleIdParameter = sqlCommandToken.Parameters.Add("@UserRoleId", SqlDbType.Int);
+                        UserRoleIdParameter.Value = userRoleId;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            moduleList.Add(new Module()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                ModuleCode = resultToken["ModuleCode"].ToString(),
+                                Name = resultToken["Name"].ToString(),
+                                ModuleIcon = resultToken["ModuleIcon"].ToString(),
+                                IsDisable = Convert.ToBoolean(resultToken["IsDisabled"].ToString()),
+                                RedirectUrl = resultToken["RedirectUrl"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_GetAccessibleModules ! :" + ex);
+            }
+
+            // Return the values
+            return moduleList;
         }
     }
 }

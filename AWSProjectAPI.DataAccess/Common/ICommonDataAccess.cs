@@ -32,7 +32,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        List<Priority> GetPriorityList();
+        List<Priority> GetPriorityList(ConnectionString connectionString);
 
         // GetStatusList
         /// <summary>
@@ -44,7 +44,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// moduleCode -> string value
         /// </remarks>
-        List<Status> GetStatusList(string moduleCode);
+        List<Status> GetStatusList(string moduleCode, ConnectionString connectionString);
 
         // GetModuleList
         /// <summary>
@@ -56,7 +56,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        List<Module> GetModuleList();
+        List<Module> GetModuleList(ConnectionString connectionString);
 
         // GetAllStaffList
         /// <summary>
@@ -68,7 +68,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        List<BasicUserDetails> GetAllStaffList();
+        List<BasicUserDetails> GetAllStaffList(ConnectionString connectionString);
 
         // TotalGlobalNotes
         /// <summary>
@@ -80,7 +80,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        int TotalGlobalNotes(string userId);
+        int TotalGlobalNotes(string userId, ConnectionString connectionString);
 
         // TotalSE
         /// <summary>
@@ -92,7 +92,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        int TotalSE(string userId);
+        int TotalSE(string userId, ConnectionString connectionString);
 
         // TotalBG
         /// <summary>
@@ -104,7 +104,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        int TotalBG(string userId);
+        int TotalBG(string userId, ConnectionString connectionString);
 
         // GetModuleListBasedUserRole
         /// <summary>
@@ -116,7 +116,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        List<Module> GetModuleListBasedUserRole(string userRole, bool isStatic);
+        List<Module> GetModuleListBasedUserRole(string userRole, bool isStatic, ConnectionString connectionString);
 
         // GetAccessListBasedUserRole
         /// <summary>
@@ -128,7 +128,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        List<UserRoleAccessDetail> GetAccessListBasedUserRole(string userRole);
+        List<UserRoleAccessDetail> GetAccessListBasedUserRole(string userRole, ConnectionString connectionString);
 
         // Getting all the access list based on the user role for view
         /// <summary>
@@ -140,7 +140,7 @@ namespace AWSProjectAPI.DataAccess.Common
         /// <remarks>
         /// -
         /// </remarks>
-        List<Module> GetViewAccessListBasedUserRole(string userRole);
+        List<Module> GetViewAccessListBasedUserRole(string userRole, ConnectionString connectionString);
 
         // GetAccountDetails
         /// <summary>
@@ -273,5 +273,53 @@ namespace AWSProjectAPI.DataAccess.Common
         /// -
         /// </remarks>
         List<RoleDetails> GetAllRoleDetails();
+
+        // GetConnectionString
+        /// <summary>
+        /// Getting all the connection details
+        /// </summary>
+        /// <returns>
+        /// ConnectionString object value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        ConnectionString GetConnectionString(int parentGroupId, string moduleCode);
+
+        // GetAllParentGroupsDetailsByEmail
+        /// <summary>
+        /// Getting all the parent groups by email
+        /// </summary>
+        /// <returns>
+        /// ParentGroup object list value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<ParentGroup> GetAllParentGroupsDetailsByEmail(string email);
+
+        // GetAllParentGroupsDetailsById
+        /// <summary>
+        /// Getting all the parent groups by id
+        /// </summary>
+        /// <returns>
+        /// ParentGroup object list value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<ParentGroup> GetAllParentGroupsDetailsById(string userId);
+
+        // GetAllModulesByUserId
+        /// <summary>
+        /// Getting all the modules by user id
+        /// </summary>
+        /// <returns>
+        /// Module object list value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<Module> GetAllModulesByUserId(string userId, ConnectionString connectionString = null);
     }
 }

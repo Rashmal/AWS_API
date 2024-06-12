@@ -1,16 +1,20 @@
-﻿using AWSProjectAPI.Core.Client;
+﻿
+using AWSProjectAPI.Core.Client;
 using AWSProjectAPI.Core.Common;
 using AWSProjectAPI.DataAccess.BugFixes;
 using AWSProjectAPI.DataAccess.ClientDetails;
+using AWSProjectAPI.DataAccess.Common;
 using AWSProjectAPI.Service.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using Module = AWSProjectAPI.Core.Common.Module;
 using ResourceType = AWSProjectAPI.Core.Client.ResourceType;
 
 namespace AWSProjectAPI.Service.ClientDetails
@@ -23,10 +27,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         protected string IMAGE_DOC_FILES_PATH { get; set; }
         protected string CLIENT_REQ_FILES_PATH { get; set; }
         protected string IMAGE_LIVE_URL { get; set; }
+        private readonly ICommonDataAccess iCommonDataAccess;
         #endregion
 
         // Constructor
-        public ClientService(IClientDataAccess iClientDataAccess, IConfiguration configurationString)
+        public ClientService(IClientDataAccess iClientDataAccess, IConfiguration configurationString, ICommonDataAccess iCommonDataAccess)
         {
             this.iClientDataAccess = iClientDataAccess;
             // Intantiating the object
@@ -34,6 +39,7 @@ namespace AWSProjectAPI.Service.ClientDetails
             this.IMAGE_DOC_FILES_PATH = configurationString.GetConnectionString("IMAGE_DOC_FILES_PATH");
             this.CLIENT_REQ_FILES_PATH = configurationString.GetConnectionString("CLIENT_REQ_FILES_PATH");
             this.IMAGE_LIVE_URL = configurationString.GetConnectionString("LIVE_IMAGE_URL");
+            this.iCommonDataAccess = iCommonDataAccess;
         }
 
         // GetDisplayClientDetails
@@ -49,8 +55,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public List<DisplayClientDetails> GetDisplayClientDetails(Filter filter, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the display client display list
-            List<DisplayClientDetails> displayClientDetailsList = this.iClientDataAccess.GetDisplayClientDetails(filter, companyId);
+            List<DisplayClientDetails> displayClientDetailsList = this.iClientDataAccess.GetDisplayClientDetails(filter, connectionString);
 
             // Declare the filter
             Filter filterContacts = new Filter()
@@ -75,7 +84,7 @@ namespace AWSProjectAPI.Service.ClientDetails
             for (int i = 0; i < displayClientDetailsList.Count; i++)
             {
                 // Getting the type
-                displayClientDetailsList[i].Contacts = this.iClientDataAccess.GetAllContactList(filterContacts, displayClientDetailsList[i].Id, companyId);
+                displayClientDetailsList[i].Contacts = this.iClientDataAccess.GetAllContactList(filterContacts, displayClientDetailsList[i].Id, connectionString);
             }
             // End of Loop through the list
 
@@ -96,8 +105,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public List<Contact> GetAllContactList(Filter filter, int clientId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the client list
-            return this.iClientDataAccess.GetAllContactList(filter, clientId, companyId);
+            return this.iClientDataAccess.GetAllContactList(filter, clientId, connectionString);
         }
 
         // SetClientCustomer
@@ -113,8 +125,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public int SetClientCustomer(ClientCustomer clientCustomer, string staffId, string actionType, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the client list
-            return this.iClientDataAccess.SetClientCustomer(clientCustomer, staffId, actionType, companyId);
+            return this.iClientDataAccess.SetClientCustomer(clientCustomer, staffId, actionType, connectionString);
         }
 
         // GetClientCustomer
@@ -130,8 +145,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public ClientCustomer GetClientCustomer(int clientId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the client list
-            return this.iClientDataAccess.GetClientCustomer(clientId, companyId);
+            return this.iClientDataAccess.GetClientCustomer(clientId, connectionString);
         }
 
         // SetBillingAddress
@@ -148,8 +166,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public int SetBillingAddress(BusinessAddress businessAddress, string actionType, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            return this.iClientDataAccess.SetBillingAddress(businessAddress, actionType, customerId, companyId);
+            return this.iClientDataAccess.SetBillingAddress(businessAddress, actionType, customerId, connectionString);
         }
 
         // GetBillingAddress
@@ -165,8 +186,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public BusinessAddress GetBillingAddress(int clientId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            return this.iClientDataAccess.GetBillingAddress(clientId, companyId);
+            return this.iClientDataAccess.GetBillingAddress(clientId, connectionString);
         }
 
         // SetContactDetails
@@ -184,6 +208,9 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public int SetContactDetails(Contact contact, string actionType, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Store the new Id
             int newId = 0;
 
@@ -191,13 +218,13 @@ namespace AWSProjectAPI.Service.ClientDetails
             switch (actionType)
             {
                 case "NEW":
-                    newId = iClientDataAccess.SetNewContactDetails(contact, customerId, companyId);
+                    newId = iClientDataAccess.SetNewContactDetails(contact, customerId, connectionString);
                     break;
                 case "UPDATE":
-                    newId = iClientDataAccess.SetUpdateContactDetails(contact, customerId, companyId);
+                    newId = iClientDataAccess.SetUpdateContactDetails(contact, customerId, connectionString);
                     break;
                 case "REMOVE":
-                    newId = iClientDataAccess.SetRemoveContactDetails(contact.Id, customerId, companyId);
+                    newId = iClientDataAccess.SetRemoveContactDetails(contact.Id, customerId, connectionString);
                     break;
             }
             // End of Check the action type
@@ -220,8 +247,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public List<Contact> GetContactListDetails(Filter filter, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            return this.iClientDataAccess.GetContactListDetails(filter, customerId, companyId);
+            return this.iClientDataAccess.GetContactListDetails(filter, customerId, connectionString);
         }
 
         // SetSocialMediaDetails
@@ -239,6 +269,9 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public int SetSocialMediaDetails(SocialMedia socialMedia, string actionType, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Store the new Id
             int newId = 0;
 
@@ -246,13 +279,13 @@ namespace AWSProjectAPI.Service.ClientDetails
             switch (actionType)
             {
                 case "NEW":
-                    newId = iClientDataAccess.SetNewSocialMediaDetails(socialMedia, customerId, companyId);
+                    newId = iClientDataAccess.SetNewSocialMediaDetails(socialMedia, customerId, connectionString);
                     break;
                 case "UPDATE":
-                    newId = iClientDataAccess.SetUpdateSocialMediaDetails(socialMedia, customerId, companyId);
+                    newId = iClientDataAccess.SetUpdateSocialMediaDetails(socialMedia, customerId, connectionString);
                     break;
                 case "REMOVE":
-                    newId = iClientDataAccess.SetRemoveSocialMediaDetails(socialMedia.Id, customerId, companyId);
+                    newId = iClientDataAccess.SetRemoveSocialMediaDetails(socialMedia.Id, customerId, connectionString);
                     break;
             }
             // End of Check the action type
@@ -275,8 +308,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public List<SocialMedia> GetSocialMediaListDetails(Filter filter, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            return this.iClientDataAccess.GetSocialMediaListDetails(filter, customerId, companyId);
+            return this.iClientDataAccess.GetSocialMediaListDetails(filter, customerId, connectionString);
         }
 
         // SetRelationshipDetails
@@ -294,8 +330,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public int SetRelationshipDetails(RelationshipDetails relationshipDetails, string actionType, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            return this.iClientDataAccess.SetRelationshipDetails(relationshipDetails, actionType, customerId, companyId);
+            return this.iClientDataAccess.SetRelationshipDetails(relationshipDetails, actionType, customerId, connectionString);
         }
 
         // GetRelationshipDetails
@@ -311,8 +350,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public RelationshipDetails GetRelationshipDetails(int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            return this.iClientDataAccess.GetRelationshipDetails(customerId, companyId);
+            return this.iClientDataAccess.GetRelationshipDetails(customerId, connectionString);
         }
 
         // SetOtherRateDetails
@@ -330,6 +372,9 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public int SetOtherRateDetails(HourlyOtherRates hourlyOtherRates, string actionType, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Store the new Id
             int newId = 0;
 
@@ -337,13 +382,13 @@ namespace AWSProjectAPI.Service.ClientDetails
             switch (actionType)
             {
                 case "NEW":
-                    newId = iClientDataAccess.SetNewHourlyOtherRatesDetails(hourlyOtherRates, customerId, companyId);
+                    newId = iClientDataAccess.SetNewHourlyOtherRatesDetails(hourlyOtherRates, customerId, connectionString);
                     break;
                 case "UPDATE":
-                    newId = iClientDataAccess.SetUpdateHourlyOtherRatesDetails(hourlyOtherRates, customerId, companyId);
+                    newId = iClientDataAccess.SetUpdateHourlyOtherRatesDetails(hourlyOtherRates, customerId, connectionString);
                     break;
                 case "REMOVE":
-                    newId = iClientDataAccess.SetRemoveHourlyOtherRatesDetails(hourlyOtherRates.Id, customerId, companyId);
+                    newId = iClientDataAccess.SetRemoveHourlyOtherRatesDetails(hourlyOtherRates.Id, customerId, connectionString);
                     break;
             }
             // End of Check the action type
@@ -366,8 +411,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public List<HourlyOtherRates> GetHourlyOtherRateListDetails(Filter filter, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            return this.iClientDataAccess.GetHourlyOtherRateListDetails(filter, customerId, companyId);
+            return this.iClientDataAccess.GetHourlyOtherRateListDetails(filter, customerId, connectionString);
         }
 
         // GetAllFilesList
@@ -384,8 +432,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public List<GlobalFileDetails> GetAllFilesList(Filter filter, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            return this.iClientDataAccess.GetAllFilesList(filter, customerId, companyId);
+            return this.iClientDataAccess.GetAllFilesList(filter, customerId, connectionString);
         }
 
         // RemoveGlobalFile
@@ -402,8 +453,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public int RemoveGlobalFile(int globalFileId, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            return this.iClientDataAccess.RemoveGlobalFile(globalFileId, customerId, companyId);
+            return this.iClientDataAccess.RemoveGlobalFile(globalFileId, customerId, connectionString);
         }
 
         // UploadGlobalFile
@@ -420,6 +474,9 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public string UploadGlobalFile(List<IFormFile> files, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Store the return value
             string uploadStatus = "ERROR";
 
@@ -458,7 +515,7 @@ namespace AWSProjectAPI.Service.ClientDetails
                         string fullPath = Path.Combine(pathToSave, fileName);
 
                         // Getting the live url
-                        string liveUrl = this.IMAGE_LIVE_URL + fullPath.Replace("D:\\iitcapi", "").Replace("\\","//");
+                        string liveUrl = this.IMAGE_LIVE_URL + fullPath.Replace("D:\\iitcapi", "").Replace("\\", "//");
 
                         // Check if file exists with its full path
                         if (File.Exists(fullPath))
@@ -476,7 +533,7 @@ namespace AWSProjectAPI.Service.ClientDetails
                         // End of Upload the file
 
                         // Writing to the DB
-                        int newUploadedFileId = this.iClientDataAccess.SetGlobalFile(fileName, liveUrl, fileExt.Substring(1).ToUpper(), companyId, fullPath);
+                        int newUploadedFileId = this.iClientDataAccess.SetGlobalFile(fileName, liveUrl, fileExt.Substring(1).ToUpper(), connectionString, fullPath);
 
                         if (newUploadedFileId > 0)
                         {
@@ -525,8 +582,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public List<ResourceType> GetAllResourceFiles(int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            return this.iClientDataAccess.GetAllResourceFiles(customerId, companyId);
+            return this.iClientDataAccess.GetAllResourceFiles(customerId, connectionString);
         }
 
         // GetAllResourceFilesWithPagination
@@ -542,8 +602,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public List<ResourceType> GetAllResourceFilesWithPagination(Filter filter, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            return this.iClientDataAccess.GetAllResourceFilesWithPagination(filter, customerId, companyId);
+            return this.iClientDataAccess.GetAllResourceFilesWithPagination(filter, customerId, connectionString);
         }
 
         // SetResourceTypeDetails
@@ -560,6 +623,9 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public int SetResourceTypeDetails(ResourceType resourceType, string actionType, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Store the new Id
             int newId = 0;
 
@@ -567,13 +633,13 @@ namespace AWSProjectAPI.Service.ClientDetails
             switch (actionType)
             {
                 case "NEW":
-                    newId = iClientDataAccess.SetNewResourceDetails(resourceType, customerId, companyId);
+                    newId = iClientDataAccess.SetNewResourceDetails(resourceType, customerId, connectionString);
                     break;
                 case "UPDATE":
-                    newId = iClientDataAccess.SetUpdateResourceDetails(resourceType, customerId, companyId);
+                    newId = iClientDataAccess.SetUpdateResourceDetails(resourceType, customerId, connectionString);
                     break;
                 case "REMOVE":
-                    newId = iClientDataAccess.SetRemoveResourceDetails(resourceType.Id, customerId, companyId);
+                    newId = iClientDataAccess.SetRemoveResourceDetails(resourceType.Id, customerId, connectionString);
                     break;
             }
             // End of Check the action type
@@ -597,6 +663,9 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public string UploadImageDocFile(List<IFormFile> files, int customerId, int companyId, int resourceTypeId, string staffId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Store the return value
             string uploadStatus = "ERROR";
 
@@ -671,7 +740,7 @@ namespace AWSProjectAPI.Service.ClientDetails
                             LocalPath = fullPath
                         };
 
-                        int newUploadedFileId = this.iClientDataAccess.SetImageDocFile(imageFiles, customerId, companyId, staffId);
+                        int newUploadedFileId = this.iClientDataAccess.SetImageDocFile(imageFiles, customerId, connectionString, staffId);
 
                         if (newUploadedFileId > 0)
                         {
@@ -706,8 +775,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public int SetUpdateImageDocFile(ImageFiles imageFiles, int customerId, int companyId, string staffId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            return this.iClientDataAccess.SetUpdateImageDocFile(imageFiles, customerId, companyId, staffId);
+            return this.iClientDataAccess.SetUpdateImageDocFile(imageFiles, customerId, connectionString, staffId);
         }
 
         // RemoveImageDocFile
@@ -724,8 +796,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public int RemoveImageDocFile(int imageFilesId, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            return this.iClientDataAccess.RemoveImageDocFile(imageFilesId, customerId, companyId);
+            return this.iClientDataAccess.RemoveImageDocFile(imageFilesId, customerId, connectionString);
         }
 
         // GetAllImageDocFiles
@@ -742,8 +817,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public List<ImageFiles> GetAllImageDocFiles(Filter filter, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            return this.iClientDataAccess.GetAllImageDocFiles(filter, customerId, companyId);
+            return this.iClientDataAccess.GetAllImageDocFiles(filter, customerId, connectionString);
         }
 
         // SetClientRequirement
@@ -761,6 +839,9 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public int SetClientRequirement(ClientRequirement clientRequirement, string actionType, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Store the new Id
             int newId = 0;
 
@@ -768,33 +849,33 @@ namespace AWSProjectAPI.Service.ClientDetails
             switch (actionType)
             {
                 case "NEW":
-                    newId = iClientDataAccess.SetNewClientRequirement(clientRequirement, customerId, companyId);
+                    newId = iClientDataAccess.SetNewClientRequirement(clientRequirement, customerId, connectionString);
                     // Remove all roles
-                    iClientDataAccess.RemoveClientRequirementRole(clientRequirement.Id, customerId, companyId);
+                    iClientDataAccess.RemoveClientRequirementRole(clientRequirement.Id, customerId, connectionString);
                     // Loop through the requirements roles
                     for (int i = 0; i < clientRequirement.RoleDetails.Count; i++)
                     {
                         // Setting the role
-                        iClientDataAccess.SetClientRequirementRole(clientRequirement.RoleDetails[i].Id, newId, customerId, companyId);
+                        iClientDataAccess.SetClientRequirementRole(clientRequirement.RoleDetails[i].Id, newId, customerId, connectionString);
                     }
                     // End of Loop through the requirements roles
                     break;
                 case "UPDATE":
-                    newId = iClientDataAccess.SetUpdateClientRequirement(clientRequirement, customerId, companyId);
+                    newId = iClientDataAccess.SetUpdateClientRequirement(clientRequirement, customerId, connectionString);
                     // Remove all roles
-                    iClientDataAccess.RemoveClientRequirementRole(clientRequirement.Id, customerId, companyId);
+                    iClientDataAccess.RemoveClientRequirementRole(clientRequirement.Id, customerId, connectionString);
                     // Loop through the requirements roles
                     for (int i = 0; i < clientRequirement.RoleDetails.Count; i++)
                     {
                         // Setting the role
-                        iClientDataAccess.SetClientRequirementRole(clientRequirement.RoleDetails[i].Id, newId, customerId, companyId);
+                        iClientDataAccess.SetClientRequirementRole(clientRequirement.RoleDetails[i].Id, newId, customerId, connectionString);
                     }
                     // End of Loop through the requirements roles
                     break;
                 case "REMOVE":
                     // Remove all roles
-                    iClientDataAccess.RemoveClientRequirementRole(clientRequirement.Id, customerId, companyId);
-                    newId = iClientDataAccess.SetRemoveClientRequirement(clientRequirement.Id, customerId, companyId);
+                    iClientDataAccess.RemoveClientRequirementRole(clientRequirement.Id, customerId, connectionString);
+                    newId = iClientDataAccess.SetRemoveClientRequirement(clientRequirement.Id, customerId, connectionString);
                     break;
             }
             // End of Check the action type
@@ -818,6 +899,9 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public string SetClientRequirementFile(List<IFormFile> files, int clientRequirementId, string actionType, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Store the return value
             string uploadStatus = "ERROR";
 
@@ -875,7 +959,7 @@ namespace AWSProjectAPI.Service.ClientDetails
                         // End of Upload the file
 
                         // Writing to the DB
-                        int newUploadedFileId = this.iClientDataAccess.SetClientRequirementFile(fileName, liveUrl, fileExt.Substring(1).ToUpper(), clientRequirementId, companyId, fullPath);
+                        int newUploadedFileId = this.iClientDataAccess.SetClientRequirementFile(fileName, liveUrl, fileExt.Substring(1).ToUpper(), clientRequirementId, connectionString, fullPath);
 
                         if (newUploadedFileId > 0)
                         {
@@ -911,8 +995,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public int RemoveClientRequirementFile(int clientRequirementFileId, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            return this.iClientDataAccess.RemoveClientRequirementFile(clientRequirementFileId, customerId, companyId);
+            return this.iClientDataAccess.RemoveClientRequirementFile(clientRequirementFileId, customerId, connectionString);
         }
 
         // UpdateClientRequirementRanking
@@ -930,8 +1017,11 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public int UpdateClientRequirementRanking(int clientRequirementId, string moveDirection, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            return this.iClientDataAccess.UpdateClientRequirementRanking(clientRequirementId, moveDirection, customerId, companyId);
+            return this.iClientDataAccess.UpdateClientRequirementRanking(clientRequirementId, moveDirection, customerId, connectionString);
         }
 
         // SetGlobalClientRequirement
@@ -949,6 +1039,9 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public int SetGlobalClientRequirement(ClientRequirement clientRequirement, string actionType, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Store the new Id
             int newId = 0;
 
@@ -956,21 +1049,21 @@ namespace AWSProjectAPI.Service.ClientDetails
             switch (actionType)
             {
                 case "NEW":
-                    newId = iClientDataAccess.SetNewGlobalClientRequirement(clientRequirement, customerId, companyId);
+                    newId = iClientDataAccess.SetNewGlobalClientRequirement(clientRequirement, customerId, connectionString);
                     // Remove all roles
-                    iClientDataAccess.RemoveGlobalClientRequirementRole(clientRequirement.Id, customerId, companyId);
+                    iClientDataAccess.RemoveGlobalClientRequirementRole(clientRequirement.Id, customerId, connectionString);
                     // Loop through the requirements roles
                     for (int i = 0; i < clientRequirement.RoleDetails.Count; i++)
                     {
                         // Setting the role
-                        iClientDataAccess.SetGlobalClientRequirementRole(clientRequirement.RoleDetails[i].Id, newId, customerId, companyId);
+                        iClientDataAccess.SetGlobalClientRequirementRole(clientRequirement.RoleDetails[i].Id, newId, customerId, connectionString);
                     }
                     // End of Loop through the requirements roles
                     break;
                 case "REMOVE":
                     // Remove all roles
-                    iClientDataAccess.RemoveGlobalClientRequirementRole(clientRequirement.Id, customerId, companyId);
-                    newId = iClientDataAccess.SetRemoveGlobalClientRequirement(clientRequirement.Id, customerId, companyId);
+                    iClientDataAccess.RemoveGlobalClientRequirementRole(clientRequirement.Id, customerId, connectionString);
+                    newId = iClientDataAccess.SetRemoveGlobalClientRequirement(clientRequirement.Id, customerId, connectionString);
                     break;
             }
             // End of Check the action type
@@ -994,14 +1087,17 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public List<ClientRequirement> GetGlobalClientRequirement(Filter filter, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            List<ClientRequirement> globalClientRequirements = this.iClientDataAccess.GetGlobalClientRequirement(filter, customerId, companyId);
+            List<ClientRequirement> globalClientRequirements = this.iClientDataAccess.GetGlobalClientRequirement(filter, customerId, connectionString);
 
             // Loop through the client requirements
             for (int i = 0; i < globalClientRequirements.Count; i++)
             {
                 // Getting the client requirement roles
-                globalClientRequirements[i].RoleDetails = this.iClientDataAccess.GetGlobalClientRequirementRole(globalClientRequirements[i].Id, customerId, companyId);
+                globalClientRequirements[i].RoleDetails = this.iClientDataAccess.GetGlobalClientRequirementRole(globalClientRequirements[i].Id, customerId, connectionString);
             }
             // End of Loop through the client requirements
 
@@ -1024,17 +1120,20 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public List<ClientRequirement> GetClientRequirement(Filter filter, int customerId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            List<ClientRequirement> clientRequirements = this.iClientDataAccess.GetClientRequirement(filter, customerId, companyId);
+            List<ClientRequirement> clientRequirements = this.iClientDataAccess.GetClientRequirement(filter, customerId, connectionString);
 
             // Loop through the client requirements
             for (int i = 0; i < clientRequirements.Count; i++)
             {
                 // Getting the client requirement roles
-                clientRequirements[i].RoleDetails = this.iClientDataAccess.GetClientRequirementRole(clientRequirements[i].Id, customerId, companyId);
+                clientRequirements[i].RoleDetails = this.iClientDataAccess.GetClientRequirementRole(clientRequirements[i].Id, customerId, connectionString);
 
                 // Getting the client requirement files
-                clientRequirements[i].ClientRequirementFiles = this.iClientDataAccess.GetClientRequirementFiles(clientRequirements[i].Id, companyId);
+                clientRequirements[i].ClientRequirementFiles = this.iClientDataAccess.GetClientRequirementFiles(clientRequirements[i].Id, connectionString);
             }
             // End of Loop through the client requirements
 
@@ -1055,8 +1154,72 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// </remarks>
         public List<SocialMedia> GetAllSocialMediaList(Filter filter, int clientId, int companyId)
         {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
             // Getting the result
-            return this.iClientDataAccess.GetAllSocialMediaList(filter, clientId, companyId);
+            return this.iClientDataAccess.GetAllSocialMediaList(filter, clientId, connectionString);
+        }
+
+        // GetAllUserRoles
+        /// <summary>
+        /// Getting all the user roles
+        /// </summary>
+        /// <returns>
+        /// UserRole object list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// </remarks>
+        public List<UserRole> GetAllUserRoles(int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
+            // Getting the result
+            return this.iClientDataAccess.GetAllUserRoles(connectionString);
+        }
+
+        // SetModuleAccess
+        /// <summary>
+        /// Setting the module access
+        /// </summary>
+        /// <returns>
+        /// boolean
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public bool SetModuleAccess(int moduleId, bool moduleAccess, int userRoleId, int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
+            // Getting the result
+            return this.iClientDataAccess.SetModuleAccess(moduleId, moduleAccess, userRoleId, connectionString);
+        }
+
+        // GetAccessibleModules
+        /// <summary>
+        /// Getting all the accessible modules
+        /// </summary>
+        /// <returns>
+        /// Module list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public List<Module> GetAccessibleModules(int userRoleId, int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
+            // Getting the result
+            return this.iClientDataAccess.GetAccessibleModules(userRoleId, connectionString);
         }
     }
 }
