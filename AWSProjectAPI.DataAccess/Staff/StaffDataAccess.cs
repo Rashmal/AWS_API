@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using System.Reflection;
+using AWSProjectAPI.Core.Authentication;
+using Module = AWSProjectAPI.Core.Common.Module;
 
 namespace AWSProjectAPI.DataAccess.Staff
 {
@@ -421,6 +424,302 @@ namespace AWSProjectAPI.DataAccess.Staff
 
             // Return the values
             return moduleList;
+        }
+
+        // GetTabDetailaBasedOnModuleUserRole
+        /// <summary>
+        /// Getting all the tab details based on
+        /// </summary>
+        /// <returns>
+        /// SubTabDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public List<SubTabDetails> GetTabDetailaBasedOnModuleUserRole(Filter filter,int userRoleId, int moduleId, ConnectionString connectionString)
+        {
+            // Declare the value list
+            List<SubTabDetails> subTabDetailsList = new List<SubTabDetails>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("SubTabAccessDetails_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "ALL";
+                        SqlParameter UserRoleIdParameter = sqlCommandToken.Parameters.Add("@UserRoleId", SqlDbType.Int);
+                        UserRoleIdParameter.Value = userRoleId;
+                        SqlParameter ModuleIdParameter = sqlCommandToken.Parameters.Add("@ModuleId", SqlDbType.Int);
+                        ModuleIdParameter.Value = moduleId;
+                        SqlParameter CurrentPageParameter = sqlCommandToken.Parameters.Add("@CurrentPage", SqlDbType.Int);
+                        CurrentPageParameter.Value = filter.CurrentPage;
+                        SqlParameter RecordsPerPageParameter = sqlCommandToken.Parameters.Add("@RecordsPerPage", SqlDbType.Int);
+                        RecordsPerPageParameter.Value = filter.RecordsPerPage;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            subTabDetailsList.Add(new SubTabDetails()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["SubTabName"].ToString(),
+                                EnableAccess = Convert.ToBoolean(resultToken["IsEnabled"].ToString()),
+                                AccessLevelFeatureDetailsList = new List<AccessLevelFeatureDetails>()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_GetTabDetailaBasedOnModuleUserRole ! :" + ex);
+            }
+
+            // Return the values
+            return subTabDetailsList;
+        }
+
+        // GetSubTabFeaureAccessList
+        /// <summary>
+        /// Getting all the sub tab feaure access list
+        /// </summary>
+        /// <returns>
+        /// AccessLevelFeatureDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public List<AccessLevelFeatureDetails> GetSubTabFeaureAccessList(int subTabId, ConnectionString connectionString)
+        {
+            // Declare the value list
+            List<AccessLevelFeatureDetails> accessLevelFeatureDetailsList = new List<AccessLevelFeatureDetails>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("SubTabFeatureAccessDetails_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "ALL";
+                        SqlParameter SubTabIdParameter = sqlCommandToken.Parameters.Add("@SubTabId", SqlDbType.Int);
+                        SubTabIdParameter.Value = subTabId;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            accessLevelFeatureDetailsList.Add(new AccessLevelFeatureDetails()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["FeatureName"].ToString(),
+                                AddAccess = Convert.ToBoolean(resultToken["AddAccess"].ToString()),
+                                EditAccess = Convert.ToBoolean(resultToken["EditAccess"].ToString()),
+                                DeleteAccess = Convert.ToBoolean(resultToken["DeleteAccess"].ToString())
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_GetSubTabFeaureAccessList ! :" + ex);
+            }
+
+            // Return the values
+            return accessLevelFeatureDetailsList;
+        }
+
+        // SetTabDetailaAccessLevelBasedOnModuleUserRole
+        /// <summary>
+        /// Setting all the tab access level
+        /// </summary>
+        /// <returns>
+        /// SubTabDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public bool SetTabDetailaAccessLevelBasedOnModuleUserRole(int subTabId, bool accessLevel, ConnectionString connectionString)
+        {
+            // Declare the value list
+            bool status = false;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("SubTabAccessDetails_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "SET";
+                        SqlParameter TabIdParameter = sqlCommandToken.Parameters.Add("@TabId", SqlDbType.Int);
+                        TabIdParameter.Value = subTabId;
+                        SqlParameter TabStateParameter = sqlCommandToken.Parameters.Add("@TabState", SqlDbType.Bit);
+                        TabStateParameter.Value = accessLevel;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        status = true;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_SetTabDetailaAccessLevelBasedOnModuleUserRole ! :" + ex);
+            }
+
+            // Return the values
+            return status;
+        }
+
+        // SetSubTabFeatureAccessLevel
+        /// <summary>
+        /// Setting the sub tab feature access level
+        /// </summary>
+        /// <returns>
+        /// SubTabDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public bool SetSubTabFeatureAccessLevel(int subTabFeatureId, bool addAccessLevel, bool editAccessLevel, bool deleteAccessLevel, ConnectionString connectionString)
+        {
+            // Declare the value list
+            bool status = false;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("SubTabFeatureAccessDetails_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "SET";
+                        SqlParameter SubTabFeatureIdParameter = sqlCommandToken.Parameters.Add("@SubTabFeatureId", SqlDbType.Int);
+                        SubTabFeatureIdParameter.Value = subTabFeatureId;
+                        SqlParameter AddAccessParameter = sqlCommandToken.Parameters.Add("@AddAccess", SqlDbType.Bit);
+                        AddAccessParameter.Value = addAccessLevel;
+                        SqlParameter EditAccessParameter = sqlCommandToken.Parameters.Add("@EditAccess", SqlDbType.Bit);
+                        EditAccessParameter.Value = editAccessLevel;
+                        SqlParameter DeleteAccessParameter = sqlCommandToken.Parameters.Add("@DeleteAccess", SqlDbType.Bit);
+                        DeleteAccessParameter.Value = deleteAccessLevel;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        status = true;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_SetSubTabFeatureAccessLevel ! :" + ex);
+            }
+
+            // Return the values
+            return status;
+        }
+
+        // SetDefaultAccessForNewUserRole
+        /// <summary>
+        /// Setting the default module access for new user role
+        /// </summary>
+        /// <returns>
+        /// SubTabDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public bool SetDefaultAccessForNewUserRole(int userRoleId, ConnectionString connectionString)
+        {
+            // Declare the value list
+            bool status = false;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("DefaultuserRole_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "DEFLT";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        status = true;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_SetDefaultAccessForNewUserRole ! :" + ex);
+            }
+
+            // Return the values
+            return status;
         }
     }
 }
