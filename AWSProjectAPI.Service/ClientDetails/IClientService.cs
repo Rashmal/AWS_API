@@ -464,45 +464,5 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// companyId -> number
         /// </remarks>
         List<SocialMedia> GetAllSocialMediaList(Filter filter, int clientId, int companyId);
-
-        // GetAllUserRoles
-        /// <summary>
-        /// Getting all the user roles
-        /// </summary>
-        /// <returns>
-        /// UserRole object list
-        /// </returns>
-        /// <remarks>
-        /// companyId -> number
-        /// </remarks>
-        List<UserRole> GetAllUserRoles(int companyId);
-
-        // SetModuleAccess
-        /// <summary>
-        /// Setting the module access
-        /// </summary>
-        /// <returns>
-        /// boolean
-        /// </returns>
-        /// <remarks>
-        /// companyId -> number
-        /// moduleAccess -> bool
-        /// moduleId -> number
-        /// </remarks>
-        bool SetModuleAccess(int moduleId, bool moduleAccess,int userRoleId, int companyId);
-
-        // GetAccessibleModules
-        /// <summary>
-        /// Getting all the accessible modules
-        /// </summary>
-        /// <returns>
-        /// Module list
-        /// </returns>
-        /// <remarks>
-        /// companyId -> number
-        /// moduleAccess -> bool
-        /// moduleId -> number
-        /// </remarks>
-        List<Module> GetAccessibleModules(int userRoleId, int companyId);
     }
 }

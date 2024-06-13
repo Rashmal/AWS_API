@@ -12,6 +12,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         #region Private Properties
         protected string AWSDBConnectionString { get; set; }
         protected string AWS_CLIENT_DBConnectionString { get; set; }
+        protected string AWS_ACCOUNT_DBString { get; set; }
         #endregion
 
         // Constructor
@@ -20,6 +21,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             // Intantiating the object
             AWSDBConnectionString = configurationString.GetConnectionString("AWSDBString");
             AWS_CLIENT_DBConnectionString = configurationString.GetConnectionString("AWS_CLIENT_DBString");
+            AWS_ACCOUNT_DBString = configurationString.GetConnectionString("AWS_ACCOUNT_DBString");
         }
 
         // GetDisplayClientDetails
@@ -3300,181 +3302,5 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             return socialMediaList;
         }
 
-        // GetAllUserRoles
-        /// <summary>
-        /// Getting all the user roles
-        /// </summary>
-        /// <returns>
-        /// UserRole object list
-        /// </returns>
-        /// <remarks>
-        /// companyId -> number
-        /// </remarks>
-        public List<UserRole> GetAllUserRoles(ConnectionString connectionString)
-        {
-            // Declare the value list
-            List<UserRole> userRoleList = new List<UserRole>();
-
-            try
-            {
-                //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
-                {
-                    // Openning the connection
-                    connection.Open();
-
-                    // Check Token expired
-                    using (SqlCommand sqlCommandToken = new SqlCommand("UserRoleAccessDetails_Get", connection) { CommandType = CommandType.StoredProcedure })
-                    {
-                        // Adding stored procedure parameters
-                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
-                        UserParameter.Value = "GET$UR";
-
-                        // Executing the sql SP command
-                        var resultToken = sqlCommandToken.ExecuteReader();
-
-                        while (resultToken.Read())
-                        {
-                            userRoleList.Add(new UserRole()
-                            {
-                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
-                                Name = resultToken["RoleName"].ToString()
-                            });
-                        }
-                    }
-
-                    // Closing the connection
-                    connection.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in ClientDataAccess_GetAllUserRoles ! :" + ex);
-            }
-
-            // Return the values
-            return userRoleList;
-        }
-
-        // SetModuleAccess
-        /// <summary>
-        /// Setting the module access
-        /// </summary>
-        /// <returns>
-        /// boolean
-        /// </returns>
-        /// <remarks>
-        /// companyId -> number
-        /// moduleAccess -> bool
-        /// moduleId -> number
-        /// </remarks>
-        public bool SetModuleAccess(int moduleId, bool moduleAccess,int userRoleId, ConnectionString connectionString)
-        {
-            // Declare the value list
-            bool status = false;
-
-            try
-            {
-                //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
-                {
-                    // Openning the connection
-                    connection.Open();
-
-                    // Check Token expired
-                    using (SqlCommand sqlCommandToken = new SqlCommand("UserRoles_Set", connection) { CommandType = CommandType.StoredProcedure })
-                    {
-                        // Adding stored procedure parameters
-                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
-                        UserParameter.Value = "SET$ACC";
-                        SqlParameter UserRoleIdParameter = sqlCommandToken.Parameters.Add("@UserRoleId", SqlDbType.Int);
-                        UserRoleIdParameter.Value = userRoleId;
-                        SqlParameter ModuleIdParameter = sqlCommandToken.Parameters.Add("@ModuleId", SqlDbType.Int);
-                        ModuleIdParameter.Value = moduleId;
-                        SqlParameter ModuleAccessParameter = sqlCommandToken.Parameters.Add("@ModuleAccess", SqlDbType.Bit);
-                        ModuleAccessParameter.Value = moduleAccess;
-
-                        // Executing the sql SP command
-                        var resultToken = sqlCommandToken.ExecuteReader();
-
-                        status = true;
-                    }
-
-                    // Closing the connection
-                    connection.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in ClientDataAccess_SetModuleAccess ! :" + ex);
-            }
-
-            // Return the values
-            return status;
-        }
-
-        // GetAccessibleModules
-        /// <summary>
-        /// Getting all the accessible modules
-        /// </summary>
-        /// <returns>
-        /// Module list
-        /// </returns>
-        /// <remarks>
-        /// companyId -> number
-        /// moduleAccess -> bool
-        /// moduleId -> number
-        /// </remarks>
-        public List<Module> GetAccessibleModules(int userRoleId, ConnectionString connectionString)
-        {
-            // Declare the value list
-            List<Module> moduleList = new List<Module>();
-
-            try
-            {
-                //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
-                {
-                    // Openning the connection
-                    connection.Open();
-
-                    // Check Token expired
-                    using (SqlCommand sqlCommandToken = new SqlCommand("UserRoleAccessDetails_Get", connection) { CommandType = CommandType.StoredProcedure })
-                    {
-                        // Adding stored procedure parameters
-                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
-                        UserParameter.Value = "GET$UID";
-                        SqlParameter UserRoleIdParameter = sqlCommandToken.Parameters.Add("@UserRoleId", SqlDbType.Int);
-                        UserRoleIdParameter.Value = userRoleId;
-
-                        // Executing the sql SP command
-                        var resultToken = sqlCommandToken.ExecuteReader();
-
-                        while (resultToken.Read())
-                        {
-                            moduleList.Add(new Module()
-                            {
-                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
-                                ModuleCode = resultToken["ModuleCode"].ToString(),
-                                Name = resultToken["Name"].ToString(),
-                                ModuleIcon = resultToken["ModuleIcon"].ToString(),
-                                IsDisable = Convert.ToBoolean(resultToken["IsDisabled"].ToString()),
-                                RedirectUrl = resultToken["RedirectUrl"].ToString()
-                            });
-                        }
-                    }
-
-                    // Closing the connection
-                    connection.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in ClientDataAccess_GetAccessibleModules ! :" + ex);
-            }
-
-            // Return the values
-            return moduleList;
-        }
     }
 }

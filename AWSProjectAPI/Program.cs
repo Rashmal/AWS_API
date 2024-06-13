@@ -2,12 +2,14 @@ using AWSProjectAPI.DataAccess.Authentication;
 using AWSProjectAPI.DataAccess.BugFixes;
 using AWSProjectAPI.DataAccess.ClientDetails;
 using AWSProjectAPI.DataAccess.Common;
+using AWSProjectAPI.DataAccess.Staff;
 using AWSProjectAPI.DataAccess.SystemEnhancements;
 using AWSProjectAPI.Notification;
 using AWSProjectAPI.Service.Authentication;
 using AWSProjectAPI.Service.BugFixes;
 using AWSProjectAPI.Service.ClientDetails;
 using AWSProjectAPI.Service.Common;
+using AWSProjectAPI.Service.Staff;
 using AWSProjectAPI.Service.SystemEnhancements;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -23,6 +25,7 @@ builder.Services.AddSingleton<IBugFixesService, BugFixesService>();
 builder.Services.AddSingleton<ICommonService, CommonService>();
 builder.Services.AddSingleton<ISystemEnhancementsService, SystemEnhancementsService>();
 builder.Services.AddSingleton<IClientService, ClientService>();
+builder.Services.AddSingleton<IStaffService, StaffService>();
 
 // Injecting dataaccess classes
 builder.Services.AddSingleton<IAuthenticationDataAccess, AuthenticationDataAccess>();
@@ -30,6 +33,7 @@ builder.Services.AddSingleton<IBugFixesDataAccess, BugFixesDataAccess>();
 builder.Services.AddSingleton<ICommonDataAccess, CommonDataAccess>();
 builder.Services.AddSingleton<ISystemEnhancementsDataAccess, SystemEnhancementsDataAccess>();
 builder.Services.AddSingleton<IClientDataAccess, ClientDataAccess>();
+builder.Services.AddSingleton<IStaffDataAccess, StaffDataAccess>();
 
 
 
