@@ -1,0 +1,160 @@
+﻿using AWSProjectAPI.Core.Client;
+using AWSProjectAPI.Core.Common;
+using AWSProjectAPI.DataAccess.ClientDetails;
+using AWSProjectAPI.DataAccess.Common;
+using AWSProjectAPI.DataAccess.Staff;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AWSProjectAPI.Service.Staff
+{
+    public class StaffService : IStaffService
+    {
+        #region Private Properties
+        private readonly IStaffDataAccess iStaffDataAccess;
+        protected string GLOBAL_FILES_PATH { get; set; }
+        protected string IMAGE_DOC_FILES_PATH { get; set; }
+        protected string CLIENT_REQ_FILES_PATH { get; set; }
+        protected string IMAGE_LIVE_URL { get; set; }
+        private readonly ICommonDataAccess iCommonDataAccess;
+        #endregion
+
+        // Constructor
+        public StaffService(IConfiguration configurationString, IStaffDataAccess iStaffDataAccess,
+            ICommonDataAccess iCommonDataAccess)
+        {
+            // Intantiating the object
+            this.iStaffDataAccess = iStaffDataAccess;
+            this.iCommonDataAccess = iCommonDataAccess;
+        }
+
+        // GetAllUserRoles
+        /// <summary>
+        /// Getting all the user roles
+        /// </summary>
+        /// <returns>
+        /// UserRole object list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// </remarks>
+        public List<UserRole> GetAllUserRoles(int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            // Getting the result
+            return this.iStaffDataAccess.GetAllUserRoles(connectionString);
+        }
+
+        // SetUserRoles
+        /// <summary>
+        /// Setting all the user roles
+        /// </summary>
+        /// <returns>
+        /// boolean
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// userRole -> UserRole
+        /// actionType -> string
+        /// </remarks>
+        public int SetUserRoles(UserRole userRole, int companyId, string actionType)
+        {
+            // Declare the status
+            int newId = 0;
+
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            // Checking the action type
+            switch (actionType)
+            {
+                case "NEW":
+                    // Inserting and getting the new Id
+                    newId = this.iStaffDataAccess.AddNewUserRoles(userRole, connectionString);
+                    // Adding the default settings
+
+                    break;
+                case "UPDATE":
+                    // Updating and getting the new Id
+                    newId = this.iStaffDataAccess.UpdateUserRoles(userRole, connectionString);
+                    break;
+                case "DELETE":
+                    // Removing and getting the new Id
+                    newId = this.iStaffDataAccess.RemoveUserRoles(userRole.Id, connectionString);
+                    break;
+            }
+            // End of Checking the action type
+
+            // Return the status
+            return newId;
+        }
+
+        // GetAllModulesbasedUserRole
+        /// <summary>
+        /// Getting all the modules based on user role
+        /// </summary>
+        /// <returns>
+        /// Module List
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// userRoleId -> number
+        /// </remarks>
+        public List<Module> GetAllModulesbasedUserRole(int userRoleId, int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            // Getting the result
+            return this.iStaffDataAccess.GetAllModulesbasedUserRole(userRoleId,connectionString);
+        }
+
+        // SetModuleAccess
+        /// <summary>
+        /// Setting the module access
+        /// </summary>
+        /// <returns>
+        /// boolean
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public bool SetModuleAccess(int moduleId, bool moduleAccess, int userRoleId, int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            // Getting the result
+            return this.iStaffDataAccess.SetModuleAccess(moduleId, moduleAccess, userRoleId, connectionString);
+        }
+
+        // GetAccessibleModules
+        /// <summary>
+        /// Getting all the accessible modules
+        /// </summary>
+        /// <returns>
+        /// Module list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public List<Module> GetAccessibleModules(int userRoleId, int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
+            // Getting the result
+            return this.iStaffDataAccess.GetAccessibleModules(userRoleId, connectionString);
+        }
+    }
+}
