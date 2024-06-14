@@ -318,11 +318,23 @@ namespace AWSProjectAPI.Service.Staff
                 // Getting the Connection string
                 ConnectionString connectionString = iCommonDataAccess.GetConnectionString(ParentGroupList[i].Id, "AWS");
                 // Getting the result
+<<<<<<< HEAD
+=======
+
+>>>>>>> a2dd1e56480fd0dc37c12ac214acca960dfc7567
                 //status = this.iStaffDataAccess.SetDefaultAccessForNewUserRole(newId, c
                 //
                 //onnectionString);
                 // Setting the duplicated access levels
-                this.iStaffDataAccess.SetDefaultDuplicatedAccessForNewUserRole(newId, prevId, companyId, connectionString);
+                //this.iStaffDataAccess.SetDefaultDuplicatedAccessForNewUserRole(newId, prevId, companyId, connectionString);
+
+                //status = this.iStaffDataAccess.SetDefaultAccessForNewUserRole(newId, connectionString);
+                //Check connection string not null
+                if (connectionString != null) {
+                    // Setting the duplicated access levels
+                    this.iStaffDataAccess.SetDefaultDuplicatedAccessForNewUserRole(newId, prevId, companyId, connectionString);
+                }
+                
             }
             // End of Loop through the companies
 
