@@ -174,5 +174,45 @@ namespace AWSProjectAPI.DataAccess.Staff
         /// moduleId -> number
         /// </remarks>
         bool SetDefaultAccessForNewUserRole(int userRoleId, ConnectionString connectionString);
+
+        // DuplicateUserRoles
+        /// <summary>
+        /// Duplicating the user roles
+        /// </summary>
+        /// <returns>
+        /// boolean
+        /// </returns>
+        /// <remarks>
+        /// connectionString -> ConnectionString
+        /// userRole -> UserRole
+        /// actionType -> string
+        /// </remarks>
+        int DuplicateUserRoles(UserRole userRole, ConnectionString connectionString);
+
+        // GetAllParentGroups
+        /// <summary>
+        /// Getting all the parent groups by id
+        /// </summary>
+        /// <returns>
+        /// ParentGroup object list value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        List<ParentGroup> GetAllParentGroups();
+
+        // SetDefaultDuplicatedAccessForNewUserRole
+        /// <summary>
+        /// Setting the default module access for new user role
+        /// </summary>
+        /// <returns>
+        /// SubTabDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        bool SetDefaultDuplicatedAccessForNewUserRole(int newId, int prevId, int prevCompanyId, ConnectionString connectionString);
     }
 }
