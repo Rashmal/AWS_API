@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{BB915818-26C0-4393-AF00-0326C2A77F14}|AWSProjectAPI.Service\\AWSProjectAPI.Service.csproj|solutionrelative:awsprojectapi.service\\staff\\staffservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{036C69B2-E751-4BC1-A5AD-9CA49C08C406}|AWSProjectAPI.DataAccess\\AWSProjectAPI.DataAccess.csproj|d:\\iitc\\backup file 10 april 2024\\backup file 10 april 2024\\aws_api\\awsprojectapi.dataaccess\\common\\commondataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{036C69B2-E751-4BC1-A5AD-9CA49C08C406}|AWSProjectAPI.DataAccess\\AWSProjectAPI.DataAccess.csproj|solutionrelative:awsprojectapi.dataaccess\\common\\commondataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E68DFAA4-494E-4EF1-AF83-D5590AC96E34}|AWSProjectAPI\\AWSProjectAPI.csproj|d:\\iitc\\backup file 10 april 2024\\backup file 10 april 2024\\aws_api\\awsprojectapi\\controllers\\staffcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E68DFAA4-494E-4EF1-AF83-D5590AC96E34}|AWSProjectAPI\\AWSProjectAPI.csproj|solutionrelative:awsprojectapi\\controllers\\staffcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -18,17 +22,30 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "CommonDataAccess.cs",
+              "DocumentMoniker": "D:\\IITC\\Backup File 10 April 2024\\Backup File 10 April 2024\\AWS_API\\AWSProjectAPI.DataAccess\\Common\\CommonDataAccess.cs",
+              "RelativeDocumentMoniker": "AWSProjectAPI.DataAccess\\Common\\CommonDataAccess.cs",
+              "ToolTip": "D:\\IITC\\Backup File 10 April 2024\\Backup File 10 April 2024\\AWS_API\\AWSProjectAPI.DataAccess\\Common\\CommonDataAccess.cs",
+              "RelativeToolTip": "AWSProjectAPI.DataAccess\\Common\\CommonDataAccess.cs",
+              "ViewState": "AQIAABcFAAAAAAAAAAAhwDYFAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-14T10:01:50.579Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "StaffController.cs",
               "DocumentMoniker": "D:\\IITC\\Backup File 10 April 2024\\Backup File 10 April 2024\\AWS_API\\AWSProjectAPI\\Controllers\\StaffController.cs",
               "RelativeDocumentMoniker": "AWSProjectAPI\\Controllers\\StaffController.cs",
               "ToolTip": "D:\\IITC\\Backup File 10 April 2024\\Backup File 10 April 2024\\AWS_API\\AWSProjectAPI\\Controllers\\StaffController.cs",
               "RelativeToolTip": "AWSProjectAPI\\Controllers\\StaffController.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAQwCsAAAAcAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACsAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-14T09:05:00.962Z",
               "EditorCaption": ""
@@ -41,7 +58,7 @@
               "RelativeDocumentMoniker": "AWSProjectAPI.Service\\Staff\\StaffService.cs",
               "ToolTip": "D:\\IITC\\Backup File 10 April 2024\\Backup File 10 April 2024\\AWS_API\\AWSProjectAPI.Service\\Staff\\StaffService.cs",
               "RelativeToolTip": "AWSProjectAPI.Service\\Staff\\StaffService.cs",
-              "ViewState": "AQIAADsAAAAAAAAAAAAhwFwAAAAfAAAA",
+              "ViewState": "AQIAABwBAAAAAAAAAAASwDsBAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-14T09:03:52.575Z",
               "EditorCaption": ""
