@@ -4,6 +4,7 @@ using AWSProjectAPI.Core.Common;
 using AWSProjectAPI.DataAccess.ClientDetails;
 using AWSProjectAPI.DataAccess.Common;
 using AWSProjectAPI.DataAccess.Staff;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace AWSProjectAPI.Service.Staff
         #region Private Properties
         private readonly IStaffDataAccess iStaffDataAccess;
         protected string GLOBAL_FILES_PATH { get; set; }
+        protected string AVATAR_FILES_PATH { get; set; }
         protected string IMAGE_DOC_FILES_PATH { get; set; }
         protected string CLIENT_REQ_FILES_PATH { get; set; }
         protected string IMAGE_LIVE_URL { get; set; }
@@ -33,6 +35,11 @@ namespace AWSProjectAPI.Service.Staff
             // Intantiating the object
             this.iStaffDataAccess = iStaffDataAccess;
             this.iCommonDataAccess = iCommonDataAccess;
+            this.GLOBAL_FILES_PATH = configurationString.GetConnectionString("GLOBAL_FILES_PATH");
+            this.AVATAR_FILES_PATH = configurationString.GetConnectionString("AVATAR_FILES_PATH");
+            this.IMAGE_DOC_FILES_PATH = configurationString.GetConnectionString("IMAGE_DOC_FILES_PATH");
+            this.CLIENT_REQ_FILES_PATH = configurationString.GetConnectionString("CLIENT_REQ_FILES_PATH");
+            this.IMAGE_LIVE_URL = configurationString.GetConnectionString("IMAGE_LIVE_URL");
         }
 
         // GetAllUserRoles
@@ -311,7 +318,9 @@ namespace AWSProjectAPI.Service.Staff
                 // Getting the Connection string
                 ConnectionString connectionString = iCommonDataAccess.GetConnectionString(ParentGroupList[i].Id, "AWS");
                 // Getting the result
-                //status = this.iStaffDataAccess.SetDefaultAccessForNewUserRole(newId, connectionString);
+                //status = this.iStaffDataAccess.SetDefaultAccessForNewUserRole(newId, c
+                //
+                //onnectionString);
                 // Setting the duplicated access levels
                 this.iStaffDataAccess.SetDefaultDuplicatedAccessForNewUserRole(newId, prevId, companyId, connectionString);
             }
@@ -319,6 +328,215 @@ namespace AWSProjectAPI.Service.Staff
 
             // Getting the result
             return status;
+        }
+
+        // SetStaffDetails
+        /// <summary>
+        /// Setting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public string SetStaffDetails(StaffDetails staffDetails, int companyId, string actionType)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            // Declare the variable
+            string staffId = "";
+
+            // Check the action type
+            switch (actionType)
+            {
+                case "NEW":
+                    staffId = this.iStaffDataAccess.SetStaffDetails(staffDetails, connectionString);
+                    staffId = this.iStaffDataAccess.SetStaffAddressDetails(staffDetails, connectionString);
+                    // Remove all the user roles
+                    this.iStaffDataAccess.RemoveAllUserRoles(staffId, connectionString);
+                    // Loop through the user roles
+                    for (int i = 0; i < staffDetails.UserRoleList.Count; i++)
+                    {
+                        // Insert the user role
+                        this.iStaffDataAccess.InsertUserRoles(staffId, staffDetails.UserRoleList[i].Id, connectionString);
+                    }
+                    // End of Loop through the user roles
+                    break;
+                case "UPDATE":
+                    staffId = this.iStaffDataAccess.SetStaffDetails(staffDetails, connectionString);
+                    staffId = this.iStaffDataAccess.SetStaffAddressDetails(staffDetails, connectionString);
+                    // Remove all the user roles
+                    this.iStaffDataAccess.RemoveAllUserRoles(staffId, connectionString);
+                    // Loop through the user roles
+                    for (int i = 0; i < staffDetails.UserRoleList.Count; i++)
+                    {
+                        // Insert the user role
+                        this.iStaffDataAccess.InsertUserRoles(staffId, staffDetails.UserRoleList[i].Id, connectionString);
+                    }
+                    // End of Loop through the user roles
+                    break;
+                case "DELETE":
+                    staffId = this.iStaffDataAccess.RemoveStaffDetails(staffDetails.Id, connectionString);
+                    break;
+            }
+            // End of Check the action type
+
+            // Return the list
+            return staffId;
+        }
+
+        // UpdateStaffPassword
+        /// <summary>
+        /// Setting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public string UpdateStaffPassword(string newPassword, string staffId, int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            // Updating the password
+            return this.iStaffDataAccess.UpdateStaffPassword(staffId, newPassword, connectionString);
+        }
+
+        // UploadStaffAvatar
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// file -> IFormFile
+        /// </remarks>
+        public string UploadStaffAvatar(List<IFormFile> files, string staffId, int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            // Store the return value
+            string uploadStatus = "ERROR";
+
+            // Uploading the file
+            try
+            {
+                for (int i = 0; i < files.Count; i++)
+                {
+
+                    // Getting the file path
+                    string folderName = this.AVATAR_FILES_PATH;
+                    IFormFile file = files[i];
+                    // Check the file length
+                    if (file.Length > 0)
+                    {
+                        // File name
+                        var fileName = file.FileName;
+
+                        // Reading the extenstion
+                        string fileExt = System.IO.Path.GetExtension(file.FileName);
+
+                        // Updating the file name
+                        folderName = folderName + "\\" + RandomStringOnly(5);
+
+                        // Path
+                        var pathToSave = Path.Combine(folderName);
+
+                        // Check the directory
+                        if (!Directory.Exists(pathToSave))
+                        {
+                            Directory.CreateDirectory(pathToSave);
+                        }
+                        // End of Check the directory
+
+                        // Setting the full path
+                        string fullPath = Path.Combine(pathToSave, fileName);
+
+                        // Getting the live url
+                        string liveUrl = this.IMAGE_LIVE_URL + fullPath.Replace("D:\\iitcapi", "").Replace("\\", "//");
+
+                        // Check if file exists with its full path
+                        if (File.Exists(fullPath))
+                        {
+                            // If file found, delete it  
+                            File.Delete(fullPath);
+                        }
+                        // End of Check if file exists with its full path
+
+                        // Upload the file
+                        using (var stream = new FileStream(fullPath, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                        }
+                        // End of Upload the file
+
+                        // Writing to the DB
+                        string newUploadedFileId = this.iStaffDataAccess.UpdateStaffAvatar(staffId, liveUrl, connectionString);
+
+                        if (newUploadedFileId != "")
+                        {
+                            uploadStatus = "SUCCESS";
+                        }
+                    }
+
+                }
+                // End of Check the file length
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in UploadStaffAvatar ! :" + ex);
+            }
+            // End of Uploading the file
+
+            // Return the value
+            return uploadStatus;
+        }
+
+        private static string RandomStringOnly(int length)
+        {
+            Random random = new Random((int)DateTime.Now.Ticks);
+            const string pool = "abcdefghijklmnopqrstuvwxyz";
+            var builder = new StringBuilder();
+
+            for (var i = 0; i < length; i++)
+            {
+                var c = pool[random.Next(0, pool.Length)];
+                builder.Append(c);
+            }
+
+            return builder.ToString();
+        }
+
+        // GetStaffPassword
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        public string GetStaffPassword(string staffId, int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            // Getting the result
+            return this.iStaffDataAccess.GetStaffPassword(staffId, connectionString);
         }
     }
 }

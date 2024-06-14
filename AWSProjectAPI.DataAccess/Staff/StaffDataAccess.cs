@@ -891,5 +891,533 @@ namespace AWSProjectAPI.DataAccess.Staff
             // Return the values
             return status;
         }
+
+        // SetStaffDetails
+        /// <summary>
+        /// Setting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public string SetStaffDetails(StaffDetails staffDetails, ConnectionString connectionString)
+        {
+            // Declare the return value
+            string newUserId = "";
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("User_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "SET$USER";
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = staffDetails.Id;
+                        SqlParameter FirstNameParameter = sqlCommandToken.Parameters.Add("@FirstName", SqlDbType.VarChar, 500);
+                        FirstNameParameter.Value = staffDetails.FirstName;
+                        SqlParameter LastNameParameter = sqlCommandToken.Parameters.Add("@LastName", SqlDbType.VarChar, 500);
+                        LastNameParameter.Value = staffDetails.LastName;
+                        SqlParameter EmailParameter = sqlCommandToken.Parameters.Add("@Email", SqlDbType.VarChar, 500);
+                        EmailParameter.Value = staffDetails.Email;
+                        SqlParameter UserRoleIdParameter = sqlCommandToken.Parameters.Add("@UserRoleId", SqlDbType.Int);
+                        UserRoleIdParameter.Value = staffDetails.UserRoleList[0].Id;
+                        SqlParameter DateOfBirthParameter = sqlCommandToken.Parameters.Add("@dateOfBirth", SqlDbType.DateTime);
+                        DateOfBirthParameter.Value = staffDetails.DateOfBirth;
+                        SqlParameter streetNumberParameter = sqlCommandToken.Parameters.Add("@streetNumber", SqlDbType.VarChar);
+                        streetNumberParameter.Value = staffDetails.BusinessAddress.StreetName;
+                        SqlParameter suburbParameter = sqlCommandToken.Parameters.Add("@suburb", SqlDbType.VarChar);
+                        suburbParameter.Value = staffDetails.BusinessAddress.Suburb;
+                        SqlParameter pcodeParameter = sqlCommandToken.Parameters.Add("@pcode", SqlDbType.VarChar);
+                        pcodeParameter.Value = staffDetails.BusinessAddress.PostalCode;
+                        SqlParameter stateParameter = sqlCommandToken.Parameters.Add("@state", SqlDbType.VarChar);
+                        stateParameter.Value = staffDetails.BusinessAddress.State;
+                        SqlParameter countryIdParameter = sqlCommandToken.Parameters.Add("@countryId", SqlDbType.Int);
+                        countryIdParameter.Value = staffDetails.BusinessAddress.Country.Id;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            newUserId = resultToken["NewId"].ToString();
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_SetStaffDetails ! :" + ex);
+            }
+
+            // Return the values
+            return newUserId;
+        }
+
+        // SetStaffAddressDetails
+        /// <summary>
+        /// Setting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public string SetStaffAddressDetails(StaffDetails staffDetails, ConnectionString connectionString)
+        {
+            // Declare the return value
+            string newUserId = "";
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("User_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "SET$ADD";
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = staffDetails.Id;
+                        SqlParameter FirstNameParameter = sqlCommandToken.Parameters.Add("@FirstName", SqlDbType.VarChar, 500);
+                        FirstNameParameter.Value = staffDetails.FirstName;
+                        SqlParameter LastNameParameter = sqlCommandToken.Parameters.Add("@LastName", SqlDbType.VarChar, 500);
+                        LastNameParameter.Value = staffDetails.LastName;
+                        SqlParameter EmailParameter = sqlCommandToken.Parameters.Add("@Email", SqlDbType.VarChar, 500);
+                        EmailParameter.Value = staffDetails.Email;
+                        SqlParameter UserRoleIdParameter = sqlCommandToken.Parameters.Add("@UserRoleId", SqlDbType.Int);
+                        UserRoleIdParameter.Value = staffDetails.UserRoleList[0].Id;
+                        SqlParameter DateOfBirthParameter = sqlCommandToken.Parameters.Add("@dateOfBirth", SqlDbType.DateTime);
+                        DateOfBirthParameter.Value = staffDetails.DateOfBirth;
+                        SqlParameter streetNumberParameter = sqlCommandToken.Parameters.Add("@streetNumber", SqlDbType.VarChar);
+                        streetNumberParameter.Value = staffDetails.BusinessAddress.StreetName;
+                        SqlParameter suburbParameter = sqlCommandToken.Parameters.Add("@suburb", SqlDbType.VarChar);
+                        suburbParameter.Value = staffDetails.BusinessAddress.Suburb;
+                        SqlParameter pcodeParameter = sqlCommandToken.Parameters.Add("@pcode", SqlDbType.VarChar);
+                        pcodeParameter.Value = staffDetails.BusinessAddress.PostalCode;
+                        SqlParameter stateParameter = sqlCommandToken.Parameters.Add("@state", SqlDbType.VarChar);
+                        stateParameter.Value = staffDetails.BusinessAddress.State;
+                        SqlParameter countryIdParameter = sqlCommandToken.Parameters.Add("@countryId", SqlDbType.Int);
+                        countryIdParameter.Value = staffDetails.BusinessAddress.Country.Id;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            newUserId = resultToken["NewId"].ToString();
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_SetStaffAddressDetails ! :" + ex);
+            }
+
+            // Return the values
+            return newUserId;
+        }
+
+        // RemoveStaffDetails
+        /// <summary>
+        /// Setting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public string RemoveStaffDetails(string staffDetailsId, ConnectionString connectionString)
+        {
+            // Declare the return value
+            string newUserId = "";
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("User_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "RMV$STF";
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = staffDetailsId;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        newUserId = staffDetailsId;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_RemoveStaffAddressDetails ! :" + ex);
+            }
+
+            // Return the values
+            return newUserId;
+        }
+
+        // UpdateStaffAvatar
+        /// <summary>
+        /// Setting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public string UpdateStaffAvatar(string staffDetailsId, string staffAvatar, ConnectionString connectionString)
+        {
+            // Declare the return value
+            string newUserId = "";
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("User_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "UPD$AVT";
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = staffDetailsId;
+                        SqlParameter AvatarParameter = sqlCommandToken.Parameters.Add("@Avatar", SqlDbType.VarChar);
+                        AvatarParameter.Value = staffAvatar;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        newUserId = staffDetailsId;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_UpdateStaffAvatar ! :" + ex);
+            }
+
+            // Return the values
+            return newUserId;
+        }
+
+        // UpdateStaffPassword
+        /// <summary>
+        /// Setting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public string UpdateStaffPassword(string staffDetailsId, string staffPassword, ConnectionString connectionString)
+        {
+            // Declare the return value
+            string newUserId = "";
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("User_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "UPD$PASS";
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = staffDetailsId;
+                        SqlParameter PasswordParameter = sqlCommandToken.Parameters.Add("@Password", SqlDbType.VarChar);
+                        PasswordParameter.Value = staffPassword;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        newUserId = staffDetailsId;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_UpdateStaffAvatar ! :" + ex);
+            }
+
+            // Return the values
+            return newUserId;
+        }
+
+        // GetStaffPassword
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        public string GetStaffPassword(string staffId, ConnectionString connectionString)
+        {
+            // Declare the return value
+            string newPassword = "";
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("User_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET$AVT";
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = staffId;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            newPassword = resultToken["Password"].ToString();
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetStaffPassword ! :" + ex);
+            }
+
+            // Return the values
+            return newPassword;
+        }
+
+        // RemoveAllUserRoles
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        public bool RemoveAllUserRoles(string staffId, ConnectionString connectionString)
+        {
+            // Declare the return value
+            bool state = false;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("UserRelatedUserRoles_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "RMV";
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = staffId;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        state = true;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_RemoveAllUserRoles ! :" + ex);
+            }
+
+            // Return the values
+            return state;
+        }
+
+        // InsertUserRoles
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        public bool InsertUserRoles(string staffId, int userRoleId, ConnectionString connectionString)
+        {
+            // Declare the return value
+            bool state = false;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("UserRelatedUserRoles_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "SET";
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = staffId;
+                        SqlParameter UserRoleIdParameter = sqlCommandToken.Parameters.Add("@UserRoleId", SqlDbType.Int);
+                        UserRoleIdParameter.Value = userRoleId;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        state = true;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_InsertUserRoles ! :" + ex);
+            }
+
+            // Return the values
+            return state;
+        }
+
+        // UpdatePrimaryUserRole
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        public bool UpdatePrimaryUserRole(string staffId, ConnectionString connectionString)
+        {
+            // Declare the return value
+            bool state = false;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("UserRelatedUserRoles_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "PRM$SET";
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = staffId;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        state = true;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_UpdatePrimaryUserRole ! :" + ex);
+            }
+
+            // Return the values
+            return state;
+        }
     }
 }
