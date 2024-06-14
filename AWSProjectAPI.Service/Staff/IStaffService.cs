@@ -1,5 +1,6 @@
 ﻿using AWSProjectAPI.Core.Client;
 using AWSProjectAPI.Core.Common;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -132,5 +133,60 @@ namespace AWSProjectAPI.Service.Staff
         /// moduleId -> number
         /// </remarks>
         bool SetDefaultAccessForNewUserRole(int userRoleId, int companyId);
+
+        // SetStaffDetails
+        /// <summary>
+        /// Setting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        string SetStaffDetails(StaffDetails staffDetails, int companyId, string actionType);
+
+        // UpdateStaffPassword
+        /// <summary>
+        /// Setting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        string UpdateStaffPassword(string newPassword, string staffId, int companyId);
+
+        // UploadStaffAvatar
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// file -> IFormFile
+        /// </remarks>
+        string UploadStaffAvatar(List<IFormFile> files, string staffId, int companyId);
+
+        // GetStaffPassword
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        string GetStaffPassword(string staffId, int companyId);
     }
 }

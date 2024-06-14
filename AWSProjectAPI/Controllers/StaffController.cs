@@ -172,6 +172,71 @@ namespace AWSProjectAPI.Controllers
             }
         }
 
+        // Setting the basic information of the user
+        [HttpPost]
+        [Route("SetStaffDetails")]
+        public IActionResult SetStaffDetails([FromBody] StaffDetails staffDetails, int companyId, string actionType)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iStaffService.SetStaffDetails(staffDetails, companyId, actionType);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Setting the staff password details
+        [HttpGet]
+        [Route("UpdateStaffPassword")]
+        public IActionResult UpdateStaffPassword(string newPassword, string staffId, int companyId)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iStaffService.UpdateStaffPassword(newPassword, staffId, companyId);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+
+        // Updating the staff avatar
+        [HttpPost]
+        [Route("UploadStaffAvatar")]
+        public IActionResult UploadStaffAvatar(string staffId, int companyId)
+        {
+            // Declare form list
+            List<IFormFile> files = (List<IFormFile>)Request.Form.Files;
+
+            // Declare response
+            var response = this.iStaffService.UploadStaffAvatar(files, staffId, companyId);
+
+            // Returning the result
+            return Json(response);
+        }
+
+        // Getting the staff password
+        [HttpGet]
+        [Route("GetStaffPassword")]
+        public IActionResult GetStaffPassword(string staffId, int companyId)
+        {
+            // Declare response
+            var response = this.iStaffService.GetStaffPassword(staffId, companyId);
+
+            // Returning the result
+            return Json(response);
+        }
 
     }
 }

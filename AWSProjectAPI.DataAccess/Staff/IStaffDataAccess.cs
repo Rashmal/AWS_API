@@ -214,5 +214,127 @@ namespace AWSProjectAPI.DataAccess.Staff
         /// moduleId -> number
         /// </remarks>
         bool SetDefaultDuplicatedAccessForNewUserRole(int newId, int prevId, int prevCompanyId, ConnectionString connectionString);
+
+        // SetStaffDetails
+        /// <summary>
+        /// Setting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        string SetStaffDetails(StaffDetails staffDetails, ConnectionString connectionString);
+
+        // SetStaffAddressDetails
+        /// <summary>
+        /// Setting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        string SetStaffAddressDetails(StaffDetails staffDetails, ConnectionString connectionString);
+
+        // RemoveStaffDetails
+        /// <summary>
+        /// Setting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        string RemoveStaffDetails(string staffDetailsId, ConnectionString connectionString);
+
+        // UpdateStaffAvatar
+        /// <summary>
+        /// Setting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        string UpdateStaffAvatar(string staffDetailsId, string staffAvatar, ConnectionString connectionString);
+
+        // UpdateStaffPassword
+        /// <summary>
+        /// Setting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        string UpdateStaffPassword(string staffDetailsId, string staffPassword, ConnectionString connectionString);
+
+        // GetStaffPassword
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        string GetStaffPassword(string staffId, ConnectionString connectionString);
+
+        // RemoveAllUserRoles
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        bool RemoveAllUserRoles(string staffId, ConnectionString connectionString);
+
+        // InsertUserRoles
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        bool InsertUserRoles(string staffId, int userRoleId, ConnectionString connectionString);
+
+        // UpdatePrimaryUserRole
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        bool UpdatePrimaryUserRole(string staffId, ConnectionString connectionString);
     }
 }
