@@ -76,5 +76,61 @@ namespace AWSProjectAPI.Service.Staff
         /// moduleId -> number
         /// </remarks>
         List<Module> GetAccessibleModules(int userRoleId, int companyId);
+
+        // GetTabDetailaBasedOnModuleUserRole
+        /// <summary>
+        /// Getting all the tab details based on
+        /// </summary>
+        /// <returns>
+        /// SubTabDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        List<SubTabDetails> GetTabDetailaBasedOnModuleUserRole(Filter filter, int userRoleId, int moduleId, int companyId);
+
+        // SetTabDetailaAccessLevelBasedOnModuleUserRole
+        /// <summary>
+        /// Setting all the tab access level
+        /// </summary>
+        /// <returns>
+        /// SubTabDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        bool SetTabDetailaAccessLevelBasedOnModuleUserRole(int subTabId, bool accessLevel, int companyId);
+
+        // SetSubTabFeatureAccessLevel
+        /// <summary>
+        /// Setting the sub tab feature access level
+        /// </summary>
+        /// <returns>
+        /// SubTabDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        bool SetSubTabFeatureAccessLevel(int subTabFeatureId, bool addAccessLevel, bool editAccessLevel, bool deleteAccessLevel, int companyId);
+
+        // SetDefaultAccessForNewUserRole
+        /// <summary>
+        /// Setting the default module access for new user role
+        /// </summary>
+        /// <returns>
+        /// SubTabDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        bool SetDefaultAccessForNewUserRole(int userRoleId, int companyId);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AWSProjectAPI.Core.Client;
+using AWSProjectAPI.Core.Common;
 using AWSProjectAPI.Service.ClientDetails;
 using AWSProjectAPI.Service.Staff;
 using Microsoft.AspNetCore.Mvc;
@@ -113,5 +114,64 @@ namespace AWSProjectAPI.Controllers
                 return Json("System Failed: " + ex.Message);
             }
         }
+
+        // Getting all the tab details based on
+        [HttpPost]
+        [Route("GetTabDetailaBasedOnModuleUserRole")]
+        public IActionResult GetTabDetailaBasedOnModuleUserRole([FromBody] Filter filter, int userRoleId, int moduleId, int companyId)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iStaffService.GetTabDetailaBasedOnModuleUserRole(filter, userRoleId, moduleId, companyId);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Setting all the tab access level
+        [HttpGet]
+        [Route("SetTabDetailaAccessLevelBasedOnModuleUserRole")]
+        public IActionResult SetTabDetailaAccessLevelBasedOnModuleUserRole(int subTabId, bool accessLevel, int companyId)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iStaffService.SetTabDetailaAccessLevelBasedOnModuleUserRole(subTabId, accessLevel, companyId);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Setting the sub tab feature access level
+        [HttpGet]
+        [Route("SetSubTabFeatureAccessLevel")]
+        public IActionResult SetSubTabFeatureAccessLevel(int subTabFeatureId, bool addAccessLevel, bool editAccessLevel, bool deleteAccessLevel, int companyId)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iStaffService.SetSubTabFeatureAccessLevel(subTabFeatureId, addAccessLevel, editAccessLevel, deleteAccessLevel, companyId);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+
     }
 }
