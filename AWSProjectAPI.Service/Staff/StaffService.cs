@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -69,6 +70,7 @@ namespace AWSProjectAPI.Service.Staff
         {
             // Declare the status
             int newId = 0;
+            int prevId = 0;
 
             // Getting the Connection string
             ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
@@ -91,6 +93,12 @@ namespace AWSProjectAPI.Service.Staff
                     newId = this.iStaffDataAccess.RemoveUserRoles(userRole.Id, connectionString);
                     break;
                 case "DUPLICATE":
+                    // Setting the previous id
+                    prevId = userRole.Id;
+                    // Inserting and getting the new Id
+                    newId = this.iStaffDataAccess.DuplicateUserRoles(userRole, connectionString);
+                    // Setting the duplicated access roles
+                    this.SetDefaultDuplicatedAccessForNewUserRole(newId, prevId, companyId);
                     break;
             }
             // End of Checking the action type
@@ -259,11 +267,58 @@ namespace AWSProjectAPI.Service.Staff
         /// </remarks>
         public bool SetDefaultAccessForNewUserRole(int userRoleId, int companyId)
         {
-            // Getting the Connection string
-            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+            // Declare the status
+            bool status = false;
+            // Getting all the companies
+            List<ParentGroup> ParentGroupList = this.iStaffDataAccess.GetAllParentGroups();
+
+            // Loop through the companies
+            for (int i = 0; i < ParentGroupList.Count; i++)
+            {
+                // Getting the Connection string
+                ConnectionString connectionString = iCommonDataAccess.GetConnectionString(ParentGroupList[i].Id, "AWS");
+                // Getting the result
+                status = this.iStaffDataAccess.SetDefaultAccessForNewUserRole(userRoleId, connectionString);
+            }
+            // End of Loop through the companies
 
             // Getting the result
-            return this.iStaffDataAccess.SetDefaultAccessForNewUserRole(userRoleId, connectionString);
+            return status;
+        }
+
+        // SetDefaultDuplicatedAccessForNewUserRole
+        /// <summary>
+        /// Setting the default module access for new user role
+        /// </summary>
+        /// <returns>
+        /// SubTabDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public bool SetDefaultDuplicatedAccessForNewUserRole(int newId, int prevId, int companyId)
+        {
+            // Declare the status
+            bool status = false;
+            // Getting all the companies
+            List<ParentGroup> ParentGroupList = this.iStaffDataAccess.GetAllParentGroups();
+
+            // Loop through the companies
+            for (int i = 0; i < ParentGroupList.Count; i++)
+            {
+                // Getting the Connection string
+                ConnectionString connectionString = iCommonDataAccess.GetConnectionString(ParentGroupList[i].Id, "AWS");
+                // Getting the result
+                //status = this.iStaffDataAccess.SetDefaultAccessForNewUserRole(newId, connectionString);
+                // Setting the duplicated access levels
+                this.iStaffDataAccess.SetDefaultDuplicatedAccessForNewUserRole(newId, prevId, companyId, connectionString);
+            }
+            // End of Loop through the companies
+
+            // Getting the result
+            return status;
         }
     }
 }

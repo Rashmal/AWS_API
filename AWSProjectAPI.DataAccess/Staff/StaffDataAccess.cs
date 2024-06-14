@@ -721,5 +721,175 @@ namespace AWSProjectAPI.DataAccess.Staff
             // Return the values
             return status;
         }
+
+        // DuplicateUserRoles
+        /// <summary>
+        /// Duplicating the user roles
+        /// </summary>
+        /// <returns>
+        /// boolean
+        /// </returns>
+        /// <remarks>
+        /// connectionString -> ConnectionString
+        /// userRole -> UserRole
+        /// actionType -> string
+        /// </remarks>
+        public int DuplicateUserRoles(UserRole userRole, ConnectionString connectionString)
+        {
+            // Declare the value list
+            int newId = 0;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_ACCOUNT_DBString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("UserRoles_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "DUP";
+                        SqlParameter NameParameter = sqlCommandToken.Parameters.Add("@Name", SqlDbType.VarChar, 500);
+                        NameParameter.Value = userRole.Name;
+                        SqlParameter NameUserRoleIdParameter = sqlCommandToken.Parameters.Add("@UserRoleId", SqlDbType.Int);
+                        NameUserRoleIdParameter.Value = userRole.Id;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            newId = Convert.ToInt32(resultToken["NewId"].ToString());
+                        }
+                    }
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in StaffDataAccess_AddNewUserRoles ! :" + ex);
+            }
+
+            // Return the values
+            return newId;
+        }
+
+        // GetAllParentGroups
+        /// <summary>
+        /// Getting all the parent groups by id
+        /// </summary>
+        /// <returns>
+        /// ParentGroup object list value
+        /// </returns>
+        /// <remarks>
+        /// -
+        /// </remarks>
+        public List<ParentGroup> GetAllParentGroups()
+        {
+            // Declare the return value
+            List<ParentGroup> parentGroupList = new List<ParentGroup>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_ACCOUNT_DBString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("ParentGroupNames_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET$ALL";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            parentGroupList.Add(new ParentGroup()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["ParentGroupName"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_GetAllParentGroups ! :" + ex);
+            }
+
+            // Return the values
+            return parentGroupList;
+        }
+
+        // SetDefaultDuplicatedAccessForNewUserRole
+        /// <summary>
+        /// Setting the default module access for new user role
+        /// </summary>
+        /// <returns>
+        /// SubTabDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public bool SetDefaultDuplicatedAccessForNewUserRole(int newId, int prevId, int prevCompanyId, ConnectionString connectionString)
+        {
+            // Declare the value list
+            bool status = false;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("DefaultuserRole_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "DUP$ACC";
+                        SqlParameter PrevCompanyIdParameter = sqlCommandToken.Parameters.Add("@PrevCompanyId", SqlDbType.Int);
+                        PrevCompanyIdParameter.Value = prevCompanyId;
+                        SqlParameter PreUserRoleIdParameter = sqlCommandToken.Parameters.Add("@PreUserRoleId", SqlDbType.BigInt);
+                        PreUserRoleIdParameter.Value = prevId;
+                        SqlParameter newIdParameter = sqlCommandToken.Parameters.Add("@UserRoleId", SqlDbType.BigInt);
+                        newIdParameter.Value = newId;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        status = true;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_SetDefaultDuplicatedAccessForNewUserRole ! :" + ex);
+            }
+
+            // Return the values
+            return status;
+        }
     }
 }
