@@ -318,7 +318,10 @@ namespace AWSProjectAPI.Service.Staff
                 // Getting the Connection string
                 ConnectionString connectionString = iCommonDataAccess.GetConnectionString(ParentGroupList[i].Id, "AWS");
                 // Getting the result
+<<<<<<< HEAD
+=======
 
+>>>>>>> a2dd1e56480fd0dc37c12ac214acca960dfc7567
                 //status = this.iStaffDataAccess.SetDefaultAccessForNewUserRole(newId, c
                 //
                 //onnectionString);
