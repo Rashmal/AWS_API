@@ -13,7 +13,7 @@ namespace AWSProjectAPI.Core.Client
         public string LastName { get; set; }
         public string Email { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public List<UserRole> UserRoleList { get; set; }
+        public List<int> UserRoleList { get; set; }
         public string AccountId { get; set; }
         public BusinessAddress BusinessAddress { get; set; }
 
@@ -21,7 +21,7 @@ namespace AWSProjectAPI.Core.Client
 
         public StaffDetails()
         {
-            UserRoleList = new List<UserRole>();
+            UserRoleList = new List<int>();
             DateOfBirth = DateTime.Now;
             BusinessAddress = new BusinessAddress();
         }

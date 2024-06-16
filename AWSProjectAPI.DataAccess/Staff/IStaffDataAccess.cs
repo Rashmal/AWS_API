@@ -227,7 +227,7 @@ namespace AWSProjectAPI.DataAccess.Staff
         /// moduleAccess -> bool
         /// moduleId -> number
         /// </remarks>
-        string SetStaffDetails(StaffDetails staffDetails, ConnectionString connectionString);
+        string SetStaffDetails(StaffDetails staffDetails,string loggedUserId, ConnectionString connectionString);
 
         // SetStaffAddressDetails
         /// <summary>
@@ -336,5 +336,96 @@ namespace AWSProjectAPI.DataAccess.Staff
         /// companyId -> number
         /// </remarks>
         bool UpdatePrimaryUserRole(string staffId, ConnectionString connectionString);
+
+        // GetDisplayStaffDetails
+        /// <summary>
+        /// Get Display staff details
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        List<DisplayStaffDetails> GetDisplayStaffDetails(Filter filter, ConnectionString connectionString);
+
+        // GetAllUserRolesbasedUser
+        /// <summary>
+        /// Get Display staff details
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        List<UserRole> GetAllUserRolesbasedUser(string userId, ConnectionString connectionString);
+
+        // GetStaffDetails
+        /// <summary>
+        /// Getting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        StaffDetails GetStaffDetails(string staffId, ConnectionString connectionString);
+
+        // GetStaffAddessDetails
+        /// <summary>
+        /// Getting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        BusinessAddress GetStaffAddessDetails(string staffId, ConnectionString connectionString);
+
+        // GetAllUserRolesIdsOnlybasedUser
+        /// <summary>
+        /// Get Display staff details
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        List<int> GetAllUserRolesIdsOnlybasedUser(string userId, ConnectionString connectionString);
+
+        // GetStaffAvatar
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        string GetStaffAvatar(string staffId, ConnectionString connectionString);
+
+        // RemoveStaffAvatar
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        bool RemoveStaffAvatar(string staffId, ConnectionString connectionString);
     }
 }

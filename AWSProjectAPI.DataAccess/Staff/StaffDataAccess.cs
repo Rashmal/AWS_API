@@ -438,7 +438,7 @@ namespace AWSProjectAPI.DataAccess.Staff
         /// moduleAccess -> bool
         /// moduleId -> number
         /// </remarks>
-        public List<SubTabDetails> GetTabDetailaBasedOnModuleUserRole(Filter filter,int userRoleId, int moduleId, ConnectionString connectionString)
+        public List<SubTabDetails> GetTabDetailaBasedOnModuleUserRole(Filter filter, int userRoleId, int moduleId, ConnectionString connectionString)
         {
             // Declare the value list
             List<SubTabDetails> subTabDetailsList = new List<SubTabDetails>();
@@ -476,7 +476,8 @@ namespace AWSProjectAPI.DataAccess.Staff
                                 Id = Convert.ToInt32(resultToken["Id"].ToString()),
                                 Name = resultToken["SubTabName"].ToString(),
                                 EnableAccess = Convert.ToBoolean(resultToken["IsEnabled"].ToString()),
-                                AccessLevelFeatureDetailsList = new List<AccessLevelFeatureDetails>()
+                                AccessLevelFeatureDetailsList = new List<AccessLevelFeatureDetails>(),
+                                Total = Convert.ToInt32(resultToken["TotalRecords"].ToString())
                             });
                         }
                     }
@@ -904,7 +905,7 @@ namespace AWSProjectAPI.DataAccess.Staff
         /// moduleAccess -> bool
         /// moduleId -> number
         /// </remarks>
-        public string SetStaffDetails(StaffDetails staffDetails, ConnectionString connectionString)
+        public string SetStaffDetails(StaffDetails staffDetails, string loggedUserId, ConnectionString connectionString)
         {
             // Declare the return value
             string newUserId = "";
@@ -932,7 +933,7 @@ namespace AWSProjectAPI.DataAccess.Staff
                         SqlParameter EmailParameter = sqlCommandToken.Parameters.Add("@Email", SqlDbType.VarChar, 500);
                         EmailParameter.Value = staffDetails.Email;
                         SqlParameter UserRoleIdParameter = sqlCommandToken.Parameters.Add("@UserRoleId", SqlDbType.Int);
-                        UserRoleIdParameter.Value = staffDetails.UserRoleList[0].Id;
+                        UserRoleIdParameter.Value = staffDetails.UserRoleList[0];
                         SqlParameter DateOfBirthParameter = sqlCommandToken.Parameters.Add("@dateOfBirth", SqlDbType.DateTime);
                         DateOfBirthParameter.Value = staffDetails.DateOfBirth;
                         SqlParameter streetNumberParameter = sqlCommandToken.Parameters.Add("@streetNumber", SqlDbType.VarChar);
@@ -945,6 +946,8 @@ namespace AWSProjectAPI.DataAccess.Staff
                         stateParameter.Value = staffDetails.BusinessAddress.State;
                         SqlParameter countryIdParameter = sqlCommandToken.Parameters.Add("@countryId", SqlDbType.Int);
                         countryIdParameter.Value = staffDetails.BusinessAddress.Country.Id;
+                        SqlParameter createdIdParameter = sqlCommandToken.Parameters.Add("@createdId", SqlDbType.VarChar);
+                        createdIdParameter.Value = loggedUserId;
 
                         // Executing the sql SP command
                         var resultToken = sqlCommandToken.ExecuteReader();
@@ -1008,11 +1011,13 @@ namespace AWSProjectAPI.DataAccess.Staff
                         SqlParameter EmailParameter = sqlCommandToken.Parameters.Add("@Email", SqlDbType.VarChar, 500);
                         EmailParameter.Value = staffDetails.Email;
                         SqlParameter UserRoleIdParameter = sqlCommandToken.Parameters.Add("@UserRoleId", SqlDbType.Int);
-                        UserRoleIdParameter.Value = staffDetails.UserRoleList[0].Id;
+                        UserRoleIdParameter.Value = staffDetails.UserRoleList[0];
                         SqlParameter DateOfBirthParameter = sqlCommandToken.Parameters.Add("@dateOfBirth", SqlDbType.DateTime);
                         DateOfBirthParameter.Value = staffDetails.DateOfBirth;
                         SqlParameter streetNumberParameter = sqlCommandToken.Parameters.Add("@streetNumber", SqlDbType.VarChar);
                         streetNumberParameter.Value = staffDetails.BusinessAddress.StreetName;
+                        SqlParameter buildingNameParameter = sqlCommandToken.Parameters.Add("@buildingName", SqlDbType.VarChar);
+                        buildingNameParameter.Value = staffDetails.BusinessAddress.BuildingName;
                         SqlParameter suburbParameter = sqlCommandToken.Parameters.Add("@suburb", SqlDbType.VarChar);
                         suburbParameter.Value = staffDetails.BusinessAddress.Suburb;
                         SqlParameter pcodeParameter = sqlCommandToken.Parameters.Add("@pcode", SqlDbType.VarChar);
@@ -1236,7 +1241,7 @@ namespace AWSProjectAPI.DataAccess.Staff
                     {
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
-                        UserParameter.Value = "GET$AVT";
+                        UserParameter.Value = "GET$PASS";
                         SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
                         UserIdParameter.Value = staffId;
 
@@ -1418,6 +1423,441 @@ namespace AWSProjectAPI.DataAccess.Staff
 
             // Return the values
             return state;
+        }
+
+        // GetDisplayStaffDetails
+        /// <summary>
+        /// Get Display staff details
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        public List<DisplayStaffDetails> GetDisplayStaffDetails(Filter filter, ConnectionString connectionString)
+        {
+            // Declare the value list
+            List<DisplayStaffDetails> staffDetailsList = new List<DisplayStaffDetails>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("User_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter CurrentPageParameter = sqlCommandToken.Parameters.Add("@CurrentPage", SqlDbType.Int);
+                        CurrentPageParameter.Value = filter.CurrentPage;
+                        SqlParameter RecordsPerPageParameter = sqlCommandToken.Parameters.Add("@RecordsPerPage", SqlDbType.Int);
+                        RecordsPerPageParameter.Value = filter.RecordsPerPage;
+                        SqlParameter SearchQueryParameter = sqlCommandToken.Parameters.Add("@SearchQuery", SqlDbType.VarChar);
+                        SearchQueryParameter.Value = filter.SearchQuery;
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET$STF";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            staffDetailsList.Add(new DisplayStaffDetails()
+                            {
+                                Id = resultToken["Id"].ToString(),
+                                Address = resultToken["UserAddress"].ToString(),
+                                CreatedBy = resultToken["CreatorName"].ToString(),
+                                CreatedDate = Convert.ToDateTime(resultToken["CreatedDate"].ToString()),
+                                FullName = resultToken["FirstName"].ToString() + " " + resultToken["LastName"].ToString(),
+                                Avatar = resultToken["Avatar"].ToString(),
+                                DateOfBirth = Convert.ToDateTime(resultToken["DateOfBirth"].ToString()),
+                                Email = resultToken["Email"].ToString(),
+                                PrimaryUserRole = resultToken["RoleName"].ToString(),
+                                UserRoleList = new List<UserRole>(),
+                                Total = Convert.ToInt32(resultToken["TotalRecords"].ToString())
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_GetDisplayStaffDetails ! :" + ex);
+            }
+
+            // Return the values
+            return staffDetailsList;
+        }
+
+        // GetAllUserRolesbasedUser
+        /// <summary>
+        /// Get Display staff details
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        public List<UserRole> GetAllUserRolesbasedUser(string userId, ConnectionString connectionString)
+        {
+            // Declare the value list
+            List<UserRole> userRolesList = new List<UserRole>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("UserRelatedUserRoles_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = userId;
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            userRolesList.Add(new UserRole()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["RoleName"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_GetAllUserRolesbasedUser ! :" + ex);
+            }
+
+            // Return the values
+            return userRolesList;
+        }
+
+        // GetStaffDetails
+        /// <summary>
+        /// Getting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        public StaffDetails GetStaffDetails(string staffId, ConnectionString connectionString)
+        {
+            // Declare the value list
+            StaffDetails staffDetails = new StaffDetails();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("User_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = staffId;
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET$US$BID";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            staffDetails = new StaffDetails()
+                            {
+                                Id = resultToken["Id"].ToString(),
+                                AccountId = resultToken["AccountId"].ToString(),
+                                DateOfBirth = Convert.ToDateTime(resultToken["DateOfBirth"].ToString()),
+                                Email = resultToken["Email"].ToString(),
+                                FirstName = resultToken["FirstName"].ToString(),
+                                LastName = resultToken["LastName"].ToString(),
+                                BusinessAddress = new BusinessAddress(),
+                                UserRoleList = new List<int>()
+                            };
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_GetStaffDetails ! :" + ex);
+            }
+
+            // Return the values
+            return staffDetails;
+        }
+
+        // GetStaffAddessDetails
+        /// <summary>
+        /// Getting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        public BusinessAddress GetStaffAddessDetails(string staffId, ConnectionString connectionString)
+        {
+            // Declare the value list
+            BusinessAddress businessAddress = new BusinessAddress();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("User_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = staffId;
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "ADDRESS";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            businessAddress = new BusinessAddress()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                BuildingName = resultToken["BuildingName"].ToString(),
+                                StreetName = resultToken["StreetNumber"].ToString(),
+                                PostalCode = resultToken["PostCode"].ToString(),
+                                State = resultToken["State"].ToString(),
+                                Suburb = resultToken["Suburb"].ToString(),
+                                Country = new Country()
+                                {
+                                    Id = Convert.ToInt32(resultToken["CountryId"].ToString()),
+                                    Code = resultToken["CountryCode"].ToString(),
+                                    Name = resultToken["CountryName"].ToString(),
+                                    FlagIcon = ""
+                                }
+                            };
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_GetStaffAddessDetails ! :" + ex);
+            }
+
+            // Return the values
+            return businessAddress;
+        }
+
+        // GetAllUserRolesIdsOnlybasedUser
+        /// <summary>
+        /// Get Display staff details
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        public List<int> GetAllUserRolesIdsOnlybasedUser(string userId, ConnectionString connectionString)
+        {
+            // Declare the value list
+            List<int> userRolesList = new List<int>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("UserRelatedUserRoles_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = userId;
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            userRolesList.Add(Convert.ToInt32(resultToken["FK_UserRolesId"].ToString()));
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_GetAllUserRolesIdsOnlybasedUser ! :" + ex);
+            }
+
+            // Return the values
+            return userRolesList;
+        }
+
+        // GetStaffAvatar
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        public string GetStaffAvatar(string staffId, ConnectionString connectionString)
+        {
+            // Declare the value list
+            string avatar = "";
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("User_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = staffId;
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET$AVT";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            avatar = resultToken["Avatar"].ToString();
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_GetStaffAvatar ! :" + ex);
+            }
+
+            // Return the values
+            return avatar;
+        }
+
+        // RemoveStaffAvatar
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        public bool RemoveStaffAvatar(string staffId, ConnectionString connectionString)
+        {
+            // Declare the value list
+            bool status = false;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("User_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserIdParameter = sqlCommandToken.Parameters.Add("@UserId", SqlDbType.VarChar);
+                        UserIdParameter.Value = staffId;
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "RMV$AVT";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        status = true;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_RemoveStaffAvatar ! :" + ex);
+            }
+
+            // Return the values
+            return status;
         }
     }
 }

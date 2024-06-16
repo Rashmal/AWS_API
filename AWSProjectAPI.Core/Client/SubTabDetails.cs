@@ -12,6 +12,7 @@ namespace AWSProjectAPI.Core.Client
         public string Name { get; set; }
         public bool EnableAccess { get; set; }
         public List<AccessLevelFeatureDetails> AccessLevelFeatureDetailsList { get; set; }
+        public int Total { get; set; }
 
         public SubTabDetails()
         {

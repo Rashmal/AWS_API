@@ -327,11 +327,12 @@ namespace AWSProjectAPI.Service.Staff
 
                 //status = this.iStaffDataAccess.SetDefaultAccessForNewUserRole(newId, connectionString);
                 //Check connection string not null
-                if (connectionString != null) {
+                if (connectionString != null)
+                {
                     // Setting the duplicated access levels
                     this.iStaffDataAccess.SetDefaultDuplicatedAccessForNewUserRole(newId, prevId, companyId, connectionString);
                 }
-                
+
             }
             // End of Loop through the companies
 
@@ -351,7 +352,7 @@ namespace AWSProjectAPI.Service.Staff
         /// moduleAccess -> bool
         /// moduleId -> number
         /// </remarks>
-        public string SetStaffDetails(StaffDetails staffDetails, int companyId, string actionType)
+        public string SetStaffDetails(StaffDetails staffDetails, int companyId, string loggedUserId, string actionType)
         {
             // Getting the Connection string
             ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
@@ -363,7 +364,8 @@ namespace AWSProjectAPI.Service.Staff
             switch (actionType)
             {
                 case "NEW":
-                    staffId = this.iStaffDataAccess.SetStaffDetails(staffDetails, connectionString);
+                    staffId = this.iStaffDataAccess.SetStaffDetails(staffDetails, loggedUserId, connectionString);
+                    staffDetails.Id = staffId;
                     staffId = this.iStaffDataAccess.SetStaffAddressDetails(staffDetails, connectionString);
                     // Remove all the user roles
                     this.iStaffDataAccess.RemoveAllUserRoles(staffId, connectionString);
@@ -371,12 +373,12 @@ namespace AWSProjectAPI.Service.Staff
                     for (int i = 0; i < staffDetails.UserRoleList.Count; i++)
                     {
                         // Insert the user role
-                        this.iStaffDataAccess.InsertUserRoles(staffId, staffDetails.UserRoleList[i].Id, connectionString);
+                        this.iStaffDataAccess.InsertUserRoles(staffId, staffDetails.UserRoleList[i], connectionString);
                     }
                     // End of Loop through the user roles
                     break;
                 case "UPDATE":
-                    staffId = this.iStaffDataAccess.SetStaffDetails(staffDetails, connectionString);
+                    staffId = this.iStaffDataAccess.SetStaffDetails(staffDetails, loggedUserId, connectionString);
                     staffId = this.iStaffDataAccess.SetStaffAddressDetails(staffDetails, connectionString);
                     // Remove all the user roles
                     this.iStaffDataAccess.RemoveAllUserRoles(staffId, connectionString);
@@ -384,7 +386,7 @@ namespace AWSProjectAPI.Service.Staff
                     for (int i = 0; i < staffDetails.UserRoleList.Count; i++)
                     {
                         // Insert the user role
-                        this.iStaffDataAccess.InsertUserRoles(staffId, staffDetails.UserRoleList[i].Id, connectionString);
+                        this.iStaffDataAccess.InsertUserRoles(staffId, staffDetails.UserRoleList[i], connectionString);
                     }
                     // End of Loop through the user roles
                     break;
@@ -546,6 +548,124 @@ namespace AWSProjectAPI.Service.Staff
 
             // Getting the result
             return this.iStaffDataAccess.GetStaffPassword(staffId, connectionString);
+        }
+
+        // GetDisplayStaffDetails
+        /// <summary>
+        /// Get Display staff details
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        public List<DisplayStaffDetails> GetDisplayStaffDetails(Filter filter, int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            // Getting the result
+            List<DisplayStaffDetails> displayStaffList = this.iStaffDataAccess.GetDisplayStaffDetails(filter, connectionString);
+
+            // Loop through the list
+            for (int i = 0; i < displayStaffList.Count; i++)
+            {
+                // Getting all the user roles list
+                displayStaffList[i].UserRoleList = this.iStaffDataAccess.GetAllUserRolesbasedUser(displayStaffList[i].Id, connectionString);
+            }
+            // End of Loop through the list
+
+            // Return the list
+            return displayStaffList;
+        }
+
+        // GetAllUserRolesbasedUser
+        /// <summary>
+        /// Get Display staff details
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        public List<UserRole> GetAllUserRolesbasedUser(string userId, int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            // Getting the result
+            return this.iStaffDataAccess.GetAllUserRolesbasedUser(userId, connectionString);
+        }
+
+        // GetStaffDetails
+        /// <summary>
+        /// Getting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        public StaffDetails GetStaffDetails(string staffId, int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            // Getting the result
+            StaffDetails staffDetails = this.iStaffDataAccess.GetStaffDetails(staffId, connectionString);
+            // Getting the address details
+            staffDetails.BusinessAddress = this.iStaffDataAccess.GetStaffAddessDetails(staffId, connectionString);
+            // Getting the user roles
+            staffDetails.UserRoleList = this.iStaffDataAccess.GetAllUserRolesIdsOnlybasedUser(staffId, connectionString);
+
+            // Return the result
+            return staffDetails;
+        }
+
+        // GetStaffAvatar
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        public string GetStaffAvatar(string staffId, int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            // Getting the result
+            return this.iStaffDataAccess.GetStaffAvatar(staffId, connectionString);
+        }
+
+        // RemoveStaffAvatar
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        public bool RemoveStaffAvatar(string staffId, int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            // Getting the result
+            return this.iStaffDataAccess.RemoveStaffAvatar(staffId, connectionString);
         }
     }
 }

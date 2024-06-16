@@ -146,7 +146,7 @@ namespace AWSProjectAPI.Service.Staff
         /// moduleAccess -> bool
         /// moduleId -> number
         /// </remarks>
-        string SetStaffDetails(StaffDetails staffDetails, int companyId, string actionType);
+        string SetStaffDetails(StaffDetails staffDetails, int companyId, string loggedUserId, string actionType);
 
         // UpdateStaffPassword
         /// <summary>
@@ -188,5 +188,70 @@ namespace AWSProjectAPI.Service.Staff
         /// companyId -> number
         /// </remarks>
         string GetStaffPassword(string staffId, int companyId);
+
+        // GetDisplayStaffDetails
+        /// <summary>
+        /// Get Display staff details
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        List<DisplayStaffDetails> GetDisplayStaffDetails(Filter filter, int companyId);
+
+        // GetAllUserRolesbasedUser
+        /// <summary>
+        /// Get Display staff details
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        List<UserRole> GetAllUserRolesbasedUser(string userId, int companyId);
+
+        // GetStaffDetails
+        /// <summary>
+        /// Getting the basic information of the user
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        StaffDetails GetStaffDetails(string staffId, int companyId);
+
+        // GetStaffAvatar
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        string GetStaffAvatar(string staffId, int companyId);
+
+        // RemoveStaffAvatar
+        /// <summary>
+        /// Getting all the global files
+        /// </summary>
+        /// <returns>
+        /// string value
+        /// </returns>
+        /// <remarks>
+        /// customerId -> number
+        /// companyId -> number
+        /// </remarks>
+        bool RemoveStaffAvatar(string staffId, int companyId);
     }
 }

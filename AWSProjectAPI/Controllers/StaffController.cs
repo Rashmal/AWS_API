@@ -175,12 +175,12 @@ namespace AWSProjectAPI.Controllers
         // Setting the basic information of the user
         [HttpPost]
         [Route("SetStaffDetails")]
-        public IActionResult SetStaffDetails([FromBody] StaffDetails staffDetails, int companyId, string actionType)
+        public IActionResult SetStaffDetails([FromBody] StaffDetails staffDetails, int companyId, string loggedUserId, string actionType)
         {
             try
             {
                 // Declare response
-                var response = this.iStaffService.SetStaffDetails(staffDetails, companyId, actionType);
+                var response = this.iStaffService.SetStaffDetails(staffDetails, companyId, loggedUserId, actionType);
                 // Returning the result
                 return Json(response);
             }
@@ -210,7 +210,6 @@ namespace AWSProjectAPI.Controllers
             }
         }
 
-
         // Updating the staff avatar
         [HttpPost]
         [Route("UploadStaffAvatar")]
@@ -233,6 +232,68 @@ namespace AWSProjectAPI.Controllers
         {
             // Declare response
             var response = this.iStaffService.GetStaffPassword(staffId, companyId);
+
+            // Returning the result
+            return Json(response);
+        }
+
+        // Get Display staff details
+        [HttpPost]
+        [Route("GetDisplayStaffDetails")]
+        public IActionResult GetDisplayStaffDetails([FromBody] Filter filter, int companyId)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iStaffService.GetDisplayStaffDetails(filter, companyId);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Getting the basic information of the user
+        [HttpGet]
+        [Route("GetStaffDetails")]
+        public IActionResult GetStaffDetails(string staffId, int companyId)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iStaffService.GetStaffDetails(staffId, companyId);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Getting the staff avatar
+        [HttpGet]
+        [Route("GetStaffAvatar")]
+        public IActionResult GetStaffAvatar(string staffId, int companyId)
+        {
+            // Declare response
+            var response = this.iStaffService.GetStaffAvatar(staffId, companyId);
+
+            // Returning the result
+            return Json(response);
+        }
+
+        // Remove the staff avatar
+        [HttpGet]
+        [Route("RemoveStaffAvatar")]
+        public IActionResult RemoveStaffAvatar(string staffId, int companyId)
+        {
+            // Declare response
+            var response = this.iStaffService.RemoveStaffAvatar(staffId, companyId);
 
             // Returning the result
             return Json(response);
