@@ -159,7 +159,7 @@ namespace AWSProjectAPI.DataAccess.Staff
         /// moduleAccess -> bool
         /// moduleId -> number
         /// </remarks>
-        bool SetSubTabFeatureAccessLevel(int subTabFeatureId, bool addAccessLevel, bool editAccessLevel, bool deleteAccessLevel, ConnectionString connectionString);
+        bool SetSubTabFeatureAccessLevel(int subTabFeatureId, bool addAccessLevel, bool editAccessLevel, bool deleteAccessLevel, bool viewAccessLevel, ConnectionString connectionString);
 
         // SetDefaultAccessForNewUserRole
         /// <summary>

@@ -231,7 +231,7 @@ namespace AWSProjectAPI.Service.Staff
             // Loop through the sub feature list
             for (int i = 0; i < AccessLevelFeatureDetailsList.Count; i++)
             {
-                this.iStaffDataAccess.SetSubTabFeatureAccessLevel(AccessLevelFeatureDetailsList[i].Id, accessLevel, accessLevel, accessLevel, connectionString);
+                this.iStaffDataAccess.SetSubTabFeatureAccessLevel(AccessLevelFeatureDetailsList[i].Id, accessLevel, accessLevel, accessLevel, accessLevel, connectionString);
             }
             // End of Loop through the sub feature list
 
@@ -251,13 +251,13 @@ namespace AWSProjectAPI.Service.Staff
         /// moduleAccess -> bool
         /// moduleId -> number
         /// </remarks>
-        public bool SetSubTabFeatureAccessLevel(int subTabFeatureId, bool addAccessLevel, bool editAccessLevel, bool deleteAccessLevel, int companyId)
+        public bool SetSubTabFeatureAccessLevel(int subTabFeatureId, bool addAccessLevel, bool editAccessLevel, bool deleteAccessLevel, bool viewAccessLevel, int companyId)
         {
             // Getting the Connection string
             ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
 
             // Getting the result
-            return this.iStaffDataAccess.SetSubTabFeatureAccessLevel(subTabFeatureId, addAccessLevel, editAccessLevel, deleteAccessLevel, connectionString);
+            return this.iStaffDataAccess.SetSubTabFeatureAccessLevel(subTabFeatureId, addAccessLevel, editAccessLevel, deleteAccessLevel, viewAccessLevel, connectionString);
         }
 
         // SetDefaultModuleAccessForNewUserRole

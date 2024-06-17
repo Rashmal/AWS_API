@@ -156,12 +156,12 @@ namespace AWSProjectAPI.Controllers
         // Setting the sub tab feature access level
         [HttpGet]
         [Route("SetSubTabFeatureAccessLevel")]
-        public IActionResult SetSubTabFeatureAccessLevel(int subTabFeatureId, bool addAccessLevel, bool editAccessLevel, bool deleteAccessLevel, int companyId)
+        public IActionResult SetSubTabFeatureAccessLevel(int subTabFeatureId, bool addAccessLevel, bool editAccessLevel, bool deleteAccessLevel, bool viewAccessLevel, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iStaffService.SetSubTabFeatureAccessLevel(subTabFeatureId, addAccessLevel, editAccessLevel, deleteAccessLevel, companyId);
+                var response = this.iStaffService.SetSubTabFeatureAccessLevel(subTabFeatureId, addAccessLevel, editAccessLevel, deleteAccessLevel, viewAccessLevel, companyId);
                 // Returning the result
                 return Json(response);
             }

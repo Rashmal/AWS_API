@@ -627,7 +627,7 @@ namespace AWSProjectAPI.DataAccess.Staff
         /// moduleAccess -> bool
         /// moduleId -> number
         /// </remarks>
-        public bool SetSubTabFeatureAccessLevel(int subTabFeatureId, bool addAccessLevel, bool editAccessLevel, bool deleteAccessLevel, ConnectionString connectionString)
+        public bool SetSubTabFeatureAccessLevel(int subTabFeatureId, bool addAccessLevel, bool editAccessLevel, bool deleteAccessLevel, bool viewAccessLevel, ConnectionString connectionString)
         {
             // Declare the value list
             bool status = false;
@@ -654,6 +654,8 @@ namespace AWSProjectAPI.DataAccess.Staff
                         EditAccessParameter.Value = editAccessLevel;
                         SqlParameter DeleteAccessParameter = sqlCommandToken.Parameters.Add("@DeleteAccess", SqlDbType.Bit);
                         DeleteAccessParameter.Value = deleteAccessLevel;
+                        SqlParameter ViewAccessParameter = sqlCommandToken.Parameters.Add("@ViewAccess", SqlDbType.Bit);
+                        ViewAccessParameter.Value = viewAccessLevel;
 
                         // Executing the sql SP command
                         var resultToken = sqlCommandToken.ExecuteReader();

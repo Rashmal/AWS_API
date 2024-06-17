@@ -118,7 +118,7 @@ namespace AWSProjectAPI.Service.Staff
         /// moduleAccess -> bool
         /// moduleId -> number
         /// </remarks>
-        bool SetSubTabFeatureAccessLevel(int subTabFeatureId, bool addAccessLevel, bool editAccessLevel, bool deleteAccessLevel, int companyId);
+        bool SetSubTabFeatureAccessLevel(int subTabFeatureId, bool addAccessLevel, bool editAccessLevel, bool deleteAccessLevel, bool viewAccessLevel, int companyId);
 
         // SetDefaultAccessForNewUserRole
         /// <summary>
