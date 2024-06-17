@@ -540,7 +540,9 @@ namespace AWSProjectAPI.DataAccess.Staff
                                 Name = resultToken["FeatureName"].ToString(),
                                 AddAccess = Convert.ToBoolean(resultToken["AddAccess"].ToString()),
                                 EditAccess = Convert.ToBoolean(resultToken["EditAccess"].ToString()),
-                                DeleteAccess = Convert.ToBoolean(resultToken["DeleteAccess"].ToString())
+                                DeleteAccess = Convert.ToBoolean(resultToken["DeleteAccess"].ToString()),
+                                ViewAccess = Convert.ToBoolean(resultToken["ViewAccess"].ToString()),
+                                Accessible = resultToken["Accessible"].ToString()
                             });
                         }
                     }
@@ -1972,6 +1974,8 @@ namespace AWSProjectAPI.DataAccess.Staff
                                 AddAccess = Convert.ToBoolean(resultToken["AddAccess"].ToString()),
                                 EditAccess = Convert.ToBoolean(resultToken["EditAccess"].ToString()),
                                 DeleteAccess = Convert.ToBoolean(resultToken["DeleteAccess"].ToString()),
+                                ViewAccess = Convert.ToBoolean(resultToken["ViewAccess"].ToString()),
+                                Accessible = resultToken["Accessible"].ToString(),
                                 Code = resultToken["FeatureCode"].ToString()
                             });
                         }

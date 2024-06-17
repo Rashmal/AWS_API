@@ -14,5 +14,7 @@ namespace AWSProjectAPI.Core.Client
         public bool AddAccess { get; set; }
         public bool EditAccess { get; set; }
         public bool DeleteAccess { get; set; }
+        public bool ViewAccess { get; set; }
+        public string Accessible { get; set; }
     }
 }
