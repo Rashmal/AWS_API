@@ -1859,5 +1859,135 @@ namespace AWSProjectAPI.DataAccess.Staff
             // Return the values
             return status;
         }
+
+        // GetTabDetailaBasedOnModuleUserRoleCode
+        /// <summary>
+        /// Getting all the tab details based on
+        /// </summary>
+        /// <returns>
+        /// SubTabDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public List<AccessSubTabDetails> GetTabDetailaBasedOnModuleUserRoleCode(string userRoleCode, string moduleCode, ConnectionString connectionString)
+        {
+            // Declare the value list
+            List<AccessSubTabDetails> subTabDetailsList = new List<AccessSubTabDetails>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("SubTabAccessDetails_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "ALL$CD";
+                        SqlParameter UserRoleCodeParameter = sqlCommandToken.Parameters.Add("@UserRoleCode", SqlDbType.VarChar);
+                        UserRoleCodeParameter.Value = userRoleCode;
+                        SqlParameter ModuleCodeParameter = sqlCommandToken.Parameters.Add("@ModuleCode", SqlDbType.VarChar);
+                        ModuleCodeParameter.Value = moduleCode;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            subTabDetailsList.Add(new AccessSubTabDetails()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["SubTabName"].ToString(),
+                                EnableAccess = Convert.ToBoolean(resultToken["IsEnabled"].ToString()),
+                                AccessLevelFeatureDetailsList = new List<AccessFeatureDetails>(),
+                                DefaultColRef = Convert.ToInt32(resultToken["DefaultColRef"].ToString()),
+                                SubTabCode = resultToken["SubTabCode"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_GetTabDetailaBasedOnModuleUserRole ! :" + ex);
+            }
+
+            // Return the values
+            return subTabDetailsList;
+        }
+
+        // GetSubTabFeaureAccessListCode
+        /// <summary>
+        /// Getting all the sub tab feaure access list
+        /// </summary>
+        /// <returns>
+        /// AccessLevelFeatureDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public List<AccessFeatureDetails> GetSubTabFeaureAccessListCode(int subTabId, ConnectionString connectionString)
+        {
+            // Declare the value list
+            List<AccessFeatureDetails> accessLevelFeatureDetailsList = new List<AccessFeatureDetails>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("SubTabFeatureAccessDetails_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "ALL";
+                        SqlParameter SubTabIdParameter = sqlCommandToken.Parameters.Add("@SubTabId", SqlDbType.Int);
+                        SubTabIdParameter.Value = subTabId;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            accessLevelFeatureDetailsList.Add(new AccessFeatureDetails()
+                            {
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                Name = resultToken["FeatureName"].ToString(),
+                                AddAccess = Convert.ToBoolean(resultToken["AddAccess"].ToString()),
+                                EditAccess = Convert.ToBoolean(resultToken["EditAccess"].ToString()),
+                                DeleteAccess = Convert.ToBoolean(resultToken["DeleteAccess"].ToString()),
+                                Code = resultToken["FeatureCode"].ToString()
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_GetSubTabFeaureAccessList ! :" + ex);
+            }
+
+            // Return the values
+            return accessLevelFeatureDetailsList;
+        }
     }
 }

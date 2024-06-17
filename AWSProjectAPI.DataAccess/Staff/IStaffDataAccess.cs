@@ -427,5 +427,33 @@ namespace AWSProjectAPI.DataAccess.Staff
         /// companyId -> number
         /// </remarks>
         bool RemoveStaffAvatar(string staffId, ConnectionString connectionString);
+
+        // GetTabDetailaBasedOnModuleUserRoleCode
+        /// <summary>
+        /// Getting all the tab details based on
+        /// </summary>
+        /// <returns>
+        /// SubTabDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        List<AccessSubTabDetails> GetTabDetailaBasedOnModuleUserRoleCode(string userRoleCode, string moduleCode, ConnectionString connectionString);
+
+        // GetSubTabFeaureAccessListCode
+        /// <summary>
+        /// Getting all the sub tab feaure access list
+        /// </summary>
+        /// <returns>
+        /// AccessLevelFeatureDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        List<AccessFeatureDetails> GetSubTabFeaureAccessListCode(int subTabId, ConnectionString connectionString);
     }
 }

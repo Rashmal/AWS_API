@@ -253,5 +253,19 @@ namespace AWSProjectAPI.Service.Staff
         /// companyId -> number
         /// </remarks>
         bool RemoveStaffAvatar(string staffId, int companyId);
+
+        // GetTabDetailaBasedOnModuleCode
+        /// <summary>
+        /// Getting all the tab details based on
+        /// </summary>
+        /// <returns>
+        /// SubTabDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        List<AccessSubTabDetails> GetTabDetailsBasedOnModuleCode(string selectedModuleCode, string userRoleCode, int companyId);
     }
 }

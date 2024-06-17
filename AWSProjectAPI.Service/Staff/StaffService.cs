@@ -666,5 +666,37 @@ namespace AWSProjectAPI.Service.Staff
             // Getting the result
             return this.iStaffDataAccess.RemoveStaffAvatar(staffId, connectionString);
         }
+
+        // GetTabDetailaBasedOnModuleCode
+        /// <summary>
+        /// Getting all the tab details based on
+        /// </summary>
+        /// <returns>
+        /// SubTabDetails list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// moduleAccess -> bool
+        /// moduleId -> number
+        /// </remarks>
+        public List<AccessSubTabDetails> GetTabDetailsBasedOnModuleCode(string selectedModuleCode, string userRoleCode, int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            // Getting the result
+            List<AccessSubTabDetails> subTabList = this.iStaffDataAccess.GetTabDetailaBasedOnModuleUserRoleCode(userRoleCode, selectedModuleCode, connectionString);
+
+            // Loop through the sub tab list
+            for (int i = 0; i < subTabList.Count; i++)
+            {
+                // Getting the feature list
+                subTabList[i].AccessLevelFeatureDetailsList = this.iStaffDataAccess.GetSubTabFeaureAccessListCode(subTabList[i].Id, connectionString);
+            }
+            // End of Loop through the sub tab list
+
+            // Return the list
+            return subTabList;
+        }
     }
 }

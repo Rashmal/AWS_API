@@ -299,5 +299,24 @@ namespace AWSProjectAPI.Controllers
             return Json(response);
         }
 
+        // Getting all access level tab details by module code
+        [HttpGet]
+        [Route("GetTabDetailsBasedOnModuleCode")]
+        public IActionResult GetTabDetailsBasedOnModuleCode(string selectedModuleCode, string userRoleCode, int companyId)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iStaffService.GetTabDetailsBasedOnModuleCode(selectedModuleCode, userRoleCode, companyId);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
     }
 }
