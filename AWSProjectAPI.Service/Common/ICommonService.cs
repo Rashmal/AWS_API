@@ -309,5 +309,7 @@ namespace AWSProjectAPI.Service.Common
         /// -
         /// </remarks>
         List<ParentGroup> GetAllParentGroupsDetailsById(string userId);
+
+        
     }
 }

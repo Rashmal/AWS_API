@@ -1,9 +1,12 @@
 ﻿using AWSProjectAPI.Core.Authentication;
 using AWSProjectAPI.Core.Client;
 using AWSProjectAPI.Core.Common;
+using AWSProjectAPI.Core.SystemEnhancements;
 using AWSProjectAPI.DataAccess.ClientDetails;
 using AWSProjectAPI.DataAccess.Common;
 using AWSProjectAPI.DataAccess.Staff;
+using AWSProjectAPI.Service.Authentication;
+using AWSProjectAPI.Service.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -26,10 +29,12 @@ namespace AWSProjectAPI.Service.Staff
         protected string CLIENT_REQ_FILES_PATH { get; set; }
         protected string IMAGE_LIVE_URL { get; set; }
         private readonly ICommonDataAccess iCommonDataAccess;
+        private readonly IAuthenticationService iAuthenticationService;
+        private readonly ICommonService iCommonService;
         #endregion
 
         // Constructor
-        public StaffService(IConfiguration configurationString, IStaffDataAccess iStaffDataAccess,
+        public StaffService(IConfiguration configurationString, IStaffDataAccess iStaffDataAccess, IAuthenticationService iAuthenticationService, ICommonService iCommonService,
             ICommonDataAccess iCommonDataAccess)
         {
             // Intantiating the object
@@ -40,6 +45,9 @@ namespace AWSProjectAPI.Service.Staff
             this.IMAGE_DOC_FILES_PATH = configurationString.GetConnectionString("IMAGE_DOC_FILES_PATH");
             this.CLIENT_REQ_FILES_PATH = configurationString.GetConnectionString("CLIENT_REQ_FILES_PATH");
             this.IMAGE_LIVE_URL = configurationString.GetConnectionString("IMAGE_LIVE_URL");
+            this.iAuthenticationService = iAuthenticationService;
+            this.iCommonService = iCommonService;
+
         }
 
         // GetAllUserRoles
@@ -284,8 +292,10 @@ namespace AWSProjectAPI.Service.Staff
             {
                 // Getting the Connection string
                 ConnectionString connectionString = iCommonDataAccess.GetConnectionString(ParentGroupList[i].Id, "AWS");
-                // Getting the result
-                status = this.iStaffDataAccess.SetDefaultAccessForNewUserRole(userRoleId, connectionString);
+                if (connectionString != null) {
+                    // Getting the result
+                    status = this.iStaffDataAccess.SetDefaultAccessForNewUserRole(userRoleId, connectionString);
+                }
             }
             // End of Loop through the companies
 
@@ -318,10 +328,16 @@ namespace AWSProjectAPI.Service.Staff
                 // Getting the Connection string
                 ConnectionString connectionString = iCommonDataAccess.GetConnectionString(ParentGroupList[i].Id, "AWS");
                 // Getting the result
+
+
+                //status = this.iStaffDataAccess.SetDefaultAccessForNewUserRole(newId, connectionString);
+                //// Setting the duplicated access levels
+
                 //status = this.iStaffDataAccess.SetDefaultAccessForNewUserRole(newId, c
                 //
                 //onnectionString);
                 // Setting the duplicated access levels
+
                 //this.iStaffDataAccess.SetDefaultDuplicatedAccessForNewUserRole(newId, prevId, companyId, connectionString);
 
                 //status = this.iStaffDataAccess.SetDefaultAccessForNewUserRole(newId, connectionString);
@@ -329,7 +345,7 @@ namespace AWSProjectAPI.Service.Staff
                 if (connectionString != null)
                 {
                     // Setting the duplicated access levels
-                    this.iStaffDataAccess.SetDefaultDuplicatedAccessForNewUserRole(newId, prevId, companyId, connectionString);
+                    status = this.iStaffDataAccess.SetDefaultDuplicatedAccessForNewUserRole(newId, prevId, companyId, connectionString);
                 }
 
             }
@@ -417,7 +433,13 @@ namespace AWSProjectAPI.Service.Staff
             ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
 
             // Updating the password
-            return this.iStaffDataAccess.UpdateStaffPassword(staffId, newPassword, connectionString);
+            string passwordChanged = this.iStaffDataAccess.UpdateStaffPassword(staffId, newPassword, connectionString);
+            //Check password changed
+            if (passwordChanged != "") {
+                //Send email to the user
+                sendPsswordChangeEmail(staffId, companyId, newPassword);
+            }
+            return passwordChanged;
         }
 
         // UploadStaffAvatar
@@ -697,6 +719,63 @@ namespace AWSProjectAPI.Service.Staff
 
             // Return the list
             return subTabList;
+        }
+
+        // SendPsswordChangeEmail
+        /// <summary>
+        /// Send email to the user after changing password
+        /// </summary>
+        /// <param name="staffId"></param>
+        /// <param name="companyId"></param>
+        /// <param name="newPassword"></param>
+        public void sendPsswordChangeEmail(string staffId, int companyId, string newPassword) {
+            // Getting the user details
+            UserDetails addedUserDetails = iAuthenticationService.GetUserDetailsByUserId(staffId, companyId);
+            // Getitng the current date
+            DateTime today = DateTime.Today;
+            // Top part of the email
+            string emailBody = "<div>" +
+                "<div style='text-align:center;padding:10px;'><img src='https://iitcdemo.com/assets/images/logo_aws.png' style='width:300px;height:50px;object-fit: contain;'></div>" +
+                "<div style='padding:10px'>" +
+                "<div style='padding:10px;text-align:center;font-size:30px;font-weight:bold;'><span>Your Password Has Been Changed!</span></div><br/>" +
+                "<div style='text-align:left;'><span>Your loggin password for AWS Construction is changed.</span></div>" +               
+                "<div style='text-align:left;'><span>Updated On:" + today.ToString("dd-MMM-yyyy") + "</span></div>" +
+                "<div style='text-align:left;'><span>New Password:</span><span style='font-weight:bold;'>" + newPassword + "</span></div>" +
+                 "<div style='text-align:left;'><a href='https://iitcdemo.com/auth/login'>Click hear to redirect to login and use your new password to login.</a></div>" +
+                //"<div style='padding-bottom:5px;text-align:center;'><span>" + systemEnhancement.Description + "</span></div>" +
+                //"<div style='padding-bottom:5px;text-align:center;'><span>Added by: " + addedUserDetails.FirstName + " " + addedUserDetails.LastName + "</span></div>" +
+                "</div>" +
+                "</div>";
+
+            // Setting the email body
+            EmailBodyDetails internelEmailObject = new EmailBodyDetails()
+            {
+                AttachmentPath = new List<string>(),
+                Content = emailBody,
+                Subject = "Password Updated!",
+                FromAddress = new EmailAddress()
+                {
+                    Address = "iitcglobalmail@gmail.com",
+                    Name = ""
+                },
+                ToAddressList = new List<EmailAddress>(),
+                BCCAddressList = new List<EmailAddress>(),
+                CCAddressList = new List<EmailAddress>()
+            };
+            //internelEmailObject.ToAddressList.Add(new EmailAddress()
+            //{
+            //    Address = receiverEmail,
+            //    Name = receiverName
+            //});
+            internelEmailObject.ToAddressList.Add(new EmailAddress()
+            {
+                Address = addedUserDetails.Email,
+                Name = addedUserDetails.FirstName + " " + addedUserDetails.LastName,
+            });
+            internelEmailObject.CCAddressList = [];
+
+            // Sending the email
+            string emailResponse = iCommonService.SendEmailLocally(internelEmailObject);
         }
     }
 }

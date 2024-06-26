@@ -43,8 +43,23 @@ namespace AWSProjectAPI.Service.Authentication
             // Declare the token
             string token = "";
 
+            // Getting the current parent group Ids for email
+            List<ParentGroup> parentGroupsAuth = iCommonDataAccess.GetAllParentGroupsDetailsByEmail(email);
+
             // Getting the login validation
-            bool authLogin = iAuthenticationDataAccess.LoginAuthentication(email, password);
+            bool authLogin = false;
+
+            // Loop through the groups
+            for (int i = 0; i < parentGroupsAuth.Count; i++)
+            {
+                // Getting the Connection string
+                ConnectionString connectionString = iCommonDataAccess.GetConnectionString(parentGroupsAuth[i].Id, "AWS");
+                // Check if the auth is valid
+                authLogin = iAuthenticationDataAccess.LoginAuthentication(email, password, connectionString);
+                // Check if its true
+                if (authLogin) break;
+            }
+            // End of Loop through the groups
 
             // Check if the login is successfull
             if (authLogin)

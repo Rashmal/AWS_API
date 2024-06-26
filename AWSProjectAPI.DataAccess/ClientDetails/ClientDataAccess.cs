@@ -3302,5 +3302,61 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             return socialMediaList;
         }
 
+        // CheckEmailExists
+        /// <summary>
+        /// 
+        /// Check if the email exists
+        /// </summary>
+        /// <returns>
+        /// boolean value
+        /// </returns>
+        /// <remarks>
+        /// userEmail -> string
+        /// </remarks>
+        public bool CheckEmailExists(string userEmail, ConnectionString connectionString)
+        {
+            // Declare the token
+            bool status = false;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("User_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter EmailParameter = sqlCommandToken.Parameters.Add("@Email", SqlDbType.VarChar, 500);
+                        EmailParameter.Value = userEmail;
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "EML$EXS";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            status = Convert.ToBoolean(resultToken["Valid"].ToString());
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CommonDataAccess_CheckEmailExists ! :" + ex);
+            }
+
+            // Return the token
+            return status;
+        }
+
     }
 }

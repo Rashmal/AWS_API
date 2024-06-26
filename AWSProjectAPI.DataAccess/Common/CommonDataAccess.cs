@@ -300,7 +300,7 @@ namespace AWSProjectAPI.DataAccess.Common
                             staffList.Add(new BasicUserDetails()
                             {
                                 Id = resultToken["Id"].ToString(),
-                                Avatar = "",
+                                Avatar = resultToken["Avatar"].ToString(),
                                 Email = resultToken["Email"].ToString(),
                                 FirstName = resultToken["FirstName"].ToString(),
                                 LastName = resultToken["LastName"].ToString(),

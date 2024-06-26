@@ -38,7 +38,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
         /// email -> string
         /// password -> string
         /// </remarks>
-        public bool LoginAuthentication(string email, string password)
+        public bool LoginAuthentication(string email, string password, ConnectionString connectionString)
         {
             // Declare the token
             bool status = false;
@@ -46,7 +46,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
             try
             {
                 //Setting the SQL connection with the connection string
-                using (SqlConnection connection = new SqlConnection(this.AWS_ACCOUNT_DBConnectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
                 {
                     // Openning the connection
                     connection.Open();

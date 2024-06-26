@@ -623,5 +623,7 @@ namespace AWSProjectAPI.Service.Common
         {
             return iCommonDataAccess.GetAllParentGroupsDetailsById(userId);
         }
+
+       
     }
 }

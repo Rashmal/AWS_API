@@ -712,5 +712,18 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// </remarks>
         List<SocialMedia> GetAllSocialMediaList(Filter filter, int clientId, ConnectionString connectionString);
 
+        // CheckEmailExists
+        /// <summary>
+        /// 
+        /// Check if the email exists
+        /// </summary>
+        /// <returns>
+        /// boolean value
+        /// </returns>
+        /// <remarks>
+        /// userEmail -> string
+        /// </remarks>
+        bool CheckEmailExists(string userEmail, ConnectionString connectionString);
+
     }
 }

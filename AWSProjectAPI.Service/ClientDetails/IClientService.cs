@@ -464,5 +464,18 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// companyId -> number
         /// </remarks>
         List<SocialMedia> GetAllSocialMediaList(Filter filter, int clientId, int companyId);
+
+        // CheckEmailExists
+        /// <summary>
+        /// 
+        /// Check if the email exists
+        /// </summary>
+        /// <returns>
+        /// boolean value
+        /// </returns>
+        /// <remarks>
+        /// userEmail -> string
+        /// </remarks>
+        bool CheckEmailExists(string userEmail, int companyId);
     }
 }

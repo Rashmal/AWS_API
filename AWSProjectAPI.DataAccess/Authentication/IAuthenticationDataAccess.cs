@@ -21,7 +21,7 @@ namespace AWSProjectAPI.DataAccess.Authentication
         /// email -> string
         /// password -> string
         /// </remarks>
-        bool LoginAuthentication(string email, string password);
+        bool LoginAuthentication(string email, string password, ConnectionString connectionString);
 
         // GetUserDetailsByEmail
         /// <summary>

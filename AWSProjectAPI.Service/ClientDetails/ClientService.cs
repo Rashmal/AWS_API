@@ -1160,5 +1160,25 @@ namespace AWSProjectAPI.Service.ClientDetails
             // Getting the result
             return this.iClientDataAccess.GetAllSocialMediaList(filter, clientId, connectionString);
         }
+
+        // CheckEmailExists
+        /// <summary>
+        /// 
+        /// Check if the email exists
+        /// </summary>
+        /// <returns>
+        /// boolean value
+        /// </returns>
+        /// <remarks>
+        /// userEmail -> string
+        /// </remarks>
+        public bool CheckEmailExists(string userEmail, int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            // Getting the result
+            return this.iClientDataAccess.CheckEmailExists(userEmail, connectionString);
+        }
     }
 }

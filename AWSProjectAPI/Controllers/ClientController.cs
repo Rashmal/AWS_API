@@ -596,5 +596,24 @@ namespace AWSProjectAPI.Controllers
             }
         }
 
+        // Check if client email exists
+        [HttpGet]
+        [Route("CheckEmailExists")]
+        public IActionResult CheckEmailExists(string userEmail, int companyId)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iClientService.CheckEmailExists(userEmail, companyId);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
     }
 }
