@@ -84,7 +84,13 @@ namespace AWSProjectAPI.Service.ClientDetails
             for (int i = 0; i < displayClientDetailsList.Count; i++)
             {
                 // Getting the type
-                displayClientDetailsList[i].Contacts = this.iClientDataAccess.GetAllContactList(filterContacts, displayClientDetailsList[i].Id, connectionString);
+                //displayClientDetailsList[i].Contacts = this.iClientDataAccess.GetAllContactList(filterContacts, displayClientDetailsList[i].Id, connectionString);
+                displayClientDetailsList[i].Contacts = this.iClientDataAccess.GetAllContactListNew(filterContacts, displayClientDetailsList[i].Id, connectionString);
+                //Get contact details
+                foreach (var item in displayClientDetailsList[i].Contacts)
+                {
+                    item.ContactDetails = this.iClientDataAccess.GetAllContactDetailsListNew(filterContacts, item.Id, connectionString);
+                }
             }
             // End of Loop through the list
 
@@ -107,9 +113,17 @@ namespace AWSProjectAPI.Service.ClientDetails
         {
             // Getting the Connection string
             ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
-
+            //Get contacts
+            List<Contact> contacts = new List<Contact>();
+            contacts = this.iClientDataAccess.GetAllContactListNew(filter, clientId, connectionString);
+            //Get contact details
+            foreach (var item in contacts)
+            {
+                item.ContactDetails = this.iClientDataAccess.GetAllContactDetailsListNew(filter, item.Id, connectionString);
+            }
             // Getting the client list
-            return this.iClientDataAccess.GetAllContactList(filter, clientId, connectionString);
+            //return this.iClientDataAccess.GetAllContactList(filter, clientId, connectionString);
+            return contacts;
         }
 
         // SetClientCustomer
@@ -206,7 +220,7 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// actionType -> string (NEW/UPDATE/REMOVE)
         /// contact -> Contact object
         /// </remarks>
-        public int SetContactDetails(Contact contact, string actionType, int customerId, int companyId)
+        public int SetContact(Contact contact, string actionType, int customerId, int companyId)
         {
             // Getting the Connection string
             ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
@@ -218,13 +232,53 @@ namespace AWSProjectAPI.Service.ClientDetails
             switch (actionType)
             {
                 case "NEW":
-                    newId = iClientDataAccess.SetNewContactDetails(contact, customerId, connectionString);
+                    newId = iClientDataAccess.SetNewContact(contact, customerId, connectionString);
+                    //iClientDataAccess.SetNewContactDetails(contact, customerId, connectionString);
+
                     break;
                 case "UPDATE":
-                    newId = iClientDataAccess.SetUpdateContactDetails(contact, customerId, connectionString);
+                    newId = iClientDataAccess.SetUpdateContact(contact, customerId, connectionString);
+                    //iClientDataAccess.SetUpdateContactDetails(contact, customerId, connectionString);
                     break;
                 case "REMOVE":
-                    newId = iClientDataAccess.SetRemoveContactDetails(contact.Id, customerId, connectionString);
+                    int delId = 0;
+                    //remove contact details for the contact
+                    contact.ContactDetails.ForEach(contactDet => {
+                        delId = SetContactDetails(contactDet, "REMOVE", contact.Id, companyId);
+                    });
+                    newId = iClientDataAccess.SetRemoveContact(contact.Id, customerId, connectionString);
+                    //iClientDataAccess.SetRemoveContactDetails(contact.Id, customerId, connectionString);
+                    break;
+            }
+            // End of Check the action type
+
+            // return the ID
+            return newId;
+        }
+
+        public int SetContactDetails(ContactDetails contactDet, string actionType, int contactId, int companyId)
+        {
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+
+            // Store the new Id
+            int newId = 0;
+
+            // Check the action type
+            switch (actionType)
+            {
+                case "NEW":
+                    newId = iClientDataAccess.SetNewContactDetails(contactDet, contactId, connectionString);
+                    
+
+                    break;
+                case "UPDATE":
+                    newId = iClientDataAccess.SetUpdateContactDetails(contactDet, contactId, connectionString);
+                    
+                    break;
+                case "REMOVE":
+                    newId = iClientDataAccess.SetRemoveContactDetails(contactDet.Id, contactId, connectionString);
+                    
                     break;
             }
             // End of Check the action type
@@ -249,9 +303,19 @@ namespace AWSProjectAPI.Service.ClientDetails
         {
             // Getting the Connection string
             ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "CLIENT");
+            //Get contacts
+            List<Contact> contacts = new List<Contact>();
+            contacts = this.iClientDataAccess.GetContactListDetailsNew(filter, customerId, connectionString);
+            //Get contact details
+            foreach (var item in contacts)
+            {
+                item.ContactDetails = this.iClientDataAccess.GetAllContactDetailsListNew(filter, item.Id, connectionString);
+            }
+            // Getting the client list
+            //return this.iClientDataAccess.GetContactListDetails(filter, customerId, connectionString);
+            return contacts;
 
-            // Getting the result
-            return this.iClientDataAccess.GetContactListDetails(filter, customerId, connectionString);
+            
         }
 
         // SetSocialMediaDetails

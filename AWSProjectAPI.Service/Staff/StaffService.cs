@@ -69,6 +69,24 @@ namespace AWSProjectAPI.Service.Staff
             return this.iStaffDataAccess.GetAllUserRoles(connectionString);
         }
 
+        // CheckUserRoleExist
+        /// <summary>
+        /// Getting all the user roles
+        /// </summary>
+        /// <returns>
+        /// UserRole object list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// </remarks>
+        public bool CheckUserRoleExist(int companyId, string roleName) {
+
+            // Getting the Connection string
+            ConnectionString connectionString = iCommonDataAccess.GetConnectionString(companyId, "AWS");
+
+            // Getting the result
+            return this.iStaffDataAccess.CheckUserRoleExist(connectionString, roleName);
+        }
         // SetUserRoles
         /// <summary>
         /// Setting all the user roles

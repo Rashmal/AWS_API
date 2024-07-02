@@ -109,8 +109,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// clientId -> number
         /// companyId -> number
         /// </remarks>
-        public List<Contact> GetAllContactList(Filter filter, int clientId, ConnectionString connectionString)
-        {
+
+        public List<Contact> GetAllContactListNew(Filter filter, int clientId, ConnectionString connectionString) {
             // Declare the value list
             List<Contact> contactList = new List<Contact>();
 
@@ -123,7 +123,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                     connection.Open();
 
                     // Check Token expired
-                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_Contacts_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_Contact_Get", connection) { CommandType = CommandType.StoredProcedure })
                     {
                         // Adding stored procedure parameters
                         SqlParameter IdParameter = sqlCommandToken.Parameters.Add("@Id", SqlDbType.Int);
@@ -144,14 +144,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                             contactList.Add(new Contact()
                             {
                                 Id = Convert.ToInt32(resultToken["Id"].ToString()),
-                                ContactValue = resultToken["ContactValue"].ToString(),
                                 Name = resultToken["Name"].ToString(),
-                                ContactType = new ContactType()
-                                {
-                                    Id = Convert.ToInt32(resultToken["FK_CM_ContactTypesId"].ToString()),
-                                    Name = resultToken["ContactType"].ToString(),
-                                    Code = resultToken["ContactTypeCode"].ToString()
-                                },
+                                ContactDetails = new List<ContactDetails>(),
                                 TotalRecords = Convert.ToInt32(resultToken["TotalRecords"].ToString())
                             });
                         }
@@ -163,7 +157,69 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             }
             catch (Exception ex)
             {
-                throw new Exception("Error in ClientDataAccess_GetAllContactList ! :" + ex);
+                throw new Exception("Error in GetAllContactListNew ! :" + ex);
+            }
+
+            // Return the values
+            return contactList;
+        }
+
+
+        public List<ContactDetails> GetAllContactDetailsListNew(Filter filter, int contactId, ConnectionString connectionString)
+        {
+            // Declare the value list
+            List<ContactDetails> contactList = new List<ContactDetails>();
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_Contact_Details_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter IdParameter = sqlCommandToken.Parameters.Add("@Id", SqlDbType.Int);
+                        IdParameter.Value = contactId;
+                        SqlParameter CurrentPageParameter = sqlCommandToken.Parameters.Add("@CurrentPage", SqlDbType.Int);
+                        CurrentPageParameter.Value = filter.CurrentPage;
+                        SqlParameter RecordsPerPageValueParameter = sqlCommandToken.Parameters.Add("@RecordsPerPage", SqlDbType.Int);
+                        RecordsPerPageValueParameter.Value = filter.RecordsPerPage;
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "GET";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            contactList.Add(new ContactDetails()
+                            {
+
+                                Id = Convert.ToInt32(resultToken["Id"].ToString()),
+                                ContactValue = resultToken["ContactValue"].ToString(),
+                                ContactType = new ContactType()
+                                {
+                                    Id = Convert.ToInt32(resultToken["FK_CM_ContactTypesId"].ToString()),
+                                    Name = resultToken["ContactType"].ToString(),
+                                    Code = resultToken["ContactTypeCode"].ToString()
+                                }
+                                
+                            });
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in GetAllContactListNew ! :" + ex);
             }
 
             // Return the values
@@ -461,7 +517,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// contact -> Contact object
         /// </remarks>
-        public int SetNewContactDetails(Contact contact, int customerId, ConnectionString connectionString)
+        public int SetNewContact(Contact contact, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -475,19 +531,71 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                     connection.Open();
 
                     // Check Token expired
-                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_Contacts_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_Contact_Set", connection) { CommandType = CommandType.StoredProcedure })
                     {
                         // Adding stored procedure parameters
                         SqlParameter IdParameter = sqlCommandToken.Parameters.Add("@Id", SqlDbType.BigInt);
                         IdParameter.Value = contact.Id;
                         SqlParameter NameParameter = sqlCommandToken.Parameters.Add("@Name", SqlDbType.VarChar);
                         NameParameter.Value = contact.Name;
-                        SqlParameter ContactValueParameter = sqlCommandToken.Parameters.Add("@ContactValue", SqlDbType.VarChar);
-                        ContactValueParameter.Value = contact.ContactValue;
-                        SqlParameter ContactTypeParameter = sqlCommandToken.Parameters.Add("@ContactType", SqlDbType.Int);
-                        ContactTypeParameter.Value = contact.ContactType.Id;
+                        //SqlParameter ContactValueParameter = sqlCommandToken.Parameters.Add("@ContactValue", SqlDbType.VarChar);
+                        //ContactValueParameter.Value = contact.ContactValue;
+                        //SqlParameter ContactTypeParameter = sqlCommandToken.Parameters.Add("@ContactType", SqlDbType.Int);
+                        //ContactTypeParameter.Value = contact.ContactType.Id;
                         SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.Int);
                         CustomerIdParameter.Value = customerId;
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "SET$NEW";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+                            newId = Convert.ToInt32(resultToken["NewId"].ToString());
+                        }
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_SetNewContactDetails ! :" + ex);
+            }
+
+            // Return the values
+            return newId;
+        }
+
+
+        public int SetNewContactDetails(ContactDetails contactDet, int contactId, ConnectionString connectionString)
+        {
+            // Declare the value list
+            int newId = 0;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_Contact_Details_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter IdParameter = sqlCommandToken.Parameters.Add("@Id", SqlDbType.BigInt);
+                        IdParameter.Value = contactDet.Id;
+                        SqlParameter ContactValueParameter = sqlCommandToken.Parameters.Add("@ContactValue", SqlDbType.VarChar);
+                        ContactValueParameter.Value = contactDet.ContactValue;
+                        SqlParameter ContactTypeParameter = sqlCommandToken.Parameters.Add("@ContactType", SqlDbType.Int);
+                        ContactTypeParameter.Value = contactDet.ContactType.Id;
+                        SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@ContactId", SqlDbType.Int);
+                        CustomerIdParameter.Value = contactId;
                         // Adding stored procedure parameters
                         SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
                         UserParameter.Value = "SET$NEW";
@@ -526,7 +634,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// contact -> Contact object
         /// </remarks>
-        public int SetUpdateContactDetails(Contact contact, int customerId, ConnectionString connectionString)
+        public int SetUpdateContact(Contact contact, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -540,17 +648,17 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                     connection.Open();
 
                     // Check Token expired
-                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_Contacts_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_Contact_Set", connection) { CommandType = CommandType.StoredProcedure })
                     {
                         // Adding stored procedure parameters
                         SqlParameter IdParameter = sqlCommandToken.Parameters.Add("@Id", SqlDbType.BigInt);
                         IdParameter.Value = contact.Id;
                         SqlParameter NameParameter = sqlCommandToken.Parameters.Add("@Name", SqlDbType.VarChar);
                         NameParameter.Value = contact.Name;
-                        SqlParameter ContactValueParameter = sqlCommandToken.Parameters.Add("@ContactValue", SqlDbType.VarChar);
-                        ContactValueParameter.Value = contact.ContactValue;
-                        SqlParameter ContactTypeParameter = sqlCommandToken.Parameters.Add("@ContactType", SqlDbType.Int);
-                        ContactTypeParameter.Value = contact.ContactType.Id;
+                        //SqlParameter ContactValueParameter = sqlCommandToken.Parameters.Add("@ContactValue", SqlDbType.VarChar);
+                        //ContactValueParameter.Value = contact.ContactValue;
+                        //SqlParameter ContactTypeParameter = sqlCommandToken.Parameters.Add("@ContactType", SqlDbType.Int);
+                        //ContactTypeParameter.Value = contact.ContactType.Id;
                         SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.Int);
                         CustomerIdParameter.Value = customerId;
                         // Adding stored procedure parameters
@@ -561,6 +669,54 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                         var resultToken = sqlCommandToken.ExecuteReader();
 
                         newId = contact.Id;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_SetUpdateContactDetails ! :" + ex);
+            }
+
+            // Return the values
+            return newId;
+        }
+
+        public int SetUpdateContactDetails(ContactDetails contactDet, int contactId, ConnectionString connectionString)
+        {
+            // Declare the value list
+            int newId = 0;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_Contact_Details_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter IdParameter = sqlCommandToken.Parameters.Add("@Id", SqlDbType.BigInt);
+                        IdParameter.Value = contactDet.Id;
+                        SqlParameter ContactValueParameter = sqlCommandToken.Parameters.Add("@ContactValue", SqlDbType.VarChar);
+                        ContactValueParameter.Value = contactDet.ContactValue;
+                        SqlParameter ContactTypeParameter = sqlCommandToken.Parameters.Add("@ContactType", SqlDbType.Int);
+                        ContactTypeParameter.Value = contactDet.ContactType.Id;
+                        SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@ContactId", SqlDbType.Int);
+                        CustomerIdParameter.Value = contactId;
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "SET$UPD";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        newId = contactDet.Id;
                     }
 
                     // Closing the connection
@@ -588,7 +744,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// contactId -> number
         /// </remarks>
-        public int SetRemoveContactDetails(int contactId, int customerId, ConnectionString connectionString)
+        public int SetRemoveContact(int contactId, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             int newId = 0;
@@ -602,7 +758,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                     connection.Open();
 
                     // Check Token expired
-                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_Contacts_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_Contact_Set", connection) { CommandType = CommandType.StoredProcedure })
                     {
                         // Adding stored procedure parameters
                         SqlParameter IdParameter = sqlCommandToken.Parameters.Add("@Id", SqlDbType.BigInt);
@@ -632,6 +788,49 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             return newId;
         }
 
+        public int SetRemoveContactDetails(int contactDetId, int contactId, ConnectionString connectionString)
+        {
+            // Declare the value list
+            int newId = 0;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(connectionString.DatabaseConfig))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_Contact_Details_Set", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter IdParameter = sqlCommandToken.Parameters.Add("@Id", SqlDbType.BigInt);
+                        IdParameter.Value = contactDetId;
+           
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "RMV";
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        newId = contactDetId;
+                    }
+
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ClientDataAccess_SetRemoveContactDetails ! :" + ex);
+            }
+
+            // Return the values
+            return newId;
+        }
+
         // GetContactListDetails
         /// <summary>
         /// Getting the Contact list details
@@ -644,7 +843,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// filter -> Filter object
         /// </remarks>
-        public List<Contact> GetContactListDetails(Filter filter, int customerId, ConnectionString connectionString)
+        public List<Contact> GetContactListDetailsNew(Filter filter, int customerId, ConnectionString connectionString)
         {
             // Declare the value list
             List<Contact> contacts = new List<Contact>();
@@ -658,7 +857,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                     connection.Open();
 
                     // Check Token expired
-                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_Contacts_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    using (SqlCommand sqlCommandToken = new SqlCommand("CL_Contact_Get", connection) { CommandType = CommandType.StoredProcedure })
                     {
                         // Adding stored procedure parameters
                         SqlParameter CustomerIdParameter = sqlCommandToken.Parameters.Add("@CustomerId", SqlDbType.BigInt);
@@ -680,14 +879,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
                             contacts.Add(new Contact()
                             {
                                 Id = Convert.ToInt32(resultToken["Id"].ToString()),
-                                ContactType = new ContactType()
-                                {
-                                    Id = Convert.ToInt32(resultToken["FK_CM_ContactTypesId"].ToString()),
-                                    Code = resultToken["ContactTypeCode"].ToString(),
-                                    Name = resultToken["ContactType"].ToString(),
-                                },
                                 Name = resultToken["Name"].ToString(),
-                                ContactValue = resultToken["ContactValue"].ToString(),
+                                ContactDetails = new List<ContactDetails>(),
                                 TotalRecords = Convert.ToInt32(resultToken["TotalRecords"].ToString())
                             });
                         }
@@ -705,7 +898,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
             // Return the values
             return contacts;
         }
-
+        
         // SetNewSocialMediaDetails
         /// <summary>
         /// Setting the Social Media details
@@ -716,7 +909,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// <remarks>
         /// customerId -> number
         /// companyId -> number
-        /// contact -> Contact object
+        /// SocialMedia -> SocialMedia object
         /// </remarks>
         public int SetNewSocialMediaDetails(SocialMedia socialMedia, int customerId, ConnectionString connectionString)
         {
@@ -779,7 +972,6 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// <remarks>
         /// customerId -> number
         /// companyId -> number
-        /// contact -> Contact object
         /// </remarks>
         public int SetUpdateSocialMediaDetails(SocialMedia socialMedia, int customerId, ConnectionString connectionString)
         {
@@ -3233,7 +3425,7 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
 
         // GetAllSocialMediaList
         /// <summary>
-        /// Get all the contact list
+        /// Get all the SocialMedia list
         /// </summary>
         /// <returns>
         /// SocialMedia object list

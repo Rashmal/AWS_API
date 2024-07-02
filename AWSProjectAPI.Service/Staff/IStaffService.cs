@@ -23,6 +23,18 @@ namespace AWSProjectAPI.Service.Staff
         /// </remarks>
         List<UserRole> GetAllUserRoles(int companyId);
 
+        // CheckUserRoleExist
+        /// <summary>
+        /// Getting all the user roles
+        /// </summary>
+        /// <returns>
+        /// UserRole object list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// </remarks>
+        bool CheckUserRoleExist(int companyId, string roleName);
+
         // SetUserRoles
         /// <summary>
         /// Setting all the user roles

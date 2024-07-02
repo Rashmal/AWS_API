@@ -86,6 +86,63 @@ namespace AWSProjectAPI.DataAccess.Staff
             return userRoleList;
         }
 
+        // GetAllUserRoles
+        /// <summary>
+        /// Getting all the user roles
+        /// </summary>
+        /// <returns>
+        /// UserRole object list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// </remarks>
+        public bool CheckUserRoleExist(ConnectionString connectionString, string roleName)
+        {
+            // Declare the value list
+            bool roleExist = false;
+
+            try
+            {
+                //Setting the SQL connection with the connection string
+                using (SqlConnection connection = new SqlConnection(this.AWS_ACCOUNT_DBString))
+                {
+                    // Openning the connection
+                    connection.Open();
+
+                    // Check Token expired
+                    using (SqlCommand sqlCommandToken = new SqlCommand("UserRoles_Get", connection) { CommandType = CommandType.StoredProcedure })
+                    {
+                        // Adding stored procedure parameters
+                        SqlParameter UserParameter = sqlCommandToken.Parameters.Add("@Action", SqlDbType.VarChar, 50);
+                        UserParameter.Value = "NAME$EXS";
+                        // Adding stored procedure parameters
+                        SqlParameter NameParameter = sqlCommandToken.Parameters.Add("@Name", SqlDbType.VarChar, 500);
+                        NameParameter.Value = roleName;
+
+                        // Executing the sql SP command
+                        var resultToken = sqlCommandToken.ExecuteReader();
+
+                        while (resultToken.Read())
+                        {
+
+                            roleExist = Convert.ToBoolean(resultToken["Exists"].ToString());
+                                
+                           
+                        }
+                    }
+                    // Closing the connection
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in CheckUserRoleExist ! :" + ex);
+            }
+
+            // Return the values
+            return roleExist;
+        }
+
         // AddNewUserRoles
         /// <summary>
         /// Setting all the user roles

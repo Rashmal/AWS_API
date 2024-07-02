@@ -39,6 +39,26 @@ namespace AWSProjectAPI.Controllers
             }
         }
 
+
+        // Getting all the user roles
+        [HttpGet]
+        [Route("CheckUserRoleExist")]
+        public IActionResult CheckUserRoleExist(int companyId, string roleName)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iStaffService.CheckUserRoleExist(companyId, roleName);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
         // Setting all the user roles
         [HttpPost]
         [Route("SetUserRoles")]

@@ -22,6 +22,18 @@ namespace AWSProjectAPI.DataAccess.Staff
         /// </remarks>
         List<UserRole> GetAllUserRoles(ConnectionString connectionString);
 
+        // CheckUserRoleExist
+        /// <summary>
+        /// Getting all the user roles
+        /// </summary>
+        /// <returns>
+        /// UserRole object list
+        /// </returns>
+        /// <remarks>
+        /// companyId -> number
+        /// </remarks>
+        bool CheckUserRoleExist(ConnectionString connectionString, string roleName);
+
         // AddNewUserRoles
         /// <summary>
         /// Setting all the user roles

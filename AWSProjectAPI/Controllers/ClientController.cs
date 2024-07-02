@@ -141,13 +141,32 @@ namespace AWSProjectAPI.Controllers
 
         // Setting the Contact details
         [HttpPost]
-        [Route("SetContactDetails")]
-        public IActionResult SetContactDetails([FromBody] Contact contact, string actionType, int customerId, int companyId)
+        [Route("SetContact")]
+        public IActionResult SetContact([FromBody] Contact contact, string actionType, int customerId, int companyId)
         {
             try
             {
                 // Declare response
-                var response = this.iClientService.SetContactDetails(contact, actionType, customerId, companyId);
+                var response = this.iClientService.SetContact(contact, actionType, customerId, companyId);
+                // Returning the result
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Returning the exception
+                return Json("System Failed: " + ex.Message);
+            }
+        }
+
+        // Setting the Contact details
+        [HttpPost]
+        [Route("SetContactDetails")]
+        public IActionResult SetContactDetails([FromBody] ContactDetails contact, string actionType, int contactId, int companyId)
+        {
+            try
+            {
+                // Declare response
+                var response = this.iClientService.SetContactDetails(contact, actionType, contactId, companyId);
                 // Returning the result
                 return Json(response);
             }

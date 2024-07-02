@@ -34,7 +34,11 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// clientId -> number
         /// companyId -> number
         /// </remarks>
-        List<Contact> GetAllContactList(Filter filter, int clientId, ConnectionString connectionString);
+        //List<Contact> GetAllContactList(Filter filter, int clientId, ConnectionString connectionString);
+
+        List<Contact> GetAllContactListNew(Filter filter, int clientId, ConnectionString connectionString);
+        List<ContactDetails> GetAllContactDetailsListNew(Filter filter, int contactId, ConnectionString connectionString);
+
 
         // SetClientCustomer
         /// <summary>
@@ -101,8 +105,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// contact -> Contact object
         /// </remarks>
-        int SetNewContactDetails(Contact contact, int customerId, ConnectionString connectionString);
-
+        int SetNewContact(Contact contact, int customerId, ConnectionString connectionString);
+        int SetNewContactDetails(ContactDetails contact, int customerId, ConnectionString connectionString);
         // SetUpdateContactDetails
         /// <summary>
         /// Setting the Contact details
@@ -115,8 +119,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// contact -> Contact object
         /// </remarks>
-        int SetUpdateContactDetails(Contact contact, int customerId, ConnectionString connectionString);
-
+        int SetUpdateContact(Contact contact, int customerId, ConnectionString connectionString);
+        int SetUpdateContactDetails(ContactDetails contact, int customerId, ConnectionString connectionString);
         // SetRemoveContactDetails
         /// <summary>
         /// Setting the Contact details
@@ -129,8 +133,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// contactId -> number
         /// </remarks>
+        int SetRemoveContact(int contactId, int customerId, ConnectionString connectionString);
         int SetRemoveContactDetails(int contactId, int customerId, ConnectionString connectionString);
-
         // GetContactListDetails
         /// <summary>
         /// Getting the Contact list details
@@ -143,7 +147,8 @@ namespace AWSProjectAPI.DataAccess.ClientDetails
         /// companyId -> number
         /// filter -> Filter object
         /// </remarks>
-        List<Contact> GetContactListDetails(Filter filter, int customerId, ConnectionString connectionString);
+        //List<Contact> GetContactListDetails(Filter filter, int customerId, ConnectionString connectionString);
+        List<Contact> GetContactListDetailsNew(Filter filter, int customerId, ConnectionString connectionString);
 
         // SetNewSocialMediaDetails
         /// <summary>

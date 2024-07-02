@@ -11,13 +11,19 @@ namespace AWSProjectAPI.Core.Client
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string ContactValue { get; set; }
-        public ContactType ContactType { get; set; }
+        public List<ContactDetails> ContactDetails { get; set; }
+       
         public int TotalRecords { get; set; }
 
         public Contact()
         {
-            ContactType = new ContactType();
+            ContactDetails = new List<ContactDetails>();
         }
+    }
+
+    public class ContactDetails {
+        public int Id { get; set; }
+        public string ContactValue { get; set; }
+        public ContactType ContactType { get; set; }
     }
 }

@@ -104,8 +104,8 @@ namespace AWSProjectAPI.Service.ClientDetails
         /// actionType -> string (NEW/UPDATE/REMOVE)
         /// contact -> Contact object
         /// </remarks>
-        int SetContactDetails(Contact contact, string actionType, int customerId, int companyId);
-
+        int SetContact(Contact contact, string actionType, int customerId, int companyId);
+        int SetContactDetails(ContactDetails contact, string actionType, int contactId, int companyId);
         // GetContactListDetails
         /// <summary>
         /// Getting the Contact list details
